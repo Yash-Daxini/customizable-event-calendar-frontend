@@ -1,0 +1,38 @@
+#signupDiv {
+    width: 500px;
+    height: 500px;
+    margin-top: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 50px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+#signupDiv form {
+    width: 100%;
+}
+
+#signupDiv .title {
+    font-size: 25px;
+    margin: 30px;
+}
+
+#signupDiv .loginLinkDiv {
+    margin: 20px;
+    font-size: 15px;
+}
+
+#signupDiv .loginLinkDiv span {
+    letter-spacing: 0.5px;
+}
+
+#signupDiv .loginLinkDiv .loginLink {
+    color: #28a745;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+}

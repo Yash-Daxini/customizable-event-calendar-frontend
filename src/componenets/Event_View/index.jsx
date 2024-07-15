@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './style.module.css'
+import { useAuth } from '../../hooks/AuthProvider';
 const env = import.meta.env;
 
 const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -11,10 +12,12 @@ const EventView = () => {
     const [currentDay, setCurrentDay] = useState(new Date().getDate());
     const [isFullSizeCalendar, setIsFullSizeCalendar] = useState(false);
 
+    const auth = useAuth();
+
     useEffect(() => {
-        fetch(env.VITE_GET_EVENT_API, {
+        fetch(`https://localhost:7149/api/users/${auth.user.id}/events`, {
             headers: {
-                'Authorization': `Bearer ${env.VITE_Authentication_Token}`,
+                'Authorization': `Bearer ${auth.user.token}`,
             }
         })
             .then((res) => res.json()
@@ -71,7 +74,7 @@ const EventView = () => {
 
             if (day === todaysDate.getDate() && currentMonth === todaysDate.getMonth() + 1 && currentYear == todaysDate.getFullYear())
                 days.push(<div className={`${styles.day} ${styles.today}`} key={day} onClick={() => setCurrentDay(day)}><span>{day}</span>{events}</div>);
-            else if(day == currentDay)
+            else if (day == currentDay)
                 days.push(<div className={`${styles.day} ${styles.selected}`} key={day} onClick={() => setCurrentDay(day)}><span>{day}</span>{events}</div>);
             else
                 days.push(<div className={`${styles.day}`} key={day} onClick={() => setCurrentDay(day)}><span>{day}</span >{events}</div >);
