@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './style.module.css'
 import { useAuth } from '../../hooks/AuthProvider';
-const env = import.meta.env;
 
 const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -13,6 +12,7 @@ const EventView = () => {
     const [isFullSizeCalendar, setIsFullSizeCalendar] = useState(false);
 
     const auth = useAuth();
+
 
     useEffect(() => {
         fetch(`https://localhost:7149/api/users/${auth.user.id}/events`, {

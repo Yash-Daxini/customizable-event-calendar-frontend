@@ -1,13 +1,15 @@
 import styles from './style.module.css'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import FormInput from '../FormInput'
 import FormButton from '../FormButton'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/AuthProvider'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css';
 
 const LoginForm = () => {
 
-    const [userInfo, setUserInfo] = useState({name:'',password:''});
+    const [userInfo, setUserInfo] = useState({ name: '', password: '' });
 
     const auth = useAuth();
 
@@ -18,6 +20,7 @@ const LoginForm = () => {
 
     return (
         <div id={`${styles.loginDiv}`}>
+            <ToastContainer />
             <span className={`${styles.title}`} >Login</span>
             <form>
                 <FormInput

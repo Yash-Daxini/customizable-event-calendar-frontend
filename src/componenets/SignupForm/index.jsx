@@ -3,6 +3,8 @@ import styles from './style.module.css'
 import FormInput from '../FormInput'
 import FormButton from '../FormButton'
 import { Link } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+
 const env = import.meta.env;
 
 const SignupForm = () => {
@@ -18,12 +20,49 @@ const SignupForm = () => {
             },
             body: JSON.stringify(userInfo)
         })
-            .then(res => console.warn(res))
-            .catch(err => console.warn(err))
+            .then((res) => {
+                if (res.status === 400) {
+                    toast.error('Invalid input !', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                }
+                else if (res.status === 200) [
+                    toast.success('Successfully signed up !', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+                ]
+            })
+            .catch(err => {
+                toast.error(`${err}`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            })
     }
 
     return (
         <div id={`${styles.signupDiv}`}>
+            <ToastContainer />
             <span className={`${styles.title}`} >Signup</span>
             <form>
                 <FormInput
