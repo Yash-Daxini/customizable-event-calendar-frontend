@@ -4,7 +4,6 @@ import FormInput from '../FormInput'
 import FormButton from '../FormButton'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/AuthProvider'
-const env = import.meta.env;
 
 const LoginForm = () => {
 

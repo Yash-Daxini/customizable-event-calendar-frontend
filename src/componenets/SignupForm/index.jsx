@@ -3,14 +3,23 @@ import styles from './style.module.css'
 import FormInput from '../FormInput'
 import FormButton from '../FormButton'
 import { Link } from 'react-router-dom'
+const env = import.meta.env;
 
 const SignupForm = () => {
 
-    const [userInfo, setUserInfo] = useState({ userName: '', password: '' });
+    const [userInfo, setUserInfo] = useState({ name: '', email: '', password: '' });
 
     let handleSignUp = (e) => {
         e.preventDefault();
-        console.warn('first')
+        fetch(env.VITE_Signup_API, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userInfo)
+        })
+            .then(res => console.warn(res))
+            .catch(err => console.warn(err))
     }
 
     return (
@@ -22,7 +31,7 @@ const SignupForm = () => {
                     placeholder={"Username"}
                     value={userInfo.userName}
                     labelValue={"User name"}
-                    onChange={() => setUserInfo({ ...userInfo, userName: e.target.value })}
+                    onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
                 />
                 <FormInput
                     type={"email"}
