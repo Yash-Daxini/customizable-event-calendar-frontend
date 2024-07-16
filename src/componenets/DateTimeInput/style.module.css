@@ -1,0 +1,7 @@
+.dateTimeSelectionDiv {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 40px;
+    margin: 30px;
+}

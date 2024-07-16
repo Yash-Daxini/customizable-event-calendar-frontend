@@ -6,6 +6,7 @@ import SignUp from './componenets/SignupForm'
 import AuthProvider from './hooks/AuthProvider'
 import PrivateRoute from './hooks/PrivateRoute'
 import Layout from './componenets/Layout'
+import EventAdd from './componenets/Event_Add'
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
               <Route path='/' element={<Layout />}>
                 <Route path={`/`} element={<Home />} />
                 <Route path={'/getEvents'} element={<EventView />} />
+                <Route path={'/addEvent'} element={<EventAdd />} />
               </Route>
             </Route>
           </Routes>

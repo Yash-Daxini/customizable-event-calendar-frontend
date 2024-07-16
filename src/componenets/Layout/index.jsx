@@ -22,6 +22,9 @@ const Layout = () => {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/getEvents">See Events</Link>
                             </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/addEvent">Add Event</Link>
+                            </li>
                         </ul>
                     </div>
                     <div className='d-flex'>

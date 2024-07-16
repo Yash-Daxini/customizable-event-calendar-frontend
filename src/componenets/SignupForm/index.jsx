@@ -33,7 +33,7 @@ const SignupForm = () => {
                         theme: "light",
                     });
                 }
-                else if (res.status === 200) [
+                else if (res.status === 201) {
                     toast.success('Successfully signed up !', {
                         position: "top-right",
                         autoClose: 5000,
@@ -44,7 +44,7 @@ const SignupForm = () => {
                         progress: undefined,
                         theme: "light",
                     })
-                ]
+                }
             })
             .catch(err => {
                 toast.error(`${err}`, {
