@@ -4,7 +4,7 @@ import { useAuth } from '../../hooks/AuthProvider';
 
 const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-const EventView = () => {
+const CalendarView = () => {
     const [eventList, setEventList] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
@@ -140,4 +140,4 @@ const EventView = () => {
     )
 }
 
-export default EventView
+export default CalendarView

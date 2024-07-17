@@ -3,10 +3,10 @@ import styles from './style.module.css'
 import DateTimeInput from '../DateTimeInput'
 import FrequencyDropdown from '../FrequencyDropdown'
 import { useAuth } from '../../hooks/AuthProvider';
-import HourDropdown from '../HourDropdown';
+import { Captions, MapPin, NotebookTabs, Clock3 } from 'lucide-react';
 import { ToastContainer, toast } from 'react-toastify';
 
-const EventAdd = () => {
+const AddEvent = () => {
 
     let auth = useAuth();
 
@@ -15,8 +15,8 @@ const EventAdd = () => {
         location: '',
         description: '',
         duration: {
-            startHour: '',
-            endHour: '',
+            startHour: 0,
+            endHour: 0,
         },
         frequency: 'None',
         eventCollaborators: [
@@ -37,10 +37,9 @@ const EventAdd = () => {
             },
             body: JSON.stringify(eventObj)
         })
+            .then(res => res.json())
             .then((res) => {
                 if (res.status === 400) {
-                    // res.body.json().then(x => console.log(x))
-                    console.warn(res.json().then(console.log));
                     toast.error('Invalid input !', {
                         position: "top-right",
                         autoClose: 5000,
@@ -83,65 +82,62 @@ const EventAdd = () => {
         <div className={`${styles.eventAddDiv}`}>
             <ToastContainer />
             <div className={`${styles.addDiv}`}>
-                <input
-                    className={`${styles.stringInput}`}
-                    value={`${eventObj.title}`}
-                    type='text'
-                    placeholder='Title'
-                    onChange={(e) => setEventObj({ ...eventObj, title: e.target.value })}
-                />
-                <input
-                    className={`${styles.stringInput}`}
-                    value={`${eventObj.location}`}
-                    type='text'
-                    placeholder='Location'
-                    onChange={(e) => setEventObj({ ...eventObj, location: e.target.value })}
-                />
-                <textarea
-                    className={`${styles.textarea}`}
-                    value={eventObj.description}
-                    type='textarea'
-                    rows={4}
-                    placeholder='Description'
-                    onChange={(e) => setEventObj({ ...eventObj, description: e.target.value })}
-                />
+                <div className={`${styles.inputDiv}`}>
+                    <Captions />
+                    <input
+                        className={`${styles.stringInput}`}
+                        value={`${eventObj.title}`}
+                        type='text'
+                        placeholder='Add a title'
+                        onChange={(e) => setEventObj({ ...eventObj, title: e.target.value })}
+                    />
+                </div>
+                <div className={`${styles.inputDiv}`}>
+                    <MapPin />
+                    <input
+                        className={`${styles.stringInput}`}
+                        value={`${eventObj.location}`}
+                        type='text'
+                        placeholder='Add a location'
+                        onChange={(e) => setEventObj({ ...eventObj, location: e.target.value })}
+                    />
+                </div>
+                <div className={`${styles.inputDiv}`}>
+                    <NotebookTabs />
+                    <textarea
+                        className={`${styles.textarea}`}
+                        value={eventObj.description}
+                        type='textarea'
+                        rows={4}
+                        placeholder='Add a description'
+                        onChange={(e) => setEventObj({ ...eventObj, description: e.target.value })}
+                    />
+                </div>
 
-                <div className={`${styles.dateTimeInputDiv}`}>
-                    {eventObj.frequency !== 'None'
-                        ?
-                        <DateTimeInput
-                            onDateChange={(e) => setEventObj({ ...eventObj, startDate: e.target.value })}
-                            onHourChange={(e) => {
-
-                                setEventObj({ ...eventObj, duration: { ...eventObj.duration, startHour: e } })
-                                console.warn(eventObj);
-                            }
-                            }
-                        />
-                        :
-                        <>
+                <div className={`${styles.inputDiv}`}>
+                    <Clock3 />
+                    <div className={`${styles.dateTimeInputDiv}`}>
+                        <div>
                             <DateTimeInput
-                                onDateChange={(e) => setEventObj({ ...eventObj, eventDate: e.target.value })}
+                                onDateChange={(e) => setEventObj({ ...eventObj, startDate: e.target.value })}
                                 onHourChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, startHour: e } })}
+                                isDateDisable={false}
                             />
-                            <HourDropdown onChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, endHour: e } })} />
-                        </>
-                    }
-                    {eventObj.frequency !== 'None'
-                        ?
-                        < DateTimeInput
-                            onDateChange={(e) => setEventObj({ ...eventObj, endDate: e.target.value })}
-                            onHourChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, endHour: e } })}
-                        />
-                        : <></>
-                    }
+                        </div>
+                        <div className={`${styles.dateTimeFrequencyDiv}`}>
+                            < DateTimeInput
+                                onDateChange={(e) => setEventObj({ ...eventObj, endDate: e.target.value })}
+                                onHourChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, endHour: e } })}
+                                isDateDisable={eventObj.frequency === 'None'}
+                            />
+                            <FrequencyDropdown onChange={(e) => setEventObj({ ...eventObj, frequency: e })} />
+                        </div>
+                    </div>
                 </div>
 
-                <div className={`${styles.frequencySelectionDiv}`}>
-                    <FrequencyDropdown onChange={(e) => setEventObj({ ...eventObj, frequency: e })} />
+                <div className={`${styles.addBtnDiv}`}>
+                    <button className={`${styles.addEventBtn}`} onClick={() => addEvent()}>Add</button>
                 </div>
-
-                <button className={`${styles.addEventBtn}`} onClick={() => addEvent()}>Add</button>
             </div>
             <div className={`${styles.timelineDiv}`}>
             </div>
@@ -149,4 +145,4 @@ const EventAdd = () => {
     )
 }
 
-export default EventAdd
+export default AddEvent

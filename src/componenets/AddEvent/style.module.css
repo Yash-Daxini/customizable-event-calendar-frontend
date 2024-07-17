@@ -1,7 +1,7 @@
 .eventAddDiv {
     width: 100vw;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     background-color: #eee;
 }
@@ -9,33 +9,38 @@
 .eventAddDiv .addDiv {
     width: 65%;
     background-color: #fff;
-    margin: 20px;
+    margin: 10px;
     border-radius: 15px;
     display: flex;
     justify-content: start;
     align-items: start;
     flex-direction: column;
-    padding: 30px;
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
-        rgba(17, 17, 26, 0.1) 0px 8px 24px,
-        rgba(17, 17, 26, 0.1) 0px 16px 48px;
+    padding: 10px;
+}
+
+.eventAddDiv .addDiv .inputDiv {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .eventAddDiv .addDiv .stringInput {
     width: 100%;
     border: none;
-    border-bottom: 1px solid #000;
-    margin: 15px;
-    padding: 10px;
+    border-bottom: 1px solid #ddd;
     font-size: 18px;
+    margin-bottom: 20px;
 }
 
 .eventAddDiv .addDiv .textarea {
     width: 100%;
-    margin: 15px;
-    padding: 10px;
     font-size: 18px;
-    border-bottom: 1px solid #000;
+    border: 1px solid #ddd;
+    padding-left: 5px;
 }
 
 .eventAddDiv .addDiv input:focus {
@@ -46,21 +51,35 @@
     width: 100%;
 }
 
+.eventAddDiv .addDiv .dateTimeFrequencyDiv {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+}
+
 .eventAddDiv .addDiv .frequencySelectionDiv {
     width: 100%;
     display: flex;
     justify-content: start;
     align-items: center;
-    padding: 30px;
+}
+
+.eventAddDiv .addDiv .addBtnDiv {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
 }
 
 .eventAddDiv .addDiv .addEventBtn {
-    background-color: #fff;
+    background-color: rgb(18, 113, 230);
+    color: #fff;
     padding: 10px;
     width: 100px;
     border-radius: 5px;
     border: 1px solid rgb(18, 113, 230);
-    color: rgb(18, 113, 230);
     margin: 30px;
     position: relative;
     padding-left: 40px;
@@ -79,18 +98,6 @@
     padding-right: 10px;
 }
 
-.eventAddDiv .addDiv .addEventBtn:hover {
-    background-color: rgb(18, 113, 230);
-    color: #fff;
-}
-
 .eventAddDiv .addDiv .addEventBtn:hover::before {
     color: #fff;
-}
-
-.eventAddDiv .timelineDiv {
-    width: 25%;
-    background-color: #fff;
-    border-radius: 40px;
-    height: 100vh;
 }

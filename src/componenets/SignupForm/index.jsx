@@ -20,6 +20,7 @@ const SignupForm = () => {
             },
             body: JSON.stringify(userInfo)
         })
+            .then(res => res.json())
             .then((res) => {
                 if (res.status === 400) {
                     toast.error('Invalid input !', {
