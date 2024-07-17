@@ -5,11 +5,13 @@ import FrequencyDropdown from '../FrequencyDropdown'
 import { useAuth } from '../../hooks/AuthProvider';
 import { Captions, MapPin, NotebookTabs, Clock3 } from 'lucide-react';
 import { ToastContainer, toast } from 'react-toastify';
+import TimelineView from '../TimelineView';
 
 const AddEvent = () => {
 
     let auth = useAuth();
 
+    const [selectedDate, setSelectedDate] = useState({ date: new Date() })
     const [eventObj, setEventObj] = useState({
         title: '',
         location: '',
@@ -40,7 +42,7 @@ const AddEvent = () => {
             .then(res => res.json())
             .then((res) => {
                 if (res.status === 400) {
-                    toast.error('Invalid input !', {
+                    toast.error(`Invalid Input !`, {
                         position: "top-right",
                         autoClose: 5000,
                         hideProgressBar: false,
@@ -62,6 +64,9 @@ const AddEvent = () => {
                         progress: undefined,
                         theme: "light",
                     })
+                }
+                else if (res.errorMessage !== null) {
+                    //Add div to show overlap error
                 }
             })
             .catch((err) => {
@@ -118,11 +123,25 @@ const AddEvent = () => {
                     <Clock3 />
                     <div className={`${styles.dateTimeInputDiv}`}>
                         <div>
-                            <DateTimeInput
-                                onDateChange={(e) => setEventObj({ ...eventObj, startDate: e.target.value })}
-                                onHourChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, startHour: e } })}
-                                isDateDisable={false}
-                            />
+                            {eventObj.frequency === 'None' ?
+                                <DateTimeInput
+                                    onDateChange={(e) => {
+                                        setEventObj({ ...eventObj, eventDate: e.target.value })
+                                        setSelectedDate({ date: new Date(e.target.value) });
+                                    }}
+                                    onHourChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, startHour: e } })}
+                                    isDateDisable={false}
+                                />
+                                :
+                                <DateTimeInput
+                                    onDateChange={(e) => {
+                                        setEventObj({ ...eventObj, startDate: e.target.value })
+                                        setSelectedDate({ date: new Date(e.target.value) });
+                                    }}
+                                    onHourChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, startHour: e } })}
+                                    isDateDisable={false}
+                                />
+                            }
                         </div>
                         <div className={`${styles.dateTimeFrequencyDiv}`}>
                             < DateTimeInput
@@ -138,9 +157,9 @@ const AddEvent = () => {
                 <div className={`${styles.addBtnDiv}`}>
                     <button className={`${styles.addEventBtn}`} onClick={() => addEvent()}>Add</button>
                 </div>
+
             </div>
-            <div className={`${styles.timelineDiv}`}>
-            </div>
+            <TimelineView date={selectedDate} />
         </div>
     )
 }

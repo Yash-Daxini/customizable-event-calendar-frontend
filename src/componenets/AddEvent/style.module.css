@@ -2,8 +2,10 @@
     width: 100vw;
     display: flex;
     justify-content: start;
-    align-items: center;
-    background-color: #eee;
+    align-items: start;
+    background-color: #eee; 
+    /* bg color #F5F5F5 */
+    padding: 20px;
 }
 
 .eventAddDiv .addDiv {

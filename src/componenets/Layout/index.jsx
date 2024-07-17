@@ -1,6 +1,7 @@
 import React from 'react'
 import { useAuth } from '../../hooks/AuthProvider'
 import { Link, Outlet } from 'react-router-dom';
+import styles from './style.module.css';
 
 const Layout = () => {
 
@@ -8,7 +9,7 @@ const Layout = () => {
 
     return (
         <>
-            <nav className="navbar navbar-expand-lg bg-body-tertiary">
+            <nav className={` ${styles.navbar} navbar navbar-expand-lg bg-body-tertiary`}>
                 <div className="container-fluid">
                     <Link className="navbar-brand" to="/">Calendar</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
