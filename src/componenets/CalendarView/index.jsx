@@ -7,13 +7,10 @@ const monthNames = ["", "January", "February", "March", "April", "May", "June", 
 
 const CalendarView = () => {
     const [eventList, setEventList] = useState([]);
-    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
-    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-    const [currentDay, setCurrentDay] = useState(new Date().getDate());
+    const [currentDate, setCurrentDate] = useState(new Date());
     const [isFullSizeCalendar, setIsFullSizeCalendar] = useState(false);
 
     const auth = useAuth();
-
 
     useEffect(() => {
         fetch(`https://localhost:7149/api/users/${auth.user.id}/events`, {
@@ -31,7 +28,7 @@ const CalendarView = () => {
 
     let formatDate = (date) => {
         var d = new Date(date),
-            month = '' + (d.getMonth()),
+            month = '' + (d.getMonth() + 1),
             day = '' + d.getDate(),
             year = d.getFullYear();
 
@@ -45,7 +42,7 @@ const CalendarView = () => {
 
     let getEventsJSXForGivenDay = (day) => {
 
-        let date = new Date(currentYear, currentMonth, day);
+        let date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
 
         let eventForSpecificDate = getEventForGivenDate(date);
 
@@ -69,9 +66,15 @@ const CalendarView = () => {
         return eventList.filter((e) => e.occurrences.includes(formatDate(date)));
     }
 
+    const changeDay = (day) => {
+        let newDate = new Date(currentDate);
+        newDate.setDate(day);
+        setCurrentDate(newDate);
+    }
+
     const renderCalendar = () => {
-        const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
+        const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
 
         const days = [];
         for (let i = 0; i < firstDay; i++) {
@@ -84,29 +87,27 @@ const CalendarView = () => {
 
             let todaysDate = new Date();
 
-            if (day === todaysDate.getDate() && currentMonth === todaysDate.getMonth() + 1 && currentYear == todaysDate.getFullYear())
-                days.push(<div className={`${styles.day} ${styles.today}`} key={day} onClick={() => setCurrentDay(day)}><span>{day}</span>{events}</div>);
-            else if (day == currentDay)
-                days.push(<div className={`${styles.day} ${styles.selected}`} key={day} onClick={() => setCurrentDay(day)}><span>{day}</span>{events}</div>);
+            if (day === todaysDate.getDate() && currentDate.getMonth() === todaysDate.getMonth() && currentDate.getFullYear() == todaysDate.getFullYear())
+                days.push(<div className={`${styles.day} ${styles.today}`} key={day} onClick={() => changeDay(day)}><span>{day}</span>{events}</div>);
+            else if (day == currentDate.getDate())
+                days.push(<div className={`${styles.day} ${styles.selected}`} key={day} onClick={() => changeDay(day)}><span>{day}</span>{events}</div>);
             else
-                days.push(<div className={`${styles.day}`} key={day} onClick={() => setCurrentDay(day)}><span>{day}</span >{events}</div >);
+                days.push(<div className={`${styles.day}`} key={day} onClick={() => changeDay(day)}><span>{day}</span >{events}</div >);
         }
 
         return days;
     };
 
     const prevMonth = () => {
-        setCurrentMonth(prev => prev === 1 ? 12 : prev - 1);
-        if (currentMonth === 0) {
-            setCurrentYear(prev => prev - 1);
-        }
+        let newDate = new Date(currentDate);
+        newDate.setMonth(newDate.getMonth() - 1);
+        setCurrentDate(newDate);
     };
 
     const nextMonth = () => {
-        setCurrentMonth(prev => prev === 12 ? 1 : prev + 1);
-        if (currentMonth === 11) {
-            setCurrentYear(prev => prev + 1);
-        }
+        let newDate = new Date(currentDate);
+        newDate.setMonth(newDate.getMonth() + 1);
+        setCurrentDate(newDate);
     };
 
     return (
@@ -114,13 +115,12 @@ const CalendarView = () => {
             <div className={`${styles.calendar} ${isFullSizeCalendar ? styles.width100Percent : styles.width80Percent}`}>
                 <div className={`${styles.month}`}>
                     <div className={`${styles.todayBtn}`} onClick={() => {
-                        setCurrentMonth(new Date().getMonth() + 1);
-                        setCurrentYear(new Date().getFullYear());
-                        setCurrentDay(new Date().getDate());
+                        setCurrentDate(new Date())
                     }}>Today</div>
                     <div className={`${styles.prev}`} onClick={prevMonth}>&#10094;</div>
                     <div className={`${styles.next}`} onClick={nextMonth}>&#10095;</div>
-                    <div className={`${styles.month - name}`}>{`${monthNames[currentMonth]} ${currentYear}`}</div>
+                    <div className={`${styles.month - name}`}>{`${monthNames[currentDate.getMonth() + 1]} ${currentDate.getFullYear()}`}</div>
+                    <input type="date" id={`${styles.date}`} value={currentDate} required onChange={(e) => setCurrentDate(new Date(e.target.value))} />
                 </div>
                 <div className={`${styles.weekdays}`}>
                     <div>Sun</div>
@@ -139,7 +139,7 @@ const CalendarView = () => {
                 </div>
             </div>
             <div className={`${styles.eventInfoDiv} ${isFullSizeCalendar ? styles.hideEventInfoDiv : styles.showEventInfoDiv}`}>
-                <EventInfo events={getEventForGivenDate(new Date(currentYear, currentMonth, currentDay))} date={new Date(currentYear, currentMonth, currentDay)} />
+                <EventInfo events={getEventForGivenDate(currentDate)} date={currentDate} />
             </div>
         </div>
     )

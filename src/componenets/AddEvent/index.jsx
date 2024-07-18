@@ -12,7 +12,7 @@ const AddEvent = () => {
 
     let auth = useAuth();
 
-    const [selectedDate, setSelectedDate] = useState({ date: new Date() })
+    const [selectedDate, setSelectedDate] = useState(new Date())
     const [eventObj, setEventObj] = useState({
         title: '',
         location: '',
@@ -128,7 +128,7 @@ const AddEvent = () => {
                                 <DateTimeInput
                                     onDateChange={(e) => {
                                         setEventObj({ ...eventObj, eventDate: e.target.value })
-                                        setSelectedDate({ date: new Date(e.target.value) });
+                                        setSelectedDate(new Date(e.target.value));
                                     }}
                                     onHourChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, startHour: e } })}
                                     isDateDisable={false}
@@ -137,7 +137,7 @@ const AddEvent = () => {
                                 <DateTimeInput
                                     onDateChange={(e) => {
                                         setEventObj({ ...eventObj, startDate: e.target.value })
-                                        setSelectedDate({ date: new Date(e.target.value) });
+                                        setSelectedDate(new Date(e.target.value));
                                     }}
                                     onHourChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, startHour: e } })}
                                     isDateDisable={false}

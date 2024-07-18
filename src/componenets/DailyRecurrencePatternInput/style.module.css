@@ -2,7 +2,7 @@
     margin-right: 10px;
 }
 
-.patternSelectionDiv{
+.patternSelectionDiv {
     display: flex;
     justify-content: start;
     align-items: center;
@@ -11,4 +11,30 @@
 
 .dropdown {
     width: 30%;
+}
+
+.checkboxDiv input[type="checkbox"] {
+    display: none;
+}
+
+.checkboxDiv label {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border: 1px solid #ddd;
+    line-height: 50px;
+    cursor: pointer
+}
+
+#mon:checked~label[for="mon"],
+#tue:checked~label[for="tue"],
+#wed:checked~label[for="wed"],
+#thu:checked~label[for="thu"],
+#fri:checked~label[for="fri"],
+#sat:checked~label[for="sat"],
+#sun:checked~label[for="sun"] {
+    /* background: #999; */
+    color: #ffffff;
+    background-color: red;
 }

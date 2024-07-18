@@ -19,7 +19,7 @@ function App() {
             <Route path={'/signup'} element={<SignUp />} />
             <Route element={<PrivateRoute />}>
               <Route path='/' element={<Layout />}>
-                <Route path={`/`} element={<Dashboard />} />
+                <Route index element={<Dashboard />} />
                 <Route path={'/getEvents'} element={<CalendarView />} />
                 <Route path={'/addEvent'} element={<AddEvent />} />
               </Route>

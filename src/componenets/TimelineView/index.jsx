@@ -9,10 +9,10 @@ const TimelineView = ({ date }) => {
 
     const [eventList, setEventList] = useState([]);
 
-    let [currentDate, setCurrentDate] = useState(date.date);
+    let [currentDate, setCurrentDate] = useState(date);
 
     useEffect(() => {
-        setCurrentDate(date.date);
+        setCurrentDate(date);
     }, [date]);
 
     const auth = useAuth();
@@ -83,7 +83,7 @@ const TimelineView = ({ date }) => {
                     }}><CalendarArrowUp /></div>
                     <div className={`${styles.next}`} onClick={() => {
                         const newDate = new Date(currentDate);
-                        newDate.setDate(newDate.getDate() - 1);
+                        newDate.setDate(newDate.getDate() + 1);
                         setCurrentDate(newDate);
                     }}>&#10095;</div>
                 </div>
