@@ -1,20 +1,21 @@
 .timelineDiv {
+    box-sizing: border-box;
     width: 30%;
     background-color: #fff;
     border-radius: 10px;
     height: 80vh;
-    overflow-y: auto;
-    padding: 10px;
     margin: 10px;
+    padding: 2% 1.5%;
 }
 
 .timelineDiv .header {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    gap: 50px;
     width: 100%;
     height: 5%;
+    padding-bottom: 5%;
 }
 
 .timelineDiv .header .control {
@@ -34,6 +35,11 @@
 .timelineDiv .header .next {
     cursor: pointer;
     user-select: none;
+}
+
+.timelineDiv .timelineBody{
+    height: 95%;
+    overflow-y: auto;
 }
 
 .timelineDiv .timelineBody .hourDiv {
@@ -68,7 +74,7 @@
 }
 
 .timelineDiv .timelineBody .hourDiv .filled {
-    background-color: green;
+    background-color: #a3e1b8;
     color: #fff;
 }
 

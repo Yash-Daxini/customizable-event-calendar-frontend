@@ -89,7 +89,6 @@ const TimelineView = ({ date }) => {
                 </div>
                 <div className={`${styles.monthName}`}>{`${currentDate.toString().split(' ')[0]}, ${monthNames[currentDate.getMonth()]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`}</div>
             </div>
-            <hr />
             <div className={`${styles.timelineBody}`}>
                 {timelineDivContent}
             </div>

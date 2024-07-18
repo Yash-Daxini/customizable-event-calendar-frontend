@@ -17,7 +17,7 @@
     justify-content: start;
     align-items: start;
     flex-direction: column;
-    padding: 10px;
+    padding: 2% 1.5%;
 }
 
 .eventAddDiv .addDiv .inputDiv {
@@ -43,9 +43,14 @@
     font-size: 18px;
     border: 1px solid #ddd;
     padding-left: 5px;
+    resize: none;
 }
 
 .eventAddDiv .addDiv input:focus {
+    outline: none;
+}
+
+.eventAddDiv .addDiv textarea:focus {
     outline: none;
 }
 
@@ -76,13 +81,12 @@
 }
 
 .eventAddDiv .addDiv .addEventBtn {
-    background-color: rgb(18, 113, 230);
+    background-color: #1181da;
     color: #fff;
     padding: 10px;
     width: 100px;
     border-radius: 5px;
-    border: 1px solid rgb(18, 113, 230);
-    margin: 30px;
+    border: 1px solid #1181da;
     position: relative;
     padding-left: 40px;
     transition: .5s;

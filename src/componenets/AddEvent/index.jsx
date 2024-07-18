@@ -6,6 +6,7 @@ import { useAuth } from '../../hooks/AuthProvider';
 import { Captions, MapPin, NotebookTabs, Clock3 } from 'lucide-react';
 import { ToastContainer, toast } from 'react-toastify';
 import TimelineView from '../TimelineView';
+import RecurrencePatternInput from '../RecurrencePatternInput';
 
 const AddEvent = () => {
 
@@ -151,6 +152,9 @@ const AddEvent = () => {
                             />
                             <FrequencyDropdown onChange={(e) => setEventObj({ ...eventObj, frequency: e })} />
                         </div>
+
+                        <RecurrencePatternInput eventObj={eventObj} />
+
                     </div>
                 </div>
 

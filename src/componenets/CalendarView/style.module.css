@@ -1,26 +1,17 @@
-/* src/Calendar.css */
 body,
 html,
 #root {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
 }
 
 .calendarViewDiv {
-    margin-top: 2%;
-    padding: 0;
-    height: 80vh;
-    width: 90vw;
+    padding: 2% 1.5%;
+    height: 90vh;
+    width: 98vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* flex-wrap: wrap; */
-    gap: 20px;
+    gap: 2%;
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
     user-select: none;
@@ -47,50 +38,11 @@ html,
 }
 
 .eventInfoDiv {
-    width: 20%;
     background-color: #fff;
     height: 100%;
     border-radius: 10px;
     transition: 0.1s;
     overflow: hidden;
-}
-
-.eventInfoDiv .dateInfo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
-}
-
-.eventInfoDiv .eventInfo {
-    display: flex;
-    justify-content: start;
-    align-items: start;
-    flex-direction: column;
-    height: 80%;
-}
-
-.eventInfoDiv .eventInfo .eventBar {
-    color: #000;
-    width: 100%;
-    height: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    margin-top: 10px;
-}
-
-.eventInfoDiv .eventInfo .eventBar::before {
-    content: '';
-    position: relative;
-    display: inline-block;
-    width: 10px;
-    height: 100%;
-    background-color: rgb(18, 113, 230);
-    top: 0%;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    margin-right: 5px;
 }
 
 .month {
@@ -137,11 +89,12 @@ html,
 .days {
     display: flex;
     flex-wrap: wrap;
-    flex-grow: 1;
+    height: 100%;
 }
 
 .day {
     width: calc(100% / 7);
+    height: 20%;
     text-align: start;
     box-sizing: border-box;
     cursor: pointer;
@@ -152,7 +105,7 @@ html,
 .calendar .days .day .eventBar {
     width: 100%;
     height: 25px;
-    background-color: rgb(116, 191, 244);
+    background-color: #b2d7f4;
     color: #000;
     border-radius: 5px;
     margin-bottom: 5px;
@@ -161,13 +114,26 @@ html,
     align-items: center;
 }
 
+.calendar .days .day .eventCountBar {
+    width: 100%;
+    height: 25px;
+    background-color: #e5e5e5;
+    color: #000;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .calendar .days .day .eventBar::before {
     content: '';
     position: relative;
     display: inline-block;
     width: 10px;
     height: 100%;
-    background-color: rgb(18, 113, 230);
+    background-color: #1181da;
     top: 0%;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -185,14 +151,14 @@ html,
 }
 
 .today span {
-    background-color: rgb(18, 113, 230);
+    background-color: #0078d7;
     color: #fff;
     padding: 5px;
     border-radius: 50%;
 }
 
 .selected {
-    border: 1px solid rgb(18, 113, 230);
+    border: 1px solid #0078d7;
     color: #000;
 }
 
@@ -206,7 +172,7 @@ html,
 }
 
 .showEventInfoDiv {
-    width: 18%;
+    width: 25%;
 }
 
 .hideEventInfoDiv {

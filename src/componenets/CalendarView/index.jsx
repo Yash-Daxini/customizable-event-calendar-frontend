@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from './style.module.css'
 import { useAuth } from '../../hooks/AuthProvider';
+import EventInfo from '../EventInfo';
 
 const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -42,19 +43,30 @@ const CalendarView = () => {
         return [year, month, day].join('-');
     }
 
-    let getEventsForGivenDay = (day) => {
+    let getEventsJSXForGivenDay = (day) => {
 
         let date = new Date(currentYear, currentMonth, day);
 
-        let eventForSpecificDate = eventList.filter((e) => e.occurrences.includes(formatDate(date)));
+        let eventForSpecificDate = getEventForGivenDate(date);
 
-        let eventsForGivenDate = eventForSpecificDate.map((e) => {
-            return (
-                <div key={e.id} className={`${styles.eventBar}`}>{e.title}</div>
-            )
+        let eventsForGivenDate = eventForSpecificDate.map((e, index) => {
+
+            if (index < 2)
+                return <div key={e.id} className={`${styles.eventBar}`}>{e.title}</div>
+            else if (index == 2 && eventForSpecificDate.length == 3)
+                return <div key={e.id} className={`${styles.eventBar}`}>{e.title}</div>
+            else if (index == 2)
+                return <div key={e.id} className={`${styles.eventCountBar}`}>+{eventForSpecificDate.length - 2}</div>
+            else
+                return;
         })
 
         return eventsForGivenDate;
+
+    }
+
+    const getEventForGivenDate = (date) => {
+        return eventList.filter((e) => e.occurrences.includes(formatDate(date)));
     }
 
     const renderCalendar = () => {
@@ -68,7 +80,7 @@ const CalendarView = () => {
 
         for (let day = 1; day <= daysInMonth; day++) {
 
-            let events = getEventsForGivenDay(day);
+            let events = getEventsJSXForGivenDay(day);
 
             let todaysDate = new Date();
 
@@ -127,14 +139,7 @@ const CalendarView = () => {
                 </div>
             </div>
             <div className={`${styles.eventInfoDiv} ${isFullSizeCalendar ? styles.hideEventInfoDiv : styles.showEventInfoDiv}`}>
-                <div className={`${styles.dateInfo}`} >
-                    <span>{new Date(currentYear, currentMonth, currentDay).toLocaleDateString('en-US', { weekday: 'long' })},
-                        &nbsp;{monthNames[currentMonth]} {currentDay}</span>
-                </div>
-                <hr />
-                <div className={`${styles.eventInfo}`}>
-                    {getEventsForGivenDay(currentDay)}
-                </div>
+                <EventInfo events={getEventForGivenDate(new Date(currentYear, currentMonth, currentDay))} date={new Date(currentYear, currentMonth, currentDay)} />
             </div>
         </div>
     )
