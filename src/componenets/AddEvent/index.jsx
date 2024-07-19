@@ -7,12 +7,16 @@ import { Captions, MapPin, NotebookTabs, Clock3 } from 'lucide-react';
 import { ToastContainer, toast } from 'react-toastify';
 import TimelineView from '../TimelineView';
 import RecurrencePatternInput from '../RecurrencePatternInput';
+import { useLocation } from 'react-router-dom';
 
 const AddEvent = () => {
 
+    const location = useLocation();
+    let { date } = location.state || {};
+
     let auth = useAuth();
 
-    const [selectedDate, setSelectedDate] = useState(new Date())
+    const [selectedDate, setSelectedDate] = useState(date)
     const [eventObj, setEventObj] = useState({
         title: '',
         location: '',
@@ -132,6 +136,7 @@ const AddEvent = () => {
                                     }}
                                     onHourChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, startHour: e } })}
                                     isDateDisable={false}
+                                    initialDateValue={selectedDate}
                                 />
                                 :
                                 <DateTimeInput
@@ -141,6 +146,7 @@ const AddEvent = () => {
                                     }}
                                     onHourChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, startHour: e } })}
                                     isDateDisable={false}
+                                    initialDateValue={selectedDate}
                                 />
                             }
                         </div>
@@ -149,11 +155,12 @@ const AddEvent = () => {
                                 onDateChange={(e) => setEventObj({ ...eventObj, endDate: e.target.value })}
                                 onHourChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, endHour: e } })}
                                 isDateDisable={eventObj.frequency === 'None'}
+                                initialDateValue={selectedDate}
                             />
                             <FrequencyDropdown onChange={(e) => setEventObj({ ...eventObj, frequency: e })} />
                         </div>
 
-                        <RecurrencePatternInput eventObj={eventObj} />
+                        <RecurrencePatternInput eventObj={eventObj} date={selectedDate} />
 
                     </div>
                 </div>

@@ -1,0 +1,33 @@
+.labelledCheckbox {
+    position: relative;
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.labelledCheckbox input {
+    width: 60px;
+    height: 60px;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.labelledCheckbox span {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 1px 10px;
+    border-radius: 10px;
+}
+
+.labelledCheckbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.labelledCheckbox:has(input[type="checkbox"]:checked) {
+    background-color: #1181da;
+    color: #fff;
+}

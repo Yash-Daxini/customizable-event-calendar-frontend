@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './style.module.css'
 import { useAuth } from '../../hooks/AuthProvider';
 import EventInfo from '../EventInfo';
+import { useNavigate } from 'react-router-dom';
 
 const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -11,6 +12,8 @@ const CalendarView = () => {
     const [isFullSizeCalendar, setIsFullSizeCalendar] = useState(false);
 
     const auth = useAuth();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch(`https://localhost:7149/api/users/${auth.user.id}/events`, {
@@ -70,6 +73,11 @@ const CalendarView = () => {
         let newDate = new Date(currentDate);
         newDate.setDate(day);
         setCurrentDate(newDate);
+        return false;
+    }
+
+    const handleDoubleClick = () => {
+        navigate("/addEvent", { state: { date: currentDate } });
     }
 
     const renderCalendar = () => {
@@ -88,11 +96,11 @@ const CalendarView = () => {
             let todaysDate = new Date();
 
             if (day === todaysDate.getDate() && currentDate.getMonth() === todaysDate.getMonth() && currentDate.getFullYear() == todaysDate.getFullYear())
-                days.push(<div className={`${styles.day} ${styles.today}`} key={day} onClick={() => changeDay(day)}><span>{day}</span>{events}</div>);
+                days.push(<div className={`${styles.day} ${styles.today}`} key={day} onClick={() => changeDay(day)} onDoubleClick={handleDoubleClick}><span>{day}</span>{events}</div>);
             else if (day == currentDate.getDate())
-                days.push(<div className={`${styles.day} ${styles.selected}`} key={day} onClick={() => changeDay(day)}><span>{day}</span>{events}</div>);
+                days.push(<div className={`${styles.day} ${styles.selected}`} key={day} onClick={() => changeDay(day)} onDoubleClick={handleDoubleClick}><span>{day}</span>{events}</div>);
             else
-                days.push(<div className={`${styles.day}`} key={day} onClick={() => changeDay(day)}><span>{day}</span >{events}</div >);
+                days.push(<div className={`${styles.day}`} key={day} onClick={() => changeDay(day)} onDoubleClick={handleDoubleClick}><span>{day}</span >{events}</div >);
         }
 
         return days;
@@ -120,7 +128,7 @@ const CalendarView = () => {
                     <div className={`${styles.prev}`} onClick={prevMonth}>&#10094;</div>
                     <div className={`${styles.next}`} onClick={nextMonth}>&#10095;</div>
                     <div className={`${styles.month - name}`}>{`${monthNames[currentDate.getMonth() + 1]} ${currentDate.getFullYear()}`}</div>
-                    <input type="date" id={`${styles.date}`} value={currentDate} required onChange={(e) => setCurrentDate(new Date(e.target.value))} />
+                    <input type="date" id={`${styles.date}`} value={currentDate.toISOString().split("T")[0]} required onChange={(e) => setCurrentDate(new Date(e.target.value))} />
                 </div>
                 <div className={`${styles.weekdays}`}>
                     <div>Sun</div>
