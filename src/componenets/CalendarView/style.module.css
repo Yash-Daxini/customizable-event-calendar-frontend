@@ -126,6 +126,9 @@ html,
     margin-top: 5px;
     display: flex;
     align-items: center;
+    overflow: hidden;
+    /* white-space: nowrap; */
+    text-overflow: ellipsis;
 }
 
 .calendarViewDiv .calendar .days .day .eventCountBar {

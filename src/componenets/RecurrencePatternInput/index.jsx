@@ -5,18 +5,19 @@ import WeeklyRecurrencePatternInput from '../WeeklyRecurrencePatternInput';
 import MonthlyRecurrencePatternInput from '../MonthlyRecurrencePatternInput'
 import YearlyRecurrencePatternInput from '../YearlyRecurrencePatternInput';
 
-const RecurrencePatternInput = ({ eventObj, date }) => {
+const RecurrencePatternInput = ({ eventObj, date, updateEvent }) => {
 
   const renderAppropriateComponent = () => {
-    switch (eventObj.frequency) {
+
+    switch (eventObj.recurrencePattern.frequency) {
       case "Daily":
-        return <DailyRecurrencePatternInput />
+        return <DailyRecurrencePatternInput event={eventObj} updateEvent={updateEvent} />
       case "Weekly":
-        return <WeeklyRecurrencePatternInput />
+        return <WeeklyRecurrencePatternInput event={eventObj} updateEvent={updateEvent} />
       case "Monthly":
-        return <MonthlyRecurrencePatternInput date={date} />
+        return <MonthlyRecurrencePatternInput event={eventObj} updateEvent={updateEvent} date={date} />
       case "Yearly":
-        return <YearlyRecurrencePatternInput date={date} />
+        return <YearlyRecurrencePatternInput event={eventObj} updateEvent={updateEvent} date={date} />
       default:
         return <></>;
     }

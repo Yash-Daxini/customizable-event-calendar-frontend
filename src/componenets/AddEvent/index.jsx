@@ -25,7 +25,11 @@ const AddEvent = () => {
             startHour: 0,
             endHour: 0,
         },
-        frequency: 'None',
+        recurrencePattern: {
+            frequency: 'None',
+            startDate: selectedDate.toISOString().split("T")[0],
+        },
+        eventDate: selectedDate.toISOString().split("T")[0],
         eventCollaborators: [
             {
                 userId: auth.user.id,
@@ -36,7 +40,18 @@ const AddEvent = () => {
     })
 
     let addEvent = () => {
-        fetch(`https://localhost:7149/api/users/${auth.user.id}/events`, {
+
+        if(eventObj.recurrencePattern.frequency !== 'None')
+            delete eventObj.eventDate;
+
+        console.warn(eventObj)
+
+
+        let addApi = eventObj.recurrencePattern.frequency === 'None'
+            ? `api/users/${auth.user.id}/events`
+            : `api/users/${auth.user.id}/events/recurring-events`;
+
+        fetch(`https://localhost:7149/${addApi}`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -44,8 +59,7 @@ const AddEvent = () => {
             },
             body: JSON.stringify(eventObj)
         })
-            .then(res => res.json())
-            .then((res) => {
+            .then(res => {
                 if (res.status === 400) {
                     toast.error(`Invalid Input !`, {
                         position: "top-right",
@@ -70,9 +84,10 @@ const AddEvent = () => {
                         theme: "light",
                     })
                 }
-                else if (res.errorMessage !== null) {
-                    //Add div to show overlap error
-                }
+                return res.json()
+            })
+            .then((res) => {
+                console.warn(res)
             })
             .catch((err) => {
                 toast.error(`${err}`, {
@@ -128,7 +143,7 @@ const AddEvent = () => {
                     <Clock3 />
                     <div className={`${styles.dateTimeInputDiv}`}>
                         <div>
-                            {eventObj.frequency === 'None' ?
+                            {eventObj.recurrencePattern.frequency === 'None' ?
                                 <DateTimeInput
                                     onDateChange={(e) => {
                                         setEventObj({ ...eventObj, eventDate: e.target.value })
@@ -136,37 +151,41 @@ const AddEvent = () => {
                                     }}
                                     onHourChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, startHour: e } })}
                                     isDateDisable={false}
-                                    initialDateValue={selectedDate}
+                                    initialDateValue={!eventObj.eventDate ? selectedDate : new Date(eventObj.eventDate)}
                                 />
                                 :
                                 <DateTimeInput
                                     onDateChange={(e) => {
-                                        setEventObj({ ...eventObj, startDate: e.target.value })
+                                        setEventObj({ ...eventObj, recurrencePattern: { ...eventObj.recurrencePattern, startDate: e.target.value } })
                                         setSelectedDate(new Date(e.target.value));
                                     }}
                                     onHourChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, startHour: e } })}
                                     isDateDisable={false}
-                                    initialDateValue={selectedDate}
+                                    initialDateValue={!eventObj.recurrencePattern.startDate ? selectedDate : new Date(eventObj.recurrencePattern.startDate)}
                                 />
                             }
                         </div>
                         <div className={`${styles.dateTimeFrequencyDiv}`}>
                             < DateTimeInput
-                                onDateChange={(e) => setEventObj({ ...eventObj, endDate: e.target.value })}
+                                onDateChange={(e) => {
+                                    setEventObj({ ...eventObj, recurrencePattern: { ...eventObj.recurrencePattern, endDate: e.target.value } })
+                                    console.warn(e.target.value)
+                                }}
                                 onHourChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, endHour: e } })}
-                                isDateDisable={eventObj.frequency === 'None'}
-                                initialDateValue={selectedDate}
+                                isDateDisable={eventObj.recurrencePattern.frequency === 'None'}
+                                initialDateValue={!eventObj.recurrencePattern.endDate ? selectedDate : new Date(eventObj.recurrencePattern.endDate)}
                             />
-                            <FrequencyDropdown onChange={(e) => setEventObj({ ...eventObj, frequency: e })} />
+                            <FrequencyDropdown onChange={(e) => setEventObj({ ...eventObj, recurrencePattern: { ...eventObj.recurrencePattern, frequency: e } })} />
                         </div>
 
-                        <RecurrencePatternInput eventObj={eventObj} date={selectedDate} />
+                        <RecurrencePatternInput eventObj={eventObj} date={selectedDate} updateEvent={setEventObj} />
 
                     </div>
                 </div>
 
                 <div className={`${styles.addBtnDiv}`}>
                     <button className={`${styles.addEventBtn}`} onClick={() => addEvent()}>Add</button>
+                    {/* <button className={`${styles.addEventBtn}`} onClick={() => console.warn(eventObj)}>Add</button> */}
                 </div>
 
             </div>
