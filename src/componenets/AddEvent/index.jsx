@@ -41,7 +41,7 @@ const AddEvent = () => {
 
     let addEvent = () => {
 
-        if(eventObj.recurrencePattern.frequency !== 'None')
+        if (eventObj.recurrencePattern.frequency !== 'None')
             delete eventObj.eventDate;
 
         console.warn(eventObj)

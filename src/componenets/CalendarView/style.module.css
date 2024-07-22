@@ -126,8 +126,11 @@ html,
     margin-top: 5px;
     display: flex;
     align-items: center;
+}
+
+.calendarViewDiv .calendar .days .day .eventBar span {
     overflow: hidden;
-    /* white-space: nowrap; */
+    white-space: nowrap;
     text-overflow: ellipsis;
 }
 
@@ -167,7 +170,7 @@ html,
     cursor: pointer;
 }
 
-.calendarViewDiv .calendar .today span {
+.calendarViewDiv .calendar .today>span {
     background-color: #0078d7;
     color: #fff;
     padding: 5px;

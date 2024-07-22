@@ -52,7 +52,7 @@ const CalendarView = () => {
         let eventsForGivenDate = eventForSpecificDate.map((e, index) => {
 
             if (index < 2)
-                return <div key={e.id} className={`${styles.eventBar}`}>{e.title}</div>
+                return <div key={e.id} className={`${styles.eventBar}`}><span>{e.title}</span></div>
             else if (index == 2 && eventForSpecificDate.length == 3)
                 return <div key={e.id} className={`${styles.eventBar}`}>{e.title}</div>
             else if (index == 2)
