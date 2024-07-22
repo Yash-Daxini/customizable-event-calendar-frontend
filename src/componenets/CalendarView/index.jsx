@@ -3,6 +3,8 @@ import styles from './style.module.css'
 import { useAuth } from '../../hooks/AuthProvider';
 import EventInfo from '../EventInfo';
 import { useNavigate } from 'react-router-dom';
+import PopoverComponent from '../PopoverComponent';
+import EventPopOverBody from '../EventPopOverBody';
 
 const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -52,9 +54,11 @@ const CalendarView = () => {
         let eventsForGivenDate = eventForSpecificDate.map((e, index) => {
 
             if (index < 2)
-                return <div key={e.id} className={`${styles.eventBar}`}><span>{e.title}</span></div>
+                return <PopoverComponent key={e.id} dispalyValue={e.title} className={`${styles.eventBar}`} body={<EventPopOverBody title={e.title} eventDate={new Date(currentDate)} duration={e.duration} />
+                } />
             else if (index == 2 && eventForSpecificDate.length == 3)
-                return <div key={e.id} className={`${styles.eventBar}`}>{e.title}</div>
+                return <PopoverComponent key={e.id} dispalyValue={e.title} className={`${styles.eventBar}`} body={<EventPopOverBody title={e.title} eventDate={new Date(currentDate)} duration={e.duration} />
+                } />
             else if (index == 2)
                 return <div key={e.id} className={`${styles.eventCountBar}`}>+{eventForSpecificDate.length - 2}</div>
             else
