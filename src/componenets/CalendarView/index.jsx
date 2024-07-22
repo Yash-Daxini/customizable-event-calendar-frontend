@@ -45,6 +45,10 @@ const CalendarView = () => {
         return [year, month, day].join('-');
     }
 
+    const updateEventStateOnDelete = (eventId) => {
+        setEventList(eventList.filter((eventObj) => eventObj.id !== eventId));
+    }
+
     let getEventsJSXForGivenDay = (day) => {
 
         let date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
@@ -54,10 +58,10 @@ const CalendarView = () => {
         let eventsForGivenDate = eventForSpecificDate.map((e, index) => {
 
             if (index < 2)
-                return <PopoverComponent key={e.id} dispalyValue={e.title} className={`${styles.eventBar}`} body={<EventPopOverBody title={e.title} eventDate={new Date(currentDate)} duration={e.duration} />
+                return <PopoverComponent key={e.id} dispalyValue={e.title} className={`${styles.eventBar}`} body={<EventPopOverBody onDelete={updateEventStateOnDelete} event={e} eventDate={new Date(currentDate)} />
                 } />
             else if (index == 2 && eventForSpecificDate.length == 3)
-                return <PopoverComponent key={e.id} dispalyValue={e.title} className={`${styles.eventBar}`} body={<EventPopOverBody title={e.title} eventDate={new Date(currentDate)} duration={e.duration} />
+                return <PopoverComponent key={e.id} dispalyValue={e.title} className={`${styles.eventBar}`} body={<EventPopOverBody event={e} eventDate={new Date(currentDate)} />
                 } />
             else if (index == 2)
                 return <div key={e.id} className={`${styles.eventCountBar}`}>+{eventForSpecificDate.length - 2}</div>

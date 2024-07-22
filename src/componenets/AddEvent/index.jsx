@@ -46,7 +46,6 @@ const AddEvent = () => {
 
         console.warn(eventObj)
 
-
         let addApi = eventObj.recurrencePattern.frequency === 'None'
             ? `api/users/${auth.user.id}/events`
             : `api/users/${auth.user.id}/events/recurring-events`;
@@ -60,6 +59,7 @@ const AddEvent = () => {
             body: JSON.stringify(eventObj)
         })
             .then(res => {
+                console.warn(res)
                 if (res.status === 400) {
                     toast.error(`Invalid Input !`, {
                         position: "top-right",
@@ -90,6 +90,7 @@ const AddEvent = () => {
                 console.warn(res)
             })
             .catch((err) => {
+                console.warn(err)
                 toast.error(`${err}`, {
                     position: "top-right",
                     autoClose: 5000,
@@ -169,7 +170,6 @@ const AddEvent = () => {
                             < DateTimeInput
                                 onDateChange={(e) => {
                                     setEventObj({ ...eventObj, recurrencePattern: { ...eventObj.recurrencePattern, endDate: e.target.value } })
-                                    console.warn(e.target.value)
                                 }}
                                 onHourChange={(e) => setEventObj({ ...eventObj, duration: { ...eventObj.duration, endHour: e } })}
                                 isDateDisable={eventObj.recurrencePattern.frequency === 'None'}
@@ -185,7 +185,6 @@ const AddEvent = () => {
 
                 <div className={`${styles.addBtnDiv}`}>
                     <button className={`${styles.addEventBtn}`} onClick={() => addEvent()}>Add</button>
-                    {/* <button className={`${styles.addEventBtn}`} onClick={() => console.warn(eventObj)}>Add</button> */}
                 </div>
 
             </div>
