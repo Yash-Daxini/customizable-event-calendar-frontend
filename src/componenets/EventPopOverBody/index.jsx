@@ -16,6 +16,16 @@ const EventPopOverBody = ({ key, event, eventDate, onDelete }) => {
         navigate("/addEvent", { state: { event: event, date: eventDate } });
     }
 
+    const convertTo12HourFormat = (hour) => {
+        if (hour == 0)
+            return "12 AM";
+        else if (hour < 12)
+            return hour + " AM";
+        else if (hour == 12)
+            return "12 PM";
+        return hour % 12 + " PM";
+    }
+
     const deleteEvent = () => {
 
         onDelete(event.id);
@@ -67,7 +77,7 @@ const EventPopOverBody = ({ key, event, eventDate, onDelete }) => {
             <div className={styles.titleDiv}><Captions />{event.title}</div>
             <div className={styles.timeDisplayDiv}>
                 <Clock3 />
-                <span>{eventDate.toString().split(" ")[0]} {eventDate.toLocaleDateString()} {event.duration.startHour} - {event.duration.endHour}</span>
+                <span>{eventDate.toString().split(" ")[0]} {eventDate.toLocaleDateString()} {convertTo12HourFormat(event.duration.startHour)} - {convertTo12HourFormat(event.duration.endHour)}</span>
             </div>
             <div className={styles.buttonDiv}>
                 <button className={`${styles.actionBtn}`} onClick={navigateToUpdatePage}>

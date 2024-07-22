@@ -17,10 +17,6 @@ const AddEvent = () => {
 
     const isUpdate = event !== undefined;
 
-    // console.warn(isUpdate)
-
-    // console.warn(event)
-
     let auth = useAuth();
 
     const [selectedDate, setSelectedDate] = useState(date)
@@ -59,14 +55,8 @@ const AddEvent = () => {
                         confirmationStatus: "Accept"
                     }]
             })
-            // setEventObj({
-            //     ...eventObj
-            // })
         }
     }, [])
-
-
-    // console.warn(eventObj)
 
     let handleClick = () => {
 
