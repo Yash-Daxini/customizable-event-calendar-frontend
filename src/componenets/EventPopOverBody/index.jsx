@@ -3,11 +3,18 @@ import styles from './style.module.css';
 import { Captions, CalendarX, Pencil, Clock3 } from 'lucide-react';
 import { useAuth } from '../../hooks/AuthProvider';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 const env = import.meta.env;
 
 const EventPopOverBody = ({ key, event, eventDate, onDelete }) => {
 
+    const navigate = useNavigate();
+
     const auth = useAuth()
+
+    const navigateToUpdatePage = () => {
+        navigate("/addEvent", { state: { event: event, date: eventDate } });
+    }
 
     const deleteEvent = () => {
 
@@ -63,7 +70,7 @@ const EventPopOverBody = ({ key, event, eventDate, onDelete }) => {
                 <span>{eventDate.toString().split(" ")[0]} {eventDate.toLocaleDateString()} {event.duration.startHour} - {event.duration.endHour}</span>
             </div>
             <div className={styles.buttonDiv}>
-                <button className={`${styles.actionBtn}`}>
+                <button className={`${styles.actionBtn}`} onClick={navigateToUpdatePage}>
                     <span className={`${styles.icon} ${styles.editIcon}`}><Pencil size={15} /></span>
                     Edit
                 </button>

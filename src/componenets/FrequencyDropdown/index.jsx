@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import styles from './style.module.css'
 
-const FrequencyDropdown = ({ onChange }) => {
+const FrequencyDropdown = ({ onChange, initialValue }) => {
 
     let frequencies = [
         { value: "None", label: "No Repeat" },
@@ -12,7 +12,7 @@ const FrequencyDropdown = ({ onChange }) => {
         { value: "Yearly", label: "Yearly" }
     ];
 
-    const [selectedFrequency, setSelectedFrequency] = useState(frequencies[0]);
+    const [selectedFrequency, setSelectedFrequency] = useState(frequencies.find(freq => freq.value === initialValue));
 
     const customStyles = {
         control: (defaultStyles) => ({
@@ -33,9 +33,6 @@ const FrequencyDropdown = ({ onChange }) => {
     useEffect(() => {
         onChange(selectedFrequency.value)
     }, [])
-
-
-
 
     const handleChange = (selectedOption) => {
         setSelectedFrequency(selectedOption)

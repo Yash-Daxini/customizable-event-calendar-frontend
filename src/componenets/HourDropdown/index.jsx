@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Select from 'react-select';
 import styles from './style.module.css'
 
-const HourDropdown = ({ onChange }) => {
+const HourDropdown = ({ onChange, initialValue }) => {
 
     const hours = [];
 
@@ -20,7 +20,7 @@ const HourDropdown = ({ onChange }) => {
         hours.push({ value: parseInt(i + 12), label: hour });
     }
 
-    const [selectedTime, setSelectedTime] = useState(hours[0]);
+    const [selectedTime, setSelectedTime] = useState(hours.filter(hour => hour.value == initialValue));
 
     const handleChange = (selectedOption) => {
         setSelectedTime(selectedOption);
