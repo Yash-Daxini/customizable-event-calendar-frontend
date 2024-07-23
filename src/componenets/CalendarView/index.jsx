@@ -49,16 +49,18 @@ const CalendarView = () => {
         setEventList(eventList.filter((eventObj) => eventObj.id !== eventId));
     }
 
-    let getEventsJSXForGivenDay = (day) => {
+    let getEventsJSXForGivenDay = (day, column) => {
 
         let date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
 
         let eventForSpecificDate = getEventForGivenDate(date);
 
+        let placement = column > 4 ? "left" : "right";
+
         let eventsForGivenDate = eventForSpecificDate.map((e, index) => {
 
             if (index < 2)
-                return <PopoverComponent key={e.id} dispalyValue={e.title} className={`${styles.eventBar}`} body={<EventPopOverBody onDelete={updateEventStateOnDelete} event={e} eventDate={new Date(currentDate)} />
+                return <PopoverComponent placement={placement} key={e.id} dispalyValue={e.title} className={`${styles.eventBar}`} body={<EventPopOverBody onDelete={updateEventStateOnDelete} event={e} eventDate={new Date(currentDate)} />
                 } />
             else if (index == 2 && eventForSpecificDate.length == 3)
                 return <PopoverComponent key={e.id} dispalyValue={e.title} className={`${styles.eventBar}`} body={<EventPopOverBody event={e} eventDate={new Date(currentDate)} />
@@ -93,13 +95,17 @@ const CalendarView = () => {
         const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
 
         const days = [];
+
+        let column = 1;
+
         for (let i = 0; i < firstDay; i++) {
             days.push(<div className={`${styles.day} ${styles.empty}`} key={`empty-${i}`}></div>);
+            column++;
         }
 
         for (let day = 1; day <= daysInMonth; day++) {
 
-            let events = getEventsJSXForGivenDay(day);
+            let events = getEventsJSXForGivenDay(day, column);
 
             let todaysDate = new Date();
 
@@ -109,6 +115,8 @@ const CalendarView = () => {
                 days.push(<div className={`${styles.day} ${styles.selected}`} key={day} onClick={() => changeDay(day)} onDoubleClick={handleDoubleClick}><span>{day}</span>{events}</div>);
             else
                 days.push(<div className={`${styles.day}`} key={day} onClick={() => changeDay(day)} onDoubleClick={handleDoubleClick}><span>{day}</span >{events}</div >);
+
+            column = (column + 1) % 7;
         }
 
         return days;

@@ -7,9 +7,11 @@ import { Captions, MapPin, NotebookTabs, Clock3 } from 'lucide-react';
 import { ToastContainer, toast } from 'react-toastify';
 import TimelineView from '../TimelineView';
 import RecurrencePatternInput from '../RecurrencePatternInput';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const AddEvent = () => {
+
+    const navigate = useNavigate();
 
     const location = useLocation();
     let { event } = location.state || {};
@@ -108,6 +110,7 @@ const AddEvent = () => {
                         progress: undefined,
                         theme: "light",
                     })
+                    navigate("/getEvents");
                 }
                 return res.json()
             })
