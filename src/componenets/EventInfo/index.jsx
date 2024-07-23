@@ -1,7 +1,6 @@
 import React from 'react'
 import styles from './style.module.css';
-
-const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+import { getMonthNameFromDate } from '../../util/dateUtil';
 
 const EventInfo = ({ events, date }) => {
 
@@ -13,7 +12,7 @@ const EventInfo = ({ events, date }) => {
         <>
             <div className={`${styles.dateInfo}`} >
                 <span>{date.toLocaleDateString('en-US', { weekday: 'long' })},
-                    &nbsp;{monthNames[date.getMonth()]} {date.getDate()}</span>
+                    &nbsp;{getMonthNameFromDate(date)} {date.getDate()}</span>
             </div>
             <hr />
             <div className={`${styles.eventInfo}`}>

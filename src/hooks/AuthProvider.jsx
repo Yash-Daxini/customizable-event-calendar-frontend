@@ -5,6 +5,7 @@ const env = import.meta.env;
 
 const AuthContext = createContext();
 
+// eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 

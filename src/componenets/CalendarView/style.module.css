@@ -3,7 +3,6 @@ html,
 #root {
     background-color: #f0f0f0;
 }
-
 .calendarViewDiv {
     padding: 2% 1.5%;
     height: 94vh;
@@ -17,26 +16,6 @@ html,
     user-select: none;
 }
 
-
-.calendar {
-    height: 100%;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transition: .1s;
-}
-
-.width80Percent {
-    width: 80%;
-}
-
-.width100Percent {
-    width: 100%;
-}
-
 .calendarViewDiv .eventInfoDiv {
     background-color: #fff;
     height: 100%;
@@ -45,176 +24,10 @@ html,
     overflow: hidden;
 }
 
-.calendarViewDiv .calendar .month {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    color: #000;
-    padding: 20px;
-    gap: 20px;
-}
-
-.calendarViewDiv .calendar .month input[type=date]:required:invalid::-webkit-datetime-edit {
-    color: transparent;
-}
-
-.calendarViewDiv .calendar .month input[type=date]:focus::-webkit-datetime-edit {
-    color: black !important;
-}
-
-.calendarViewDiv .calendar .month input {
-    border: none;
-    padding: 10px;
-    width: 40px;
-}
-
-.calendarViewDiv .calendar .month .todayBtn {
-    border: 0.1px solid #bbb;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-    width: 100px;
-    cursor: pointer;
-}
-
-.calendarViewDiv .calendar .month .prev,
-.calendarViewDiv .calendar .month .next {
-    cursor: pointer;
-    font-size: 1.5em;
-}
-
-.calendarViewDiv .calendar .month-name {
-    font-size: 2em;
-}
-
-.calendarViewDiv .calendar .weekdays {
-    display: flex;
-    background-color: #ddd;
-    padding: 10px 0;
-}
-
-.calendarViewDiv .calendar .weekdays div {
-    flex: 1;
-    text-align: center;
-    font-weight: bold;
-    color: #555;
-}
-
-.calendarViewDiv .calendar .days {
-    display: flex;
-    flex-wrap: wrap;
-    height: 100%;
-}
-
-.calendarViewDiv .calendar .day {
-    width: calc(100% / 7);
-    min-height: calc(100%/6);
-    text-align: start;
-    box-sizing: border-box;
-    cursor: pointer;
-    border: 1px solid #eee;
-    font-size: 14px;
-}
-
-.calendarViewDiv .calendar .days .day .eventBar {
-    width: 100%;
-    height: 25px;
-    background-color: #b2d7f4;
-    color: #000;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-}
-
-.calendarViewDiv .calendar .days .day .eventBar span {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.calendarViewDiv .calendar .days .day .eventCountBar {
-    width: 100%;
-    height: 25px;
-    background-color: #e5e5e5;
-    color: #000;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.calendarViewDiv .calendar .days .day .eventBar::before {
-    content: '';
-    position: relative;
-    display: inline-block;
-    width: 10px;
-    height: 100%;
-    background-color: #1181da;
-    top: 0%;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    margin-right: 5px;
-}
-
-.calendarViewDiv .calendar .day span {
-    margin-left: 5px;
-}
-
-.calendarViewDiv .calendar .calendarFooter {
-    font-size: 20px;
-    margin-left: 98%;
-    cursor: pointer;
-}
-
-.calendarViewDiv .calendar .today>span {
-    background-color: #0078d7;
-    color: #fff;
-    padding: 5px;
-    border-radius: 50%;
-}
-
-.calendarViewDiv .calendar .selected {
-    border: 1px solid #0078d7;
-    color: #000;
-}
-
-.calendarViewDiv .calendar .empty {
-    background-color: transparent;
-    cursor: default;
-}
-
-.calendarViewDiv .calendar .day:hover {
-    background-color: #f0f0f0;
-}
-
 .calendarViewDiv .showEventInfoDiv {
     width: 25%;
 }
 
 .calendarViewDiv .hideEventInfoDiv {
     width: 0%;
-}
-
-@media (max-width: 600px) {
-    .calendarViewDiv .calendar .month {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .calendarViewDiv .calendar .month .prev,
-    .calendarViewDiv .calendar .month .next {
-        font-size: 1em;
-    }
-
-    .calendarViewDiv .calendar .month-name {
-        font-size: 1.5em;
-    }
-
-    .calendarViewDiv .calendar .day {
-        padding: 10px;
-    }
 }

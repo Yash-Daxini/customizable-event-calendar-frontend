@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styles from './style.module.css'
 import DateTimeInput from '../DateTimeInput'
 import FrequencyDropdown from '../FrequencyDropdown'
 import { useAuth } from '../../hooks/AuthProvider';
 import { Captions, MapPin, NotebookTabs, Clock3 } from 'lucide-react';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import TimelineView from '../TimelineView';
 import RecurrencePatternInput from '../RecurrencePatternInput';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { fetchApi } from '../../util/fetchApi';
+import { showErrorToaster, showSuccessToaster } from '../../util/toaster';
 
 const AddEvent = () => {
 
@@ -21,9 +23,16 @@ const AddEvent = () => {
 
     let auth = useAuth();
 
-    const [selectedDate, setSelectedDate] = useState(date)
+    const [selectedDate, setSelectedDate] = useState(date);
     const [eventObj, setEventObj] = useState(isUpdate
-        ? event
+        ? {
+            ...event, eventDate: date.toISOString().split("T")[0], eventCollaborators: [
+                {
+                    userId: auth.user.id,
+                    eventCollaboratorRole: "Organizer",
+                    confirmationStatus: "Accept"
+                }]
+        }
         : {
             title: '',
             location: '',
@@ -46,90 +55,35 @@ const AddEvent = () => {
             ],
         })
 
+    const getApiEndPoint = () =>
+        isRecurringEvent()
+            ? `/api/users/${auth.user.id}/events/recurring-events`
+            : `/api/users/${auth.user.id}/events`;
 
-    useEffect(() => {
-        if (isUpdate) {
-            setEventObj({
-                ...eventObj, eventDate: date.toISOString().split("T")[0], eventCollaborators: [
-                    {
-                        userId: auth.user.id,
-                        eventCollaboratorRole: "Organizer",
-                        confirmationStatus: "Accept"
-                    }]
-            })
-        }
-    }, [])
+
+    const getApiMethod = () => isUpdate ? 'PUT' : 'POST';
+
+    const isRecurringEvent = () => eventObj.recurrencePattern.frequency !== 'None';
 
     let handleClick = () => {
 
-        if (eventObj.recurrencePattern.frequency !== 'None')
+        if (isRecurringEvent())
             delete eventObj.eventDate;
 
+        let endPoint = getApiEndPoint(eventObj, auth);
+        let method = getApiMethod();
+        endPoint += isUpdate ? `${eventObj.id}` : ``;
 
-        let addApi = eventObj.recurrencePattern.frequency === 'None'
-            ? `api/users/${auth.user.id}/events`
-            : `api/users/${auth.user.id}/events/recurring-events`;
-
-        let method = isUpdate ? 'PUT' : 'POST';
-
-        addApi += isUpdate ? `/${eventObj.id}` : ``;
-
-
-        console.warn(eventObj)
-
-        fetch(`https://localhost:7149/${addApi}`, {
-            method: method,
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer ${auth.user.token}`,
-            },
-            body: JSON.stringify(eventObj)
-        })
+        fetchApi(endPoint, auth.user.token, method, eventObj)
             .then(res => {
-                console.warn(res)
-                if (res.status === 400) {
-                    toast.error(`Invalid Input !`, {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
-                }
+                if (res.status === 400)
+                    showErrorToaster("Invalid Input !");
                 else if (res.status === 201) {
-                    toast.success('Successfully Added Event !', {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
                     navigate("/getEvents");
+                    showSuccessToaster("Event added successfully !");
                 }
-                return res.json()
             })
-            .then((res) => {
-                console.warn(res)
-            })
-            .catch((err) => {
-                console.warn(err)
-                toast.error(`${err}`, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
-            });
+            .catch(showErrorToaster("Some error occurred !"))
     }
 
     return (
@@ -172,7 +126,7 @@ const AddEvent = () => {
                     <Clock3 />
                     <div className={`${styles.dateTimeInputDiv}`}>
                         <div>
-                            {eventObj.recurrencePattern.frequency === 'None' ?
+                            {!isRecurringEvent() ?
                                 <DateTimeInput
                                     onDateChange={(e) => {
                                         setEventObj({ ...eventObj, eventDate: e.target.value })
