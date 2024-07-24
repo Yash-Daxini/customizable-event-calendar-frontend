@@ -21,6 +21,21 @@
     align-items: center;
     justify-content: start;
     margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.eventInfo .eventBar .title {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: medium;
+}
+
+.eventInfo .eventBar .duration {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size:small;
 }
 
 .eventInfo .eventBar::before {

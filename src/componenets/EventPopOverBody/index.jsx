@@ -4,6 +4,7 @@ import { Captions, CalendarX, Pencil, Clock3 } from 'lucide-react';
 import { useAuth } from '../../hooks/AuthProvider';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { convertTo12HourFormat } from '../../util/timeUtil';
 const env = import.meta.env;
 
 const EventPopOverBody = ({ key, event, eventDate, onDelete }) => {
@@ -14,16 +15,6 @@ const EventPopOverBody = ({ key, event, eventDate, onDelete }) => {
 
     const navigateToUpdatePage = () => {
         navigate("/addEvent", { state: { event: event, date: eventDate } });
-    }
-
-    const convertTo12HourFormat = (hour) => {
-        if (hour == 0)
-            return "12 AM";
-        else if (hour < 12)
-            return hour + " AM";
-        else if (hour == 12)
-            return "12 PM";
-        return hour % 12 + " PM";
     }
 
     const deleteEvent = () => {

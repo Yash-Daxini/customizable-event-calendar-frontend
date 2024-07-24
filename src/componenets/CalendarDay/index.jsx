@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './style.module.css';
-import { formatDate, isEqualDates } from '../../util/dateUtil';
+import { formatDate } from '../../util/dateUtil';
 import PopoverComponent from '../PopoverComponent'
 import EventPopOverBody from '../EventPopOverBody'
 import { useContext } from 'react';
@@ -14,8 +14,6 @@ const CalendarDay = ({ isEmptyDay, day, column, updateEventStateOnDelete }) => {
     const { setCurrentDate } = useContext(CalendarContext);
     const { events } = useContext(CalendarContext);
     const currentDate = date;
-
-    console.warn(date, new Date());
 
     const getEventForGivenDate = (date) => {
         return events.filter((e) => e.occurrences.includes(formatDate(date)));
@@ -33,7 +31,7 @@ const CalendarDay = ({ isEmptyDay, day, column, updateEventStateOnDelete }) => {
     }
 
     const getEventsJSXForGivenDay = () => {
-        let placement = column > 4 ? "left" : "right";
+        let placement = column > 3 ? "left" : "right";
 
         const givenDateEvents = getEventForGivenDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), day));
 
@@ -61,9 +59,11 @@ const CalendarDay = ({ isEmptyDay, day, column, updateEventStateOnDelete }) => {
     }
 
     const getClassList = () => {
-        if (day == new Date().getDate())
+        if (day == new Date().getDate() && currentDate.getMonth() === new Date().getMonth() && day == currentDate.getDate())
+            return `${styles.day} ${styles.today} ${styles.selected}`;
+        else if (day == new Date().getDate() && currentDate.getMonth() === new Date().getMonth())
             return `${styles.day} ${styles.today}`;
-        if (day == currentDate.getDate())
+        else if (day == currentDate.getDate())
             return `${styles.day} ${styles.selected}`;
         else
             return `${styles.day}`;

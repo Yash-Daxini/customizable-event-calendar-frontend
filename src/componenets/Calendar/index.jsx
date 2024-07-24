@@ -4,7 +4,7 @@ import CalendarDay from '../CalendarDay/index.jsx';
 import styles from './style.module.css'
 import { CalendarContext } from '../../hooks/context.jsx';
 
-const Calendar = ({ isFullSizeCalendar, updateCalendarSize }) => {
+const Calendar = ({ isFullSizeCalendar, setIsFullSizeCalendar }) => {
 
     const { events } = useContext(CalendarContext);
     const { date } = useContext(CalendarContext);
@@ -22,7 +22,7 @@ const Calendar = ({ isFullSizeCalendar, updateCalendarSize }) => {
 
         const days = [];
 
-        let column = 1;
+        let column = 0;
 
         for (let i = 0; i < firstDay; i++) {
             days.push(<CalendarDay isEmptyDay={true} />);
@@ -30,7 +30,7 @@ const Calendar = ({ isFullSizeCalendar, updateCalendarSize }) => {
         }
 
         for (let day = 1; day <= daysInMonth; day++) {
-            days.push(<CalendarDay isEmptyDay={false} day={day} updateEventStateOnDelete={updateEventStateOnDelete} />)
+            days.push(<CalendarDay column={column} isEmptyDay={false} day={day} updateEventStateOnDelete={updateEventStateOnDelete} />)
             column = (column + 1) % 7;
         }
 
@@ -72,7 +72,7 @@ const Calendar = ({ isFullSizeCalendar, updateCalendarSize }) => {
             <div className={`${styles.days}`}>
                 {renderCalendar()}
             </div>
-            <div className={`${styles.calendarFooter}`} onClick={() => updateCalendarSize(!isFullSizeCalendar)}>
+            <div className={`${styles.calendarFooter}`} onClick={() => setIsFullSizeCalendar(!isFullSizeCalendar)}>
                 <ion-icon name="expand-outline"></ion-icon>
             </div>
         </div>

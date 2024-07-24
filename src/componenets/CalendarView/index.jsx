@@ -32,7 +32,7 @@ const CalendarView = () => {
     return (
         <div className={`${styles.calendarViewDiv}`}>
             <CalendarContext.Provider value={valueOfContext}>
-                <Calendar currentDate={currentDate} setCurrentDate={setCurrentDate} isFullSizeCalendar={isFullSizeCalendar} updateCalednarSize={setIsFullSizeCalendar} events={eventList} />
+                <Calendar currentDate={currentDate} setCurrentDate={setCurrentDate} isFullSizeCalendar={isFullSizeCalendar} setIsFullSizeCalendar={setIsFullSizeCalendar} events={eventList} />
                 <div className={`${styles.eventInfoDiv} ${isFullSizeCalendar ? styles.hideEventInfoDiv : styles.showEventInfoDiv}`}>
                     <EventInfo events={getEventForGivenDate(currentDate)} date={currentDate} />
                 </div>

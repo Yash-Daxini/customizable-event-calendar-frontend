@@ -52,11 +52,15 @@
     margin-right: 5px;
 }
 
-.day span {
+.day>span {
+    display: flex;
+    justify-content: center;
+    align-content: start;
     margin-left: 5px;
+    width: 30px;
 }
 
-.today > span {
+.today>span {
     background-color: #0078d7;
     color: #fff;
     padding: 5px;
