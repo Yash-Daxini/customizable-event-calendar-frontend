@@ -1,8 +1,23 @@
 .draggableDiv {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
+    flex-direction: column;
     height: 40%;
     width: 25%;
     background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    gap: 10px;
+}
+
+.draggableDiv .title {
+    font-size: 20px;
+    color: #1181da;
+}
+
+.draggableDiv .draggableDivContent {
+    width: 100%;
+    padding-bottom: 20px;
+    overflow-y: auto;
 }
