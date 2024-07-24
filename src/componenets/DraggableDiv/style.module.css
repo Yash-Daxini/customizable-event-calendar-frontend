@@ -1,0 +1,8 @@
+.draggableDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40%;
+    width: 25%;
+    background-color: #fff;
+}
