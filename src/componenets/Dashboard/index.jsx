@@ -10,6 +10,7 @@ const Dashboard = () => {
     const [dailyEvents, setDailyEvents] = useState([]);
     const [weeklyEvents, setWeeklyEvents] = useState([]);
     const [monthyEvents, setMonthlyEvents] = useState([]);
+    const [sharedCalendars, setSharedCalendars] = useState([]);
 
     const auth = useAuth();
 
@@ -20,11 +21,13 @@ const Dashboard = () => {
             .then(res => setWeeklyEvents(res.data));
         fetchApi(`/api/users/${auth.user.id}/events/monthly`, auth.user.token)
             .then(res => setMonthlyEvents(res.data));
+        fetchApi(`/api/sharedCalendars`, auth.user.token)
+            .then(res => setSharedCalendars(res.data));
     }, [])
 
-    let dailyEventsJSX = dailyEvents.map((event) => {
+    let dailyEventsJSX = dailyEvents.map((event, index) => {
         return (
-            <div className={`${styles.notificationDivContent}`}>
+            <div key={index} className={`${styles.notificationDivContent}`}>
                 <div>
                     {event.title}
                 </div>
@@ -35,9 +38,9 @@ const Dashboard = () => {
         )
     })
 
-    let weeklyEventsJSX = weeklyEvents.map((event) => {
+    let weeklyEventsJSX = weeklyEvents.map((event, index) => {
         return (
-            <div className={`${styles.notificationDivContent}`}>
+            <div key={index} className={`${styles.notificationDivContent}`}>
                 <div>
                     {event.title}
                 </div>
@@ -48,9 +51,9 @@ const Dashboard = () => {
         )
     })
 
-    let monthlyEventsJSX = monthyEvents.map((event) => {
+    let monthlyEventsJSX = monthyEvents.map((event, index) => {
         return (
-            <div className={`${styles.notificationDivContent}`}>
+            <div key={index} className={`${styles.notificationDivContent}`}>
                 <div>
                     {event.title}
                 </div>
@@ -61,13 +64,25 @@ const Dashboard = () => {
         )
     })
 
+    let sharedCalendarJSX = sharedCalendars.map((sharedCalendar, index) => {
+        return (
+            <div key={index} className={`${styles.notificationDivContent}`}>
+                <div>
+                    Start Date :- {sharedCalendar.fromDate}
+                </div>
+                <div>
+                    End Date :- {sharedCalendar.toDate}
+                </div>
+            </div>
+        )
+    })
 
     return (
         <div className={`${styles.dashboardDiv}`}>
-            <DraggableDiv title={`Daily Events`} bodyOfDiv={dailyEventsJSX} />
-            <DraggableDiv title={"Weekly Events"} bodyOfDiv={weeklyEventsJSX} />
-            <DraggableDiv title={"Monthly Events"} bodyOfDiv={monthlyEventsJSX} />
-            <DraggableDiv title={"Shared Calendars"} bodyOfDiv={<>No items availabel</>} />
+            <DraggableDiv key={1} title={`Daily Events`} bodyOfDiv={dailyEventsJSX} orderClass={"order-2"} />
+            <DraggableDiv key={2} title={"Weekly Events"} bodyOfDiv={weeklyEventsJSX} orderClass={"order-3"} />
+            <DraggableDiv key={3} title={"Monthly Events"} bodyOfDiv={monthlyEventsJSX} orderClass={"order-4"} />
+            <DraggableDiv key={4} title={"Shared Calendars"} bodyOfDiv={sharedCalendarJSX} orderClass={"order-1"} />
         </div>
     )
 }

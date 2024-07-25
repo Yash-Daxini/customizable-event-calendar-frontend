@@ -27,7 +27,7 @@ const CalendarView = () => {
         return eventList.filter((e) => e.occurrences.includes(formatDate(date)));
     }
 
-    const valueOfContext = { date: currentDate, setCurrentDate: setCurrentDate, events: eventList };
+    const valueOfContext = { date: currentDate, setCurrentDate: setCurrentDate, events: eventList , setEvents:setEventList };
 
     return (
         <div className={`${styles.calendarViewDiv}`}>

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { formatDate, getMonthNameFromDate } from '../../util/dateUtil.js';
+import { formatDate, getMonthName } from '../../util/dateUtil.js';
 import CalendarDay from '../CalendarDay/index.jsx';
 import styles from './style.module.css'
 import { CalendarContext } from '../../hooks/context.jsx';
@@ -9,11 +9,12 @@ const Calendar = ({ isFullSizeCalendar, setIsFullSizeCalendar }) => {
     const { events } = useContext(CalendarContext);
     const { date } = useContext(CalendarContext);
     const { setCurrentDate } = useContext(CalendarContext);
+    const { setEvents } = useContext(CalendarContext);
 
     const currentDate = date;
 
     const updateEventStateOnDelete = (eventId) => {
-        setEventList(events.filter((eventObj) => eventObj.id !== eventId));
+        setEvents(events.filter((eventObj) => eventObj.id !== eventId));
     }
 
     const renderCalendar = () => {
@@ -25,12 +26,12 @@ const Calendar = ({ isFullSizeCalendar, setIsFullSizeCalendar }) => {
         let column = 0;
 
         for (let i = 0; i < firstDay; i++) {
-            days.push(<CalendarDay isEmptyDay={true} />);
+            days.push(<CalendarDay key={i} isEmptyDay={true} />);
             column++;
         }
 
         for (let day = 1; day <= daysInMonth; day++) {
-            days.push(<CalendarDay column={column} isEmptyDay={false} day={day} updateEventStateOnDelete={updateEventStateOnDelete} />)
+            days.push(<CalendarDay key={day} column={column} isEmptyDay={false} day={day} updateEventStateOnDelete={updateEventStateOnDelete} />)
             column = (column + 1) % 7;
         }
 
@@ -57,7 +58,7 @@ const Calendar = ({ isFullSizeCalendar, setIsFullSizeCalendar }) => {
                 }}>Today</div>
                 <div className={`${styles.prev}`} onClick={prevMonth}>&#10094;</div>
                 <div className={`${styles.next}`} onClick={nextMonth}>&#10095;</div>
-                <div className={`${styles.month - name}`}>{`${getMonthNameFromDate(currentDate)} ${currentDate.getFullYear()}`}</div>
+                <div className={`${styles.month - name}`}>{`${getMonthName(currentDate)} ${currentDate.getFullYear()}`}</div>
                 <input type="date" id={`${styles.date}`} value={formatDate(currentDate)} required onChange={(e) => setCurrentDate(new Date(e.target.value))} />
             </div>
             <div className={`${styles.weekdays}`}>

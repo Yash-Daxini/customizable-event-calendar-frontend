@@ -5,7 +5,9 @@ import { useAuth } from '../../hooks/AuthProvider';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { convertTo12HourFormat } from '../../util/timeUtil';
-const env = import.meta.env;
+import { fetchApi } from '../../util/fetchApi'
+import { showSuccessToaster, showErrorToaster } from '../../util/toaster'
+import { getShorterDayName } from '../../util/dateUtil';
 
 const EventPopOverBody = ({ key, event, eventDate, onDelete }) => {
 
@@ -21,45 +23,17 @@ const EventPopOverBody = ({ key, event, eventDate, onDelete }) => {
 
         onDelete(event.id);
 
-        fetch(`${env.VITE_Domain}/api/users/${auth.user.id}/events/${event.id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-type': 'application/json',
-                'Authorization': `Bearer ${auth.user.token}`,
-            }
-        })
+        fetchApi(`/api/users/${auth.user.id}/events/${event.id}`, auth.user.token, 'DELETE')
             .then(res => {
                 if (res.status === 400) {
-                    toast.error(`Some error occurred !`, {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
+                    showErrorToaster("Some error occured !")
                 }
                 else if (res.status === 200) {
-                    toast.success('Successfully Deleted Event !', {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
+                    showSuccessToaster("Successfully Deleted Event !");
                 }
                 return res.json()
             })
-            .then(res => {
-                toast.success('Delete successfully !')
-            })
             .catch(toast.success('Ooops! some error occurred !'));
-
     }
 
 
@@ -68,7 +42,7 @@ const EventPopOverBody = ({ key, event, eventDate, onDelete }) => {
             <div className={styles.titleDiv}><Captions />{event.title}</div>
             <div className={styles.timeDisplayDiv}>
                 <Clock3 />
-                <span>{eventDate.toString().split(" ")[0]} {eventDate.toLocaleDateString()} {convertTo12HourFormat(event.duration.startHour)} - {convertTo12HourFormat(event.duration.endHour)}</span>
+                <span>{getShorterDayName(eventDate)} {eventDate.toLocaleDateString()} {convertTo12HourFormat(event.duration.startHour)} - {convertTo12HourFormat(event.duration.endHour)}</span>
             </div>
             <div className={styles.buttonDiv}>
                 <button className={`${styles.actionBtn}`} onClick={navigateToUpdatePage}>

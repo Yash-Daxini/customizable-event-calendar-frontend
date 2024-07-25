@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './style.module.css';
-import { getMonthNameFromDate } from '../../util/dateUtil';
+import { getMonthName } from '../../util/dateUtil';
 import { convertTo12HourFormat } from '../../util/timeUtil';
 
 const EventInfo = ({ events, date }) => {
@@ -18,7 +18,7 @@ const EventInfo = ({ events, date }) => {
         <>
             <div className={`${styles.dateInfo}`} >
                 <span>{date.toLocaleDateString('en-US', { weekday: 'long' })},
-                    &nbsp;{getMonthNameFromDate(date)} {date.getDate()}</span>
+                    &nbsp;{getMonthName(date)} {date.getDate()}</span>
             </div>
             <hr />
             <div className={`${styles.eventInfo}`}>

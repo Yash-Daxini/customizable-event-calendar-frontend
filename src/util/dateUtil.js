@@ -12,10 +12,12 @@ export const formatDate = (date) => {
     return [year, month, day].join('-');
 }
 
-export const getMonthNameFromDate = (date) => {
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+export const getMonthName = (date) => {
+    return date.toLocaleString('default', { month: 'long' })
+}
 
-    return monthNames[date.getMonth()]
+export const getShorterDayName = (date) => {
+    return date.toString().split(" ")[0];
 }
 
 export const isEqualDates = (date1, date2) => date1.getTime() === date2.getTime();

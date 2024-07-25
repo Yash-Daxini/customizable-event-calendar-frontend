@@ -38,7 +38,25 @@ export const handleDragDrop = (e) => {
         e.target.style.border = 'none';
 
     if (draggedItem.target !== e && e.target.classList.contains('draggable')) {
+        let positionOfDraggedEle = getPosition(draggedItem);
+        let positionOfDroppedEle = getPosition(e);
+        let draggedEleTitle = getTitleOfElement(draggedItem);
+        let droppedEleTitle = getTitleOfElement(e);
+        setPositionToLocalStorage(draggedEleTitle, positionOfDroppedEle);
+        setPositionToLocalStorage(droppedEleTitle, positionOfDraggedEle);
         draggedItem.target.innerHTML = e.target.innerHTML;
         e.target.innerHTML = e.dataTransfer.getData('text/html');
     }
+}
+
+const setPositionToLocalStorage = (key, value) => {
+    localStorage.setItem(key, value);
+}
+
+const getPosition = (element) => {
+    return [...element.target.classList].find(ele => ele.startsWith("order"));
+}
+
+const getTitleOfElement = (element) => {
+    return element.target.children[0].innerText;
 }
