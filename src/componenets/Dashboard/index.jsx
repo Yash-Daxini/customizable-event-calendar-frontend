@@ -67,22 +67,19 @@ const Dashboard = () => {
     let sharedCalendarJSX = sharedCalendars.map((sharedCalendar, index) => {
         return (
             <div key={index} className={`${styles.notificationDivContent}`}>
-                <div>
-                    Start Date :- {sharedCalendar.fromDate}
-                </div>
-                <div>
-                    End Date :- {sharedCalendar.toDate}
-                </div>
+                {sharedCalendar.user}
+                <br />
+                {sharedCalendar.fromDate} {sharedCalendar.toDate}
             </div>
         )
     })
 
     return (
-        <div className={`${styles.dashboardDiv}`}>
-            <DraggableDiv key={1} title={`Daily Events`} bodyOfDiv={dailyEventsJSX} orderClass={"order-2"} />
-            <DraggableDiv key={2} title={"Weekly Events"} bodyOfDiv={weeklyEventsJSX} orderClass={"order-3"} />
-            <DraggableDiv key={3} title={"Monthly Events"} bodyOfDiv={monthlyEventsJSX} orderClass={"order-4"} />
-            <DraggableDiv key={4} title={"Shared Calendars"} bodyOfDiv={sharedCalendarJSX} orderClass={"order-1"} />
+        <div className={`${styles.dashboardDiv} container`}>
+            <DraggableDiv key={1} title={`Daily Events`} bodyOfDiv={dailyEventsJSX} orderClass={"order-1"} />
+            <DraggableDiv key={2} title={"Weekly Events"} bodyOfDiv={weeklyEventsJSX} orderClass={"order-2"} />
+            <DraggableDiv key={3} title={"Monthly Events"} bodyOfDiv={monthlyEventsJSX} orderClass={"order-3"} />
+            <DraggableDiv key={4} title={"Shared Calendars"} bodyOfDiv={sharedCalendarJSX} orderClass={"order-4"} />
         </div>
     )
 }

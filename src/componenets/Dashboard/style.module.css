@@ -4,7 +4,7 @@
     align-items: start;
     flex-wrap: wrap;
     height: 90vh;
-    width: 90vw;
+    max-width: 95%;
     gap: 5%;
     margin: 1%;
 }
@@ -15,8 +15,7 @@
     justify-content: space-between;
     align-items: center;
     overflow-wrap: break-word;
-    padding: 10px;
+    padding: 3%;
     border-radius: 10px;
-    font-size: 15px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }

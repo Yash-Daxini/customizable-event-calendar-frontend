@@ -3,21 +3,29 @@ import styles from './style.module.css';
 import { formatDate } from '../../util/dateUtil';
 import PopoverComponent from '../PopoverComponent'
 import EventPopOverBody from '../EventPopOverBody'
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { CalendarContext } from '../../hooks/context';
+import { fetchApi } from '../../util/fetchApi';
+import { useAuth } from '../../hooks/AuthProvider';
 
 const CalendarDay = ({ isEmptyDay, day, column, updateEventStateOnDelete }) => {
+
+    const auth = useAuth();
 
     const navigate = useNavigate();
 
     const { date } = useContext(CalendarContext);
     const { setCurrentDate } = useContext(CalendarContext);
-    const { events } = useContext(CalendarContext);
+    const [eventsByDate, setEventsByDate] = useState([])
     const currentDate = date;
 
-    const getEventForGivenDate = (date) => {
-        return events.filter((e) => e.occurrences.includes(formatDate(date)));
-    }
+    useEffect(() => {
+        if (day) {
+            date.setDate(parseInt(day));
+            fetchApi(`/api/users/${auth.user.id}/events/eventsBetweenDates?startDate=${formatDate(date)}&endDate=${formatDate(date)}`, auth.user.token)
+                .then(res => setEventsByDate(res.data))
+        }
+    }, [])
 
     const changeDay = (day) => {
         let newDate = new Date(currentDate);
@@ -33,13 +41,11 @@ const CalendarDay = ({ isEmptyDay, day, column, updateEventStateOnDelete }) => {
     const getEventsJSXForGivenDay = () => {
         let placement = column > 3 ? "left" : "right";
 
-        const givenDateEvents = getEventForGivenDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), day));
-
-        let eventBars = givenDateEvents.map((e, index) => {
+        let eventBars = eventsByDate.map((e, index) => {
             if (index > 2)
                 return;
 
-            if (index < 2 || (index == 2 && givenDateEvents.length == 3))
+            if (index < 2 || (index == 2 && eventsByDate.length == 3))
                 return <PopoverComponent
                     placement={placement}
                     key={e.id}
@@ -52,7 +58,7 @@ const CalendarDay = ({ isEmptyDay, day, column, updateEventStateOnDelete }) => {
                     }
                 />
             else
-                return <div key={e.id} className={`${styles.eventCountBar}`}>+{givenDateEvents.length - 2}</div>
+                return <div key={e.id} className={`${styles.eventCountBar}`}>+{eventsByDate.length - 2}</div>
         })
 
         return eventBars;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './style.module.css';
 import { CalendarArrowUp, Divide } from 'lucide-react';
 import { useAuth } from '../../hooks/AuthProvider';
+import {formatDate} from '../../util/dateUtil'
 
 const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -18,7 +19,7 @@ const TimelineView = ({ date }) => {
     const auth = useAuth();
 
     useEffect(() => {
-        fetch(`https://localhost:7149/api/users/${auth.user.id}/events/eventsBetweenDates?startDate=${currentDate.toLocaleDateString()}&endDate=${currentDate.toLocaleDateString()}`, {
+        fetch(`https://localhost:7149/api/users/${auth.user.id}/events/eventsBetweenDates?startDate=${formatDate(currentDate)}&endDate=${formatDate(currentDate)}`, {
             headers: {
                 'Authorization': `Bearer ${auth.user.token}`,
             }

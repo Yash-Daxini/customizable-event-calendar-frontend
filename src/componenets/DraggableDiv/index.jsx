@@ -21,7 +21,7 @@ const DraggableDiv = ({ title, bodyOfDiv, orderClass }) => {
             onDrop={(e) => handleDragDrop(e)}>
             <span className={`${styles.title}`}>{title}</span>
             <br />
-            <span className={`${styles.draggableDivContent}`}>{bodyOfDiv}</span>
+            <div className={`${styles.draggableDivContent}`}>{bodyOfDiv}</div>
         </div>
     )
 }
