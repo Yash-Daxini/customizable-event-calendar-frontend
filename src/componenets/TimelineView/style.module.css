@@ -1,89 +1,99 @@
 .timelineDiv {
-    box-sizing: border-box;
-    width: 30%;
-    background-color: #fff;
-    border-radius: 10px;
-    height: 80vh;
-    margin: 10px;
-    padding: 2% 1.5%;
+  box-sizing: border-box;
+  width: 30%;
+  background-color: #fff;
+  border-radius: 10px;
+  height: 80vh;
+  margin: 10px;
+  padding: 2% 1.5%;
 }
 
 .timelineDiv .header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
-    width: 100%;
-    height: 5%;
-    padding-bottom: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  width: 100%;
+  height: 5%;
+  padding-bottom: 5%;
 }
 
 .timelineDiv .header .control {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }
 
 .timelineDiv .header .monthName {
-    user-select: none;
-    width: 200px;
+  user-select: none;
+  width: 200px;
 }
 
 .timelineDiv .header .todayBtn,
 .timelineDiv .header .prev,
 .timelineDiv .header .next {
-    cursor: pointer;
-    user-select: none;
+  cursor: pointer;
+  user-select: none;
 }
 
-.timelineDiv .timelineBody{
-    height: 95%;
-    overflow-y: auto;
+.timelineDiv .timelineBody {
+  height: 95%;
+  overflow-y: auto;
 }
 
 .timelineDiv .timelineBody .hourDiv {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    height: 50px;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  height: 50px;
+  width: 100%;
 }
 
 .timelineDiv .timelineBody .hourDiv .hourValue {
-    position: relative;
-    width: 20%;
-    height: 100%;
-    padding: 5px;
+  position: relative;
+  width: 20%;
+  height: 100%;
+  padding: 5px;
 }
 
 .timelineDiv .timelineBody .hourDiv .colorDiv {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .timelineDiv .timelineBody .hourDiv .hourValue::before {
-    content: '';
-    position: absolute;
-    right: 0;
-    height: 100%;
-    width: 1px;
-    background-color: #ccc;
-    transform: rotate(180);
+  content: "";
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 1px;
+  background-color: #ccc;
+  transform: rotate(180);
 }
 
 .timelineDiv .timelineBody .hourDiv .filled {
-    background-color: #48c471;
-    color: #fff;
+  background-color: #aaaaaa;
+  color: #fff;
+}
+
+.timelineDiv .timelineBody .hourDiv .overlapFilled {
+  background-color: red;
+  color: #fff;
+}
+
+.timelineDiv .timelineBody .hourDiv .filledCurrent {
+  background-color: #48c471;
+  color: #fff;
 }
 
 .timelineDiv .timelineBody .hourDiv::before {
-    content: '';
-    position: absolute;
-    height: 1px;
-    width: 100%;
-    top: 0;
-    left: 0;
-    background-color: #ccc;
+  content: "";
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: #ccc;
 }
