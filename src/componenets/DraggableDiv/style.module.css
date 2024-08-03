@@ -1,23 +1,24 @@
 .draggableDiv {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    flex-direction: column;
-    height: 43%;
-    width: 30%;
-    background-color: #fff;
-    border-radius: 10px;
-    gap: 10px;
-    padding-top: 2%;
-    padding-bottom: 2%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: warp;
+  height: 43%;
+  width: 350px;
+  background-color: #fff;
+  border-radius: 10px;
+  gap: 10px;
+  padding-top: 2%;
+  padding-bottom: 2%;
 }
 
 .draggableDiv .title {
-    color: #1181da;
+  color: #1181da;
 }
 
 .draggableDiv .draggableDivContent {
-    width: 100%;
-    padding: 20px;
-    overflow-y: auto;
+  min-width: 100%;
+  padding: 20px;
+  overflow-y: auto;
 }

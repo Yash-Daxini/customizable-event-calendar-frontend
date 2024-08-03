@@ -38,7 +38,7 @@ const AuthProvider = ({ children }) => {
             .then(data => {
                 setUser(data);
                 localStorage.setItem("user", JSON.stringify(data));
-                navigate("/getEvents");
+                navigate("/");
             })
             .catch(err => console.warn(`Some error occurred ${err} `))
     };
