@@ -12,7 +12,6 @@ html,
     align-items: center;
     gap: 2%;
     background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
     user-select: none;
 }
 
@@ -30,4 +29,17 @@ html,
 
 .calendarViewDiv .hideEventInfoDiv {
     width: 0%;
+}
+
+@media (max-width: 1000px) {
+  .calendarViewDiv {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right:0;
+  }
+  .calendarViewDiv .eventInfoDiv {
+    width: 0%;
+  } 
 }

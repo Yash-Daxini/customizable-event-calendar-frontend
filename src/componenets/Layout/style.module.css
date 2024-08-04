@@ -1,3 +1,8 @@
-.navbar{
-    padding: 8px 20px;
+.navbar {
+  padding: 5px 20px;
+}
+.navbarToggler:focus,
+.navbarTogglerIcon:focus {
+    outline: none;
+    box-shadow: none;
 }

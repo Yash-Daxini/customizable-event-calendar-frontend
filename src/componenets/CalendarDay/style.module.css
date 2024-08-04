@@ -5,12 +5,12 @@
   box-sizing: border-box;
   cursor: pointer;
   border: 1px solid #eee;
-  font-size: 0.8rem;
+  font-size: 1vw;
 }
 
 .day .eventBar {
   width: 100%;
-  height: 25px;
+  height: 3.5vh;
   background-color: #b2d7f4;
   color: #000;
   border-radius: 5px;
@@ -43,7 +43,7 @@
   content: "";
   position: relative;
   display: inline-block;
-  min-width: 10px;
+  min-width: 0.5vw;
   height: 100%;
   background-color: #1181da;
   top: 0%;
@@ -82,4 +82,30 @@
 
 .day:hover {
   background-color: #f0f0f0;
+}
+
+@media (max-width: 1000px) {
+  .day {
+    width: 100%;
+    font-size: 2.5vw;
+    overflow-y: auto;
+  }
+  .day .eventBar{
+    height: 5vh;
+  }
+  .day .eventBar::before{
+    width: 1.5vw;
+  }
+  .day > span{
+    margin:2vw;
+    font-size: 2.5vw;
+  }
+  .today > span{
+    width: 5vw;
+    height: 5vw;
+    font-size: 2.5vw;
+  }
+  .empty{
+    display: none;
+  }
 }

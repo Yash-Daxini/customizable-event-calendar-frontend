@@ -1,15 +1,23 @@
 .radioBtn {
-    margin-right: 10px;
+  margin-right: 20px;
 }
 
 .patternSelectionDiv {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 20px;
-    padding: 10px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .dropdown {
-    width: 30%;
+  width: 30%;
+}
+
+@media (max-width: 600px) {
+  .dropdown {
+    width: 75%;
+  }
 }

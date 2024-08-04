@@ -36,9 +36,13 @@ const CalendarDay = ({ isEmptyDay, day, column, updateEventStateOnDelete }) => {
     let placement = column > 3 ? "left" : "right";
 
     let eventBars = eventsByDate.map((e, index) => {
-      if (index > 2) return;
+      if (index > 2 && window.innerWidth > 1000) return;
 
-      if (index < 2 || (index == 2 && eventsByDate.length == 3))
+      if (
+        window.innerWidth <= 1000 ||
+        index < 2 ||
+        (index == 2 && eventsByDate.length == 3)
+      )
         return (
           <PopoverComponent
             placement={placement}

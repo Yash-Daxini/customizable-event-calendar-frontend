@@ -1,109 +1,121 @@
 .eventAddDiv {
-    width: 100vw;
-    display: flex;
-    justify-content: start;
-    align-items: start;
-    background-color: #eee; 
-    /* bg color #F5F5F5 */
-    padding: 20px;
+  width: 100vw;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  background-color: #eee;
+  /* bg color #F5F5F5 */
+  padding: 20px;
 }
 
 .eventAddDiv .addDiv {
-    width: 65%;
-    background-color: #fff;
-    margin: 10px;
-    border-radius: 15px;
-    display: flex;
-    justify-content: start;
-    align-items: start;
-    flex-direction: column;
-    padding: 2% 1.5%;
+  width: 65%;
+  background-color: #fff;
+  margin: 10px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: column;
+  padding: 2% 1.5%;
 }
 
 .eventAddDiv .addDiv .inputDiv {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    gap: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  gap: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .eventAddDiv .addDiv .stringInput {
-    width: 100%;
-    border: none;
-    border-bottom: 1px solid #ddd;
-    font-size: 18px;
-    margin-bottom: 20px;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  font-size: 18px;
+  margin-bottom: 20px;
 }
 
 .eventAddDiv .addDiv .textarea {
-    width: 100%;
-    font-size: 18px;
-    border: 1px solid #ddd;
-    padding-left: 5px;
-    resize: none;
+  width: 100%;
+  font-size: 18px;
+  border: 1px solid #ddd;
+  padding-left: 5px;
+  resize: none;
 }
 
 .eventAddDiv .addDiv input:focus {
-    outline: none;
+  outline: none;
 }
 
 .eventAddDiv .addDiv textarea:focus {
-    outline: none;
+  outline: none;
 }
 
 .eventAddDiv .addDiv .dateTimeInputDiv {
-    width: 100%;
+  width: 100%;
 }
 
 .eventAddDiv .addDiv .dateTimeFrequencyDiv {
-    width: 100%;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
 }
 
 .eventAddDiv .addDiv .frequencySelectionDiv {
-    width: 100%;
-    display: flex;
-    justify-content: start;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
 }
 
 .eventAddDiv .addDiv .addBtnDiv {
-    width: 100%;
-    display: flex;
-    justify-content: end;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
 }
 
 .eventAddDiv .addDiv .addEventBtn {
-    background-color: #1181da;
-    color: #fff;
-    padding: 10px;
-    width: 100px;
-    border-radius: 5px;
-    border: 1px solid #1181da;
-    position: relative;
-    padding-left: 40px;
-    transition: .5s;
+  background-color: #1181da;
+  color: #fff;
+  padding: 10px;
+  width: 100px;
+  border-radius: 5px;
+  border: 1px solid #1181da;
+  position: relative;
+  padding-left: 40px;
+  transition: 0.5s;
 }
 
 .eventAddDiv .addDiv .addEventBtn::before {
-    content: '\e161';
-    font-family: 'Material Symbols Outlined';
-    position: absolute;
-    left: 0;
-    top: 0;
-    font-size: 30px;
-    transition: .5s;
-    padding-left: 10px;
-    padding-right: 10px;
+  content: "\e161";
+  font-family: "Material Symbols Outlined";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 30px;
+  transition: 0.5s;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .eventAddDiv .addDiv .addEventBtn:hover::before {
-    color: #fff;
+  color: #fff;
+}
+
+@media (max-width: 1000px) {
+  .eventAddDiv {
+    flex-wrap: wrap;
+  }
+  .eventAddDiv .addDiv {
+    width: 100%;
+  }
+  .eventAddDiv .addDiv .dateTimeFrequencyDiv {
+    flex-wrap: wrap;
+  }
 }

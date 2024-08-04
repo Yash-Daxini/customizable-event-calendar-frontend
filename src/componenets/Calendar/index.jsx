@@ -3,6 +3,7 @@ import { formatDate, getMonthName } from "../../util/dateUtil.js";
 import CalendarDay from "../CalendarDay/index.jsx";
 import styles from "./style.module.css";
 import { CalendarContext } from "../../hooks/context.jsx";
+import { Expand, Shrink } from 'lucide-react';
 
 const Calendar = ({ isFullSizeCalendar, setIsFullSizeCalendar }) => {
   const { events } = useContext(CalendarContext);
@@ -109,7 +110,11 @@ const Calendar = ({ isFullSizeCalendar, setIsFullSizeCalendar }) => {
         className={`${styles.calendarFooter}`}
         onClick={() => setIsFullSizeCalendar(!isFullSizeCalendar)}
       >
-        <ion-icon name="expand-outline"></ion-icon>
+        {isFullSizeCalendar ?
+          <Shrink />
+          :
+          <Expand />
+        }
       </div>
     </div>
   );

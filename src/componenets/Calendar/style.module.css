@@ -11,9 +11,9 @@ html,
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  overflow: auto;
   transition: 0.1s;
   position: relative;
+  overflow: hidden;
 }
 
 .width80Percent {
@@ -43,11 +43,14 @@ html,
   color: black !important;
 }
 
+.calendar .calendarHeader input[type="date"]:focus {
+  outline: none;
+}
+
 .calendar .calendarHeader input {
   border: none;
-  padding: 1%;
-  width: 4%;
-  font-size:1.5em;
+  width: 2vw;
+  font-size: 2vw;
 }
 
 .calendar .calendarHeader .todayBtn {
@@ -62,17 +65,13 @@ html,
 .calendar .calendarHeader .prev,
 .calendar .calendarHeader .next {
   cursor: pointer;
-  font-size: 1.5em;
-}
-
-.calendar .calendarHeader-name {
-  font-size: 2em;
 }
 
 .calendar .weekdays {
   display: flex;
   background-color: #ddd;
   padding: 1% 0;
+  font-size: 1vw;
 }
 
 .calendar .weekdays div {
@@ -92,34 +91,33 @@ html,
   font-size: 20px;
   position: absolute;
   right: 0%;
-  bottom: 0%;
+  top: 0%;
   cursor: pointer;
 }
 
-.showEventInfoDiv {
-  width: 25%;
-}
-
-.hideEventInfoDiv {
-  width: 0%;
-}
-
-@media (max-width: 600px) {
-  .calendar .calendarHeader {
-    flex-direction: column;
+@media (max-width: 1000px) {
+  .calendar {
+    width: 100%;
+    font-size: 2.5vw;
+    overflow-y: auto;
+  }
+  .calendar .weekdays {
+    display: none;
+  }
+  .calendar .days {
+    width: 100%;
+  }
+  .calendar .calendarHeader{
+    display: flex;
+    justify-content: center;
     align-items: center;
+    gap: 8%;
   }
-
-  .calendar .calendarHeader .prev,
-  .calendar .calendarHeader .next {
-    font-size: 1em;
+  .calendar .calendarHeader input {
+    width: 5vw;
+    font-size: 5vw;
   }
-
-  .calendar .calendarHeader-name {
-    font-size: 1.5em;
-  }
-
-  .calendar .day {
-    padding: 10px;
+  .calendar .calendarFooter {
+    display: none;
   }
 }

@@ -4,13 +4,13 @@
   align-items: center;
   flex-direction: column;
   flex-wrap: warp;
-  height: 43%;
+  height: 40%;
   width: 350px;
   background-color: #fff;
   border-radius: 10px;
   gap: 10px;
-  padding-top: 2%;
-  padding-bottom: 2%;
+  padding-top: 1%;
+  padding-bottom: 1%;
 }
 
 .draggableDiv .title {

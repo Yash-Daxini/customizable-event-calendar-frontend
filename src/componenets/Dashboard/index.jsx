@@ -138,13 +138,13 @@ const Dashboard = () => {
         key={4}
         title={"Organizers Events"}
         bodyOfDiv={organizedEventsJSX}
-        orderClass={"order-4"}
+        orderClass={"order-5"}
       />
       <DraggableDiv
         key={4}
         title={"Proposed Events"}
         bodyOfDiv={proposedEventsJSX}
-        orderClass={"order-4"}
+        orderClass={"order-6"}
       />
     </div>
   );

@@ -23,26 +23,25 @@
     margin-top: 10px;
     margin-bottom: 10px;
     width: 100%;
-    /*box-shadow: rgba(9i9, 99, 99, 0.2) 0px 2px 8px 0px;*/
 }
 
 .eventInfo .eventBar .title {
     margin-top: 10px;
     margin-bottom: 10px;
-    font-size: medium;
+    font-size: 1.1vw;
 }
 
 .eventInfo .eventBar .duration {
     margin-top: 10px;
     margin-bottom: 10px;
-    font-size:small;
+    font-size:0.9vw;
 }
 
 .eventInfo .eventBar::before {
     content: '';
     position: relative;
     display: inline-block;
-    width: 10px;
+    width: 8px;
     height: 100%;
     background-color: #1181da;
     top: 0%;

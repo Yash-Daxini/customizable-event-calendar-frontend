@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import styles from './style.module.css'
-import Select from 'react-select'
+import React, { useEffect, useState } from "react";
+import styles from "./style.module.css";
+import Select from "react-select";
 
 const YearlyRecurrencePatternInput = ({ date, event, updateEvent }) => {
   const [isMonthDayPattern, setIsMonthDayPattern] = useState(true);
-  const [isWeekOrderPattern, setIsWeekOrderPattern] = useState(false)
+  const [isWeekOrderPattern, setIsWeekOrderPattern] = useState(false);
 
   const intervals = [];
 
@@ -14,10 +14,10 @@ const YearlyRecurrencePatternInput = ({ date, event, updateEvent }) => {
 
   const [interval, setInterval] = useState(intervals[0].value);
 
-  const getWeekNumber = (date) => (0 | date.getDate() / 7) + 1;
+  const getWeekNumber = (date) => (0 | (date.getDate() / 7)) + 1;
 
   const getWeekOfMonth = (date) => {
-    const weekNumber = (0 | date.getDate() / 7) + 1;
+    const weekNumber = (0 | (date.getDate() / 7)) + 1;
     switch (weekNumber) {
       case 1:
         return "first";
@@ -33,29 +33,31 @@ const YearlyRecurrencePatternInput = ({ date, event, updateEvent }) => {
   };
 
   const getDayNumberFromDate = (date) => {
-    let day = date.getDay()
+    let day = date.getDay();
 
     if (day == 0) return 7;
     return day;
-  }
+  };
 
   useEffect(() => {
     updateEvent({
-      ...event, recurrencePattern: {
-        ...event.recurrencePattern, interval: interval,
+      ...event,
+      recurrencePattern: {
+        ...event.recurrencePattern,
+        interval: interval,
         byMonthDay: isMonthDayPattern ? date.getDate() : null,
         weekOrder: isWeekOrderPattern ? getWeekNumber(date) : null,
-        byWeekDay: isWeekOrderPattern ? [getDayNumberFromDate(date)] : []
-      }
-    })
-  }, [isMonthDayPattern, isWeekOrderPattern, interval])
+        byWeekDay: isWeekOrderPattern ? [getDayNumberFromDate(date)] : [],
+      },
+    });
+  }, [isMonthDayPattern, isWeekOrderPattern, interval]);
 
   return (
     <div>
       <div className={`${styles.patternSelectionDiv}`}>
         <Select
           defaultValue={intervals}
-          onChange={e => setInterval(e.value)}
+          onChange={(e) => setInterval(e.value)}
           options={intervals}
           className={`${styles.dropdown}`}
         />
@@ -63,20 +65,39 @@ const YearlyRecurrencePatternInput = ({ date, event, updateEvent }) => {
       </div>
 
       <div className={`${styles.patternSelectionDiv}`}>
-
-        <input className={`${styles.radioBtn}`} type='radio' name='patternType' value={``} checked onChange={(e) => {
-          setIsMonthDayPattern(true);
-          setIsWeekOrderPattern(false);
-        }} />
-        <label htmlFor="interval">On day {date.getDate()}</label>
-        <input className={`${styles.radioBtn}`} type='radio' name='patternType' value={``} onChange={(e) => {
-          setIsMonthDayPattern(false);
-          setIsWeekOrderPattern(true);
-        }} />
-        <label htmlFor="weekday">On the {getWeekOfMonth(date)} {date.toLocaleDateString('en-us', { weekday: "long" })}</label>
+        <div>
+          <input
+            className={`${styles.radioBtn}`}
+            type="radio"
+            name="patternType"
+            value={``}
+            checked
+            onChange={() => {
+              setIsMonthDayPattern(true);
+              setIsWeekOrderPattern(false);
+            }}
+          />
+          <label htmlFor="interval">On day {date.getDate()}</label>
+        </div>
+        <div>
+          <input
+            className={`${styles.radioBtn}`}
+            type="radio"
+            name="patternType"
+            value={``}
+            onChange={() => {
+              setIsMonthDayPattern(false);
+              setIsWeekOrderPattern(true);
+            }}
+          />
+          <label htmlFor="weekday">
+            On the {getWeekOfMonth(date)}{" "}
+            {date.toLocaleDateString("en-us", { weekday: "long" })}
+          </label>
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default YearlyRecurrencePatternInput
+export default YearlyRecurrencePatternInput;
