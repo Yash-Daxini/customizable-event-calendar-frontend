@@ -38,8 +38,9 @@
 }
 
 .timelineDiv .timelineBody {
-  height: 95%;
+  height: 90%;
   overflow-y: auto;
+  user-select: none;
 }
 
 .timelineDiv .timelineBody .hourDiv {
@@ -88,6 +89,7 @@
   position: relative;
   background-color: #48c471;
   color: #fff;
+  cursor: ns-resize;
 }
 
 .timelineDiv .timelineBody .hourDiv::before {

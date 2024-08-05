@@ -4,6 +4,7 @@ import { CalendarArrowUp } from "lucide-react";
 import { useAuth } from "../../hooks/AuthProvider";
 import { formatDate } from "../../util/dateUtil";
 import { isHourOverlaps } from "../../util/timeUtil";
+import { onMouseDown } from "../../util/hourSelectionUIUtil";
 
 const monthNames = [
   "",
@@ -79,18 +80,22 @@ const TimelineView = ({ date, currentDuration }) => {
       hour.value,
     );
 
-    const isSelectedDurationOverlap =
-      event && isSelectedHour
-
+    const isSelectedDurationOverlap = event && isSelectedHour;
 
     const classNameForFilled = isSelectedDurationOverlap
       ? styles.overlapFilled
       : styles.filled;
 
-    const currentHourDivClass = isSelectedHour ? styles.filledCurrent : '';
+    const currentHourDivClass = isSelectedHour ? styles.filledCurrent : "";
 
     return !event ? (
-      <div key={hour.value} className={`${styles.hourDiv}`}>
+      <div
+        key={hour.value}
+        className={`${styles.hourDiv}`}
+        onMouseEnter={(e) =>
+          onMouseDown(e, styles.filledCurrent, styles.colorDiv)
+        }
+      >
         <div className={`${styles.hourValue}`}>{hour.label}</div>
         <div className={`${styles.colorDiv} ${currentHourDivClass}`}></div>
       </div>
