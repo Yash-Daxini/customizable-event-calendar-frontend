@@ -89,7 +89,7 @@
   position: relative;
   background-color: #48c471;
   color: #fff;
-  cursor: ns-resize;
+  cursor: move;
 }
 
 .timelineDiv .timelineBody .hourDiv::before {
@@ -100,6 +100,18 @@
   top: 0;
   left: 0;
   background-color: #ccc;
+  cursor: ns-resize;
+}
+
+.timelineDiv .timelineBody .hourDiv::after {
+  content: "";
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  background-color: #ccc;
+  cursor: ns-resize;
 }
 
 @media (max-width: 1000px) {
