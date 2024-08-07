@@ -92,26 +92,18 @@
   cursor: move;
 }
 
-.timelineDiv .timelineBody .hourDiv::before {
-  content: "";
-  position: absolute;
-  height: 1px;
-  width: 100%;
-  top: 0;
-  left: 0;
-  background-color: #ccc;
+.handleTop {
   cursor: ns-resize;
+  width: 100%;
+  height: 3px;
+  background-color: transparent;
 }
 
-.timelineDiv .timelineBody .hourDiv::after {
-  content: "";
-  position: absolute;
-  height: 1px;
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  background-color: #ccc;
+.handleBottom {
   cursor: ns-resize;
+  width: 100%;
+  height: 3px;
+  background-color: transparent;
 }
 
 @media (max-width: 1000px) {
