@@ -2,27 +2,18 @@ import { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import { CalendarArrowUp } from "lucide-react";
 import { useAuth } from "../../hooks/AuthProvider";
-import { formatDate } from "../../util/dateUtil";
+import {
+  formatDate,
+  getMonthName,
+  getShorterDayName,
+} from "../../util/dateUtil";
 import { isHourOverlaps } from "../../util/timeUtil";
-
-const monthNames = [
-  "",
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+import { fetchApi } from "../../util/fetchApi";
 
 const TimelineView = ({ date, currentDuration }) => {
   const [eventList, setEventList] = useState([]);
+
+  if (!currentDuration) currentDuration = { startHour: 0, endHour: 1 };
 
   let [currentDate, setCurrentDate] = useState(date);
   useEffect(() => {
@@ -32,18 +23,10 @@ const TimelineView = ({ date, currentDuration }) => {
   const auth = useAuth();
 
   useEffect(() => {
-    fetch(
-      `https://localhost:7149/api/users/${auth.user.id}/events/eventsBetweenDates?startDate=${formatDate(currentDate)}&endDate=${formatDate(currentDate)}`,
-      {
-        headers: {
-          Authorization: `Bearer ${auth.user.token}`,
-        },
-      },
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setEventList(data);
-      })
+    let apiEndPoint = `/api/users/${auth.user.id}/events/eventsBetweenDates?startDate=${formatDate(currentDate)}&endDate=${formatDate(currentDate)}`;
+
+    fetchApi(apiEndPoint, auth.user.token)
+      .then((res) => setEventList(res.data))
       .catch((err) => console.warn(err));
   }, [currentDate, date]);
 
@@ -134,7 +117,9 @@ const TimelineView = ({ date, currentDuration }) => {
         </div>
         <div
           className={`${styles.monthName}`}
-        >{`${currentDate.toString().split(" ")[0]}, ${monthNames[currentDate.getMonth()]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`}</div>
+        >{`${getShorterDayName(currentDate)}, 
+           ${getMonthName(currentDate)} ${currentDate.getDate()}, 
+           ${currentDate.getFullYear()}`}</div>
       </div>
       <div className={`${styles.timelineBody}`}>{timelineDivContent}</div>
     </div>
