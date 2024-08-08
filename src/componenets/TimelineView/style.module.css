@@ -53,6 +53,15 @@
   font-size: 1vw;
 }
 
+.timelineDiv .timelineBody .hourDiv::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+}
 .timelineDiv .timelineBody .hourDiv .hourValue {
   position: relative;
   width: 25%;
@@ -89,21 +98,6 @@
   position: relative;
   background-color: #48c471;
   color: #fff;
-  cursor: move;
-}
-
-.handleTop {
-  cursor: ns-resize;
-  width: 100%;
-  height: 3px;
-  background-color: transparent;
-}
-
-.handleBottom {
-  cursor: ns-resize;
-  width: 100%;
-  height: 3px;
-  background-color: transparent;
 }
 
 @media (max-width: 1000px) {

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import { CalendarArrowUp } from "lucide-react";
 import { useAuth } from "../../hooks/AuthProvider";
@@ -25,57 +25,6 @@ const TimelineView = ({ date, currentDuration }) => {
   const [eventList, setEventList] = useState([]);
 
   let [currentDate, setCurrentDate] = useState(date);
-  const [height, setHeight] = useState(150);
-  const [top, setTop] = useState(0);
-  const [isResizingTop, setIsResizingTop] = useState(false);
-  const [isResizingBottom, setIsResizingBottom] = useState(false);
-  const ref = useRef();
-
-  const startResizeTop = (e) => {
-    setIsResizingTop(true);
-    e.target.addEventListener("mousemove", resize);
-    e.target.addEventListener("mouseup", stopResize);
-    e.preventDefault();
-  };
-
-  const startResizeBottom = (e) => {
-    setIsResizingBottom(true);
-    e.target.addEventListener("mousemove", resize);
-    e.target.addEventListener("mouseup", stopResize);
-    e.preventDefault();
-  };
-
-  let styleObj = { height: height, backgroundColor: "red" };
-
-  const resize = (e) => {
-    console.warn("Called", isResizingTop);
-    if (isResizingTop) {
-      const newHeight = height + (top - e.clientY);
-      const newTop = e.clientY;
-      if (newHeight > 50) {
-        // Minimum height condition
-        setHeight(newHeight);
-        setTop(newTop);
-      }
-      ref.current.style.height = "500px";
-      ref.current.style.backgroundColor = "red";
-      ref.current.value = "abc";
-    }
-
-    if (isResizingBottom) {
-      const newHeight = e.clientY - top;
-      if (newHeight > 50) {
-        // Minimum height condition
-        setHeight(newHeight);
-      }
-    }
-  };
-
-  const stopResize = () => {
-    setIsResizingTop(false);
-    setIsResizingBottom(false);
-  };
-
   useEffect(() => {
     setCurrentDate(date);
   }, [date]);
@@ -138,24 +87,15 @@ const TimelineView = ({ date, currentDuration }) => {
     const currentHourDivClass = isSelectedHour ? styles.filledCurrent : "";
 
     return !event ? (
-      <>
-        <div className={styles.handleTop} onMouseDown={startResizeTop}></div>
-        <div ref={ref} key={hour.value} className={`${styles.hourDiv}`}>
-          <div className={`${styles.hourValue}`}>{hour.label}</div>
-          <div className={`${styles.colorDiv} ${currentHourDivClass}`}></div>
-        </div>
-        <div
-          className={styles.handleBottom}
-          onMouseDown={startResizeBottom}
-        ></div>
-      </>
+      <div key={hour.value} className={`${styles.hourDiv}`}>
+        <div className={`${styles.hourValue}`}>{hour.label}</div>
+        <div className={`${styles.colorDiv} ${currentHourDivClass}`}></div>
+      </div>
     ) : (
-      <>
-        <div key={hour.value} className={`${styles.hourDiv}`}>
-          <div className={`${styles.hourValue}`}>{hour.label}</div>
-          <div className={`${styles.colorDiv} ${classNameForFilled}`}></div>
-        </div>
-      </>
+      <div key={hour.value} className={`${styles.hourDiv}`}>
+        <div className={`${styles.hourValue}`}>{hour.label}</div>
+        <div className={`${styles.colorDiv} ${classNameForFilled}`}></div>
+      </div>
     );
   });
 
