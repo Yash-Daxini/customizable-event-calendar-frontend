@@ -90,8 +90,8 @@ html,
 .calendar .calendarFooter {
   font-size: 20px;
   position: absolute;
-  right: 0%;
-  top: 0%;
+  right: 1%;
+  top: 2%;
   cursor: pointer;
 }
 
