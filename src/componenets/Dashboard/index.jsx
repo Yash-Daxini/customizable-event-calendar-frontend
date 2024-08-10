@@ -41,8 +41,8 @@ const Dashboard = () => {
   let dailyEventsJSX = dailyEvents.map((event, index) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
-        <div>{event.title}</div>
-        <div>
+        <div className={styles.eventNameDiv}>{event.title}</div>
+        <div className={styles.durationDiv}>
           {convertTo12HourFormat(event.duration.startHour)}-
           {convertTo12HourFormat(event.duration.endHour)}
         </div>
@@ -53,8 +53,8 @@ const Dashboard = () => {
   let weeklyEventsJSX = weeklyEvents.map((event, index) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
-        <div>{event.title}</div>
-        <div>
+        <div className={styles.eventNameDiv}>{event.title}</div>
+        <div className={styles.durationDiv}>
           {convertTo12HourFormat(event.duration.startHour)}-
           {convertTo12HourFormat(event.duration.endHour)}
         </div>
@@ -65,8 +65,8 @@ const Dashboard = () => {
   let monthlyEventsJSX = monthyEvents.map((event, index) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
-        <div>{event.title}</div>
-        <div>
+        <div className={styles.eventNameDiv}>{event.title}</div>
+        <div className={styles.durationDiv}>
           {convertTo12HourFormat(event.duration.startHour)}-
           {convertTo12HourFormat(event.duration.endHour)}
         </div>
@@ -87,8 +87,8 @@ const Dashboard = () => {
   let organizedEventsJSX = organizedEvents.map((event, index) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
-        <div>{event.title}</div>
-        <div>
+        <div className={styles.eventNameDiv}>{event.title}</div>
+        <div className={styles.durationDiv}>
           {convertTo12HourFormat(event.duration.startHour)}-
           {convertTo12HourFormat(event.duration.endHour)}
         </div>
@@ -99,8 +99,8 @@ const Dashboard = () => {
   let proposedEventsJSX = proposedEvents.map((event, index) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
-        <div>{event.title}</div>
-        <div>
+        <div className={styles.eventNameDiv}>{event.title}</div>
+        <div className={styles.durationDiv}>
           {convertTo12HourFormat(event.duration.startHour)}-
           {convertTo12HourFormat(event.duration.endHour)}
         </div>

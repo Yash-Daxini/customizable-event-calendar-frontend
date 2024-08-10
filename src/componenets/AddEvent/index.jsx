@@ -42,7 +42,7 @@ const AddEvent = () => {
         description: "",
         duration: {
           startHour: 0,
-          endHour: 1,
+          endHour: 0,
         },
         recurrencePattern: {
           frequency: "None",

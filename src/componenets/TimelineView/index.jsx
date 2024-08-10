@@ -77,7 +77,9 @@ const TimelineView = ({ date, currentDuration }) => {
     ) : (
       <div key={hour.value} className={`${styles.hourDiv}`}>
         <div className={`${styles.hourValue}`}>{hour.label}</div>
-        <div className={`${styles.colorDiv} ${classNameForFilled}`}></div>
+        <div className={`${styles.colorDiv} ${classNameForFilled}`}>
+          {event.title}
+        </div>
       </div>
     );
   });
