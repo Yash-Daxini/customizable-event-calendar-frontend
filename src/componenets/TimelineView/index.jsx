@@ -68,17 +68,7 @@ const TimelineView = ({ date, currentDuration }) => {
       ? styles.overlapFilled
       : styles.filled;
 
-    const currentHourDivClass = isSelectedHour ? styles.filledCurrent : "";
-
-    if (isSelectedHour)
-      return (
-        <div key={hour.value} className={`${styles.hourDiv}`}>
-          <div className={`${styles.hourValue}`}>{hour.label}</div>
-          <div
-            className={`${styles.colorDiv} ${currentHourDivClass}`}
-          ></div>
-        </div>
-      );
+    const currentHourDivClass = isSelectedHour ? styles.filledCurrent : ""; 
 
     return !event ? (
       <div key={hour.value} className={`${styles.hourDiv}`}>

@@ -100,14 +100,8 @@
 }
 
 .timelineDiv .timelineBody .hourDiv .filledCurrent {
-  position: absolute;
-  top: 0;
-  left: 20%;
-  width: 80%;
   background-color: #48c471;
   color: #fff;
-  cursor: ns-resize;
-  z-index: 1000;
 }
 
 @media (max-width: 1000px) {
