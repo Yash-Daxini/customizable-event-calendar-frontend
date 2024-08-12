@@ -6,6 +6,7 @@ import { fetchApi } from "../../util/fetchApi.js";
 import { formatDate } from "../../util/dateUtil.js";
 import Calendar from "../Calendar/index.jsx";
 import { CalendarContext } from "../../hooks/context.jsx";
+import { ToastContainer } from 'react-toastify';
 
 const CalendarView = () => {
   const [eventList, setEventList] = useState([]);
@@ -36,6 +37,7 @@ const CalendarView = () => {
 
   return (
     <div className={`${styles.calendarViewDiv}`}>
+      <ToastContainer />
       <CalendarContext.Provider value={valueOfContext}>
         <Calendar
           currentDate={currentDate}

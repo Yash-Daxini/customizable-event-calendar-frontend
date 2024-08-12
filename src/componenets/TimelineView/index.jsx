@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./style.module.css";
 import { CalendarArrowUp } from "lucide-react";
 import { useAuth } from "../../hooks/AuthProvider";
@@ -11,6 +11,7 @@ import { isHourOverlaps } from "../../util/timeUtil";
 import { fetchApi } from "../../util/fetchApi";
 
 const TimelineView = ({ date, currentDuration }) => {
+
   const [eventList, setEventList] = useState([]);
 
   if (!currentDuration) currentDuration = { startHour: 0, endHour: 1 };
@@ -69,6 +70,16 @@ const TimelineView = ({ date, currentDuration }) => {
 
     const currentHourDivClass = isSelectedHour ? styles.filledCurrent : "";
 
+    if (isSelectedHour)
+      return (
+        <div key={hour.value} className={`${styles.hourDiv}`}>
+          <div className={`${styles.hourValue}`}>{hour.label}</div>
+          <div
+            className={`${styles.colorDiv} ${currentHourDivClass}`}
+          ></div>
+        </div>
+      );
+
     return !event ? (
       <div key={hour.value} className={`${styles.hourDiv}`}>
         <div className={`${styles.hourValue}`}>{hour.label}</div>
@@ -85,7 +96,9 @@ const TimelineView = ({ date, currentDuration }) => {
   });
 
   return (
-    <div className={`${styles.timelineDiv}`}>
+    <div
+      className={`${styles.timelineDiv}`}
+    >
       <div className={`${styles.header}`}>
         <div className={`${styles.control}`}>
           <div

@@ -81,7 +81,9 @@ const AddEvent = () => {
         if (res.status === 400) showErrorToaster("Invalid Input !");
         else if (res.status === 201) {
           navigate("/getEvents");
-          showSuccessToaster("Event added successfully !");
+          setTimeout(() => {
+            showSuccessToaster("Event added successfully !");
+          }, 50);
         }
       })
       .catch(showErrorToaster("Some error occurred !"));
