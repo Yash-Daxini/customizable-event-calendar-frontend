@@ -13,8 +13,6 @@ import { fetchApi } from "../../util/fetchApi";
 const TimelineView = ({ date, currentDuration }) => {
   const [eventList, setEventList] = useState([]);
 
-  if (!currentDuration) currentDuration = { startHour: 0, endHour: 1 };
-
   let [currentDate, setCurrentDate] = useState(date);
   useEffect(() => {
     setCurrentDate(date);
@@ -49,32 +47,47 @@ const TimelineView = ({ date, currentDuration }) => {
   let skipDuration;
 
   let timelineDivContent = hours.map((hour) => {
-
-    if (!(skipDuration && isHourOverlaps(skipDuration.startHour, skipDuration.endHour, hour.value))) {
-      const event = eventList.find((event) =>
-        isHourOverlaps(
-          event.duration.startHour,
-          event.duration.endHour,
-          hour.value,
-        ),
-      );
-
-      const isSelectedHour = isHourOverlaps(
-        currentDuration.startHour,
-        currentDuration.endHour,
+    const event = eventList.find((event) =>
+      isHourOverlaps(
+        event.duration.startHour,
+        event.duration.endHour,
         hour.value,
+      ),
+    );
+
+    const isSelectedHour = isHourOverlaps(
+      currentDuration.startHour,
+      currentDuration.endHour,
+      hour.value,
+    );
+
+    const isSelectedDurationOverlap = event && isSelectedHour;
+
+    const classNameForFilled = isSelectedDurationOverlap
+      ? styles.overlapFilled
+      : styles.filled;
+
+    if (isSelectedDurationOverlap) {
+      return (
+        <div key={hour.value} className={`${styles.hourDiv}`}>
+          <div className={`${styles.hourValue}`}>{hour.label}</div>
+          <div className={`${styles.colorDiv} ${styles.overlapFilled}`}></div>
+        </div>
       );
-
-      const isSelectedDurationOverlap = event && isSelectedHour;
-
-      const classNameForFilled = isSelectedDurationOverlap
-        ? styles.overlapFilled
-        : styles.filled;
-
+    }
+    if (
+      !(
+        skipDuration &&
+        isHourOverlaps(skipDuration.startHour, skipDuration.endHour, hour.value)
+      )
+    ) {
       const currentHourDivClass = isSelectedHour ? styles.filledCurrent : "";
       let heightOfDiv = 50;
+
       if (event) {
-        heightOfDiv = (event.duration.endHour - event.duration.startHour) * 50;
+        let startHour = Math.max(hour.value, event.duration.startHour);
+        let endHour = event.duration.endHour;
+        heightOfDiv = (endHour - startHour) * heightOfDiv;
         skipDuration = event.duration;
       }
 
@@ -94,14 +107,13 @@ const TimelineView = ({ date, currentDuration }) => {
           </div>
         </div>
       );
-    }
-    else return (
-      <div key={hour.value} className={`${styles.hourDiv}`}>
-        <div className={`${styles.hourValue}`}>{hour.label}</div>
-        <div className={`${styles.colorDiv}`}></div>
-      </div>
-
-    )
+    } else
+      return (
+        <div key={hour.value} className={`${styles.hourDiv}`}>
+          <div className={`${styles.hourValue}`}>{hour.label}</div>
+          <div className={`${styles.colorDiv}`}></div>
+        </div>
+      );
   });
 
   return (
