@@ -4,6 +4,8 @@ import { useAuth } from "../../hooks/AuthProvider";
 import { useEffect, useState } from "react";
 import { fetchApi } from "../../util/fetchApi";
 import { convertTo12HourFormat } from "../../util/timeUtil";
+import { ToastContainer } from "react-toastify";
+import { showErrorToaster } from '../../util/toaster';
 
 const Dashboard = () => {
   const [dailyEvents, setDailyEvents] = useState([]);
@@ -15,27 +17,30 @@ const Dashboard = () => {
 
   const auth = useAuth();
 
+  const handleServerError = () => showErrorToaster("Can't connect to server!");
+
   useEffect(() => {
-    fetchApi(`/api/users/${auth.user.id}/events/daily`, auth.user.token).then(
-      (res) => setDailyEvents(res.data),
-    );
-    fetchApi(`/api/users/${auth.user.id}/events/weekly`, auth.user.token).then(
-      (res) => setWeeklyEvents(res.data),
-    );
-    fetchApi(`/api/users/${auth.user.id}/events/monthly`, auth.user.token).then(
-      (res) => setMonthlyEvents(res.data),
-    );
-    fetchApi(`/api/sharedCalendars`, auth.user.token).then((res) =>
-      setSharedCalendars(res.data),
-    );
+    fetchApi(`/api/users/${auth.user.id}/events/daily`, auth.user.token)
+      .then((res) => setDailyEvents(res.data))
+      .catch(handleServerError);
+    fetchApi(`/api/users/${auth.user.id}/events/weekly`, auth.user.token)
+      .then((res) => setWeeklyEvents(res.data))
+      .catch(handleServerError);
+    fetchApi(`/api/users/${auth.user.id}/events/monthly`, auth.user.token)
+      .then((res) => setMonthlyEvents(res.data))
+      .catch(handleServerError);
+    fetchApi(`/api/sharedCalendars`, auth.user.token)
+      .then((res) => setSharedCalendars(res.data))
+      .catch(handleServerError);
     fetchApi(
       `/api/users/${auth.user.id}/events/organizer-events`,
       auth.user.token,
-    ).then((res) => setOrganizedEvents(res.data));
-    fetchApi(
-      `/api/users/${auth.user.id}/events/proposed`,
-      auth.user.token,
-    ).then((res) => setProposedEvents(res.data));
+    )
+      .then((res) => setOrganizedEvents(res.data))
+      .catch(handleServerError);
+    fetchApi(`/api/users/${auth.user.id}/events/proposed`, auth.user.token)
+      .then((res) => setProposedEvents(res.data))
+      .catch(handleServerError);
   }, []);
 
   let dailyEventsJSX = dailyEvents.map((event, index) => {
@@ -109,44 +114,47 @@ const Dashboard = () => {
   });
 
   return (
-    <div className={`${styles.dashboardDiv} container`}>
-      <DraggableDiv
-        key={1}
-        title={`Daily Events`}
-        bodyOfDiv={dailyEventsJSX}
-        orderClass={"order-1"}
-      />
-      <DraggableDiv
-        key={2}
-        title={"Weekly Events"}
-        bodyOfDiv={weeklyEventsJSX}
-        orderClass={"order-2"}
-      />
-      <DraggableDiv
-        key={3}
-        title={"Monthly Events"}
-        bodyOfDiv={monthlyEventsJSX}
-        orderClass={"order-3"}
-      />
-      <DraggableDiv
-        key={4}
-        title={"Shared Calendars"}
-        bodyOfDiv={sharedCalendarJSX}
-        orderClass={"order-4"}
-      />
-      <DraggableDiv
-        key={4}
-        title={"Organizers Events"}
-        bodyOfDiv={organizedEventsJSX}
-        orderClass={"order-5"}
-      />
-      <DraggableDiv
-        key={4}
-        title={"Proposed Events"}
-        bodyOfDiv={proposedEventsJSX}
-        orderClass={"order-6"}
-      />
-    </div>
+    <>
+      <ToastContainer />
+      <div className={`${styles.dashboardDiv} container`}>
+        <DraggableDiv
+          key={1}
+          title={`Daily Events`}
+          bodyOfDiv={dailyEventsJSX}
+          orderClass={"order-1"}
+        />
+        <DraggableDiv
+          key={2}
+          title={"Weekly Events"}
+          bodyOfDiv={weeklyEventsJSX}
+          orderClass={"order-2"}
+        />
+        <DraggableDiv
+          key={3}
+          title={"Monthly Events"}
+          bodyOfDiv={monthlyEventsJSX}
+          orderClass={"order-3"}
+        />
+        <DraggableDiv
+          key={4}
+          title={"Shared Calendars"}
+          bodyOfDiv={sharedCalendarJSX}
+          orderClass={"order-4"}
+        />
+        <DraggableDiv
+          key={5}
+          title={"Organizers Events"}
+          bodyOfDiv={organizedEventsJSX}
+          orderClass={"order-5"}
+        />
+        <DraggableDiv
+          key={6}
+          title={"Proposed Events"}
+          bodyOfDiv={proposedEventsJSX}
+          orderClass={"order-6"}
+        />
+      </div>
+    </>
   );
 };
 

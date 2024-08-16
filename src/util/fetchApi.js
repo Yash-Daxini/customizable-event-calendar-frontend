@@ -1,7 +1,11 @@
 const env = import.meta.env;
 
-export const fetchApi = async (endPoint, token, method = 'GET', body = null) => {
-
+export const fetchApi = async (
+  endPoint,
+  token,
+  method = "GET",
+  body = null,
+) => {
   const options = getFetchOptions(method, body, token);
 
   // eslint-disable-next-line no-useless-catch
@@ -10,31 +14,27 @@ export const fetchApi = async (endPoint, token, method = 'GET', body = null) => 
 
     let data;
 
-    if (method !== 'DELETE')
-      data = await response.json();
+    if (method !== "DELETE") data = await response.json();
 
     return {
       status: response.status,
-      data: data
-    }
-  }
-  catch (error) {
+      data: data,
+    };
+  } catch (error) {
     throw error;
   }
-}
+};
 
 const getFetchOptions = (method, body, token) => {
-
   const options = {
     method,
     headers: {
       "Content-Type": "application/json",
-      'Authorization': `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
-  }
+  };
 
-  if (body)
-    options.body = JSON.stringify(body);
+  if (body) options.body = JSON.stringify(body);
 
   return options;
-}
+};
