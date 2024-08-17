@@ -14,6 +14,8 @@ export const fetchApi = async (
 
     let data;
 
+    if (response.status === 500) throw new Error("Server Error");
+
     if (method !== "DELETE") data = await response.json();
 
     return {

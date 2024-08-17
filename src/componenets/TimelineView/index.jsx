@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import { CalendarArrowUp } from "lucide-react";
 import { useAuth } from "../../hooks/AuthProvider";

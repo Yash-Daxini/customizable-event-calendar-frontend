@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { fetchApi } from "../../util/fetchApi";
 import { convertTo12HourFormat } from "../../util/timeUtil";
 import { ToastContainer } from "react-toastify";
-import { showErrorToaster } from '../../util/toaster';
+import { showErrorToaster } from "../../util/toaster";
 
 const Dashboard = () => {
   const [dailyEvents, setDailyEvents] = useState([]);
@@ -22,25 +22,25 @@ const Dashboard = () => {
   useEffect(() => {
     fetchApi(`/api/users/${auth.user.id}/events/daily`, auth.user.token)
       .then((res) => setDailyEvents(res.data))
-      .catch(handleServerError);
+      .catch(() => handleServerError());
     fetchApi(`/api/users/${auth.user.id}/events/weekly`, auth.user.token)
       .then((res) => setWeeklyEvents(res.data))
-      .catch(handleServerError);
+      .catch(() => handleServerError());
     fetchApi(`/api/users/${auth.user.id}/events/monthly`, auth.user.token)
       .then((res) => setMonthlyEvents(res.data))
-      .catch(handleServerError);
+      .catch(() => handleServerError());
     fetchApi(`/api/sharedCalendars`, auth.user.token)
       .then((res) => setSharedCalendars(res.data))
-      .catch(handleServerError);
+      .catch(() => handleServerError());
     fetchApi(
       `/api/users/${auth.user.id}/events/organizer-events`,
       auth.user.token,
     )
       .then((res) => setOrganizedEvents(res.data))
-      .catch(handleServerError);
+      .catch(() => handleServerError());
     fetchApi(`/api/users/${auth.user.id}/events/proposed`, auth.user.token)
       .then((res) => setProposedEvents(res.data))
-      .catch(handleServerError);
+      .catch(() => handleServerError());
   }, []);
 
   let dailyEventsJSX = dailyEvents.map((event, index) => {
