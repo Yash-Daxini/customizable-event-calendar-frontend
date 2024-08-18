@@ -13,7 +13,22 @@
   padding-bottom: 1%;
 }
 
-.draggableDiv .title {
+.draggableDiv .header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.draggableDiv .header .headerIcon {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  cursor: pointer;
+}
+
+.draggableDiv .header .title {
   color: #1181da;
 }
 
