@@ -51,7 +51,7 @@
   align-items: center;
   position: relative;
   height: 50px;
-  width: 100%;
+  width: 98%;
   font-size: 1vw;
 }
 
@@ -108,7 +108,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: red;
+  background-color: #eb5f63;
   color: #fff;
   position: absolute;
   left: 25%;
@@ -116,6 +116,16 @@
   top: 0;
   font-size: 1.5vw;
   z-index: 6;
+  border-bottom: 1px solid #fff;
+}
+
+.timelineDiv .timelineBody .hourDiv .overlapFilled:hover {
+  opacity: 0.3;
+  background-color: #884244;
+}
+
+.timelineDiv .timelineBody .hourDiv .overlapFilled:hover span {
+  visibility: hidden;
 }
 
 .timelineDiv .timelineBody .hourDiv .filledCurrent {

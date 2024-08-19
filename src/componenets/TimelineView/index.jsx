@@ -7,7 +7,7 @@ import {
   getMonthName,
   getShorterDayName,
 } from "../../util/dateUtil";
-import { isHourOverlaps } from "../../util/timeUtil";
+import { isHourOverlaps, convertTo12HourFormat } from "../../util/timeUtil";
 import { fetchApi } from "../../util/fetchApi";
 
 const TimelineView = ({ date, currentDuration }) => {
@@ -63,18 +63,6 @@ const TimelineView = ({ date, currentDuration }) => {
 
     const isSelectedDurationOverlap = event && isSelectedHour;
 
-    const classNameForFilled = isSelectedDurationOverlap
-      ? styles.overlapFilled
-      : styles.filled;
-
-    if (isSelectedDurationOverlap) {
-      return (
-        <div key={hour.value} className={`${styles.hourDiv}`}>
-          <div className={`${styles.hourValue}`}>{hour.label}</div>
-          <div className={`${styles.colorDiv} ${styles.overlapFilled}`}></div>
-        </div>
-      );
-    }
     if (
       !(
         skipDuration &&
@@ -83,12 +71,16 @@ const TimelineView = ({ date, currentDuration }) => {
     ) {
       const currentHourDivClass = isSelectedHour ? styles.filledCurrent : "";
       let heightOfDiv = 50;
-
+      let overlapDivHeight = 0;
+      let currentStartHour = convertTo12HourFormat(currentDuration.startHour);
+      let currentEndHour = convertTo12HourFormat(currentDuration.endHour);
       if (event) {
-        let startHour = Math.max(hour.value, event.duration.startHour);
+        let startHour = Math.max(event.duration.startHour);
         let endHour = event.duration.endHour;
         heightOfDiv = (endHour - startHour) * heightOfDiv;
         skipDuration = event.duration;
+        overlapDivHeight =
+          (event.duration.endHour - event.duration.startHour) * 50;
       }
 
       return !event ? (
@@ -101,10 +93,20 @@ const TimelineView = ({ date, currentDuration }) => {
           <div className={`${styles.hourValue}`}>{hour.label}</div>
           <div
             style={{ height: `${heightOfDiv}px` }}
-            className={`${styles.colorDiv} ${classNameForFilled}`}
+            className={`${styles.colorDiv} ${styles.filled}`}
           >
             {event.title}
           </div>
+          {isSelectedDurationOverlap ? (
+            <div
+              style={{ height: `${overlapDivHeight}px` }}
+              className={`${styles.colorDiv} ${styles.overlapFilled}`}
+            >
+              <span>{currentStartHour} to {currentEndHour}</span>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       );
     } else
