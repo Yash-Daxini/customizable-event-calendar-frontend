@@ -16,6 +16,8 @@ export const fetchApi = async (
 
     if (response.status === 500) throw new Error("Server Error");
 
+    if (response.status === 400) return { status: 400, data: null };
+
     if (method !== "DELETE") data = await response.json();
 
     return {
@@ -28,13 +30,22 @@ export const fetchApi = async (
 };
 
 const getFetchOptions = (method, body, token) => {
-  const options = {
-    method,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  };
+  let options;
+  if (token)
+    options = {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  else
+    options = {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
   if (body) options.body = JSON.stringify(body);
 

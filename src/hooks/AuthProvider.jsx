@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { showSuccessToaster, showErrorToaster } from "../util/toaster";
+import { fetchApi } from "../util/fetchApi";
 const env = import.meta.env;
 
 const AuthContext = createContext();
@@ -12,27 +13,18 @@ const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const loginAction = async (data) => {
-    console.warn(env.VITE_Login_API);
-    await fetch(`http://localhost:5000${env.VITE_Login_API}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
+    await fetchApi(`${env.VITE_Login_API}`, null, "POST", data)
       .then((res) => {
         if (res.status === 400) {
           showErrorToaster("Invalid user name or password !");
-        } else return res.json();
+        } else {
+          setUser(res.data);
+          localStorage.setItem("user", JSON.stringify(res.data));
+          showSuccessToaster("Login successful !");
+          navigate("/");
+        }
       })
-      .then((data) => {
-        if (!data) return;
-        setUser(data);
-        localStorage.setItem("user", JSON.stringify(data));
-        showSuccessToaster("Login successful !");
-        navigate("/");
-      })
-      .catch((err) => showErrorToaster(`Some error occurred ${err} `));
+      .catch(() => showErrorToaster(`Some error occurred !`));
   };
 
   const logOut = () => {
