@@ -1,38 +1,56 @@
 #signupDiv {
-    width: 500px;
-    height: 500px;
-    margin: 10% auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: #fff;
-    padding: 50px;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  width: 35vw;
+  height: 75vh;
+  margin: 5% auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 50px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 #signupDiv form {
-    width: 100%;
+  width: 100%;
 }
 
 #signupDiv .title {
-    font-size: 25px;
-    margin: 30px;
+  font-size: 25px;
+  margin: 30px;
 }
 
 #signupDiv .loginLinkDiv {
-    margin: 20px;
-    font-size: 15px;
+  margin: 20px;
+  font-size: 15px;
 }
 
 #signupDiv .loginLinkDiv span {
-    letter-spacing: 0.5px;
+  letter-spacing: 0.5px;
 }
 
 #signupDiv .loginLinkDiv .loginLink {
-    color: #28a745;
-    font-weight: 600;
-    cursor: pointer;
-    user-select: none;
-    text-decoration: none;
+  color: #28a745;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+}
+
+@media (max-width: 1050px) {
+  #singupDiv {
+    width: 80vw;
+    height: 80vh;
+    padding: 20px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 750px) {
+  #signupDiv {
+    width: 100vw;
+    height: 100vh;
+    font-size: 12px;
+    margin: 0;
+  }
 }
