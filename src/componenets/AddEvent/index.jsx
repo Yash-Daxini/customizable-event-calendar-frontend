@@ -3,7 +3,7 @@ import styles from "./style.module.css";
 import DateTimeInput from "../DateTimeInput";
 import FrequencyDropdown from "../FrequencyDropdown";
 import { useAuth } from "../../hooks/AuthProvider";
-import { Captions, MapPin, NotebookTabs, Clock3 } from "lucide-react";
+import { Captions, MapPin, NotebookTabs, Clock3, UserPlus } from "lucide-react";
 import { ToastContainer } from "react-toastify";
 import TimelineView from "../TimelineView";
 import RecurrencePatternInput from "../RecurrencePatternInput";
@@ -128,6 +128,15 @@ const AddEvent = () => {
             onChange={(e) =>
               setEventObj({ ...eventObj, description: e.target.value })
             }
+          />
+        </div>
+
+        <div className={`${styles.inputDiv}`}>
+          <UserPlus />
+          <input
+            className={`${styles.stringInput}`}
+            type="text"
+            placeholder="Add a invitees"
           />
         </div>
 
