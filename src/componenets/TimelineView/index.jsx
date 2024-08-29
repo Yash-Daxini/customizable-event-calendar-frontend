@@ -13,6 +13,7 @@ import {
   isDurationOverlaps,
 } from "../../util/timeUtil";
 import { fetchApi } from "../../util/fetchApi";
+import TimeLineHourDiv from "../TimeLineHourDiv";
 
 const TimelineView = ({ date, currentDuration }) => {
   const [eventList, setEventList] = useState([]);
@@ -119,21 +120,22 @@ const TimelineView = ({ date, currentDuration }) => {
       };
     else styleOfFilledDiv = { height: `${heightOfDiv}px` };
 
-    if (isSelectedDurationOverlap) //Overlap occur
+    if (isSelectedDurationOverlap)
+      //Overlap occur
       return (
         <div key={hour.value} className={`${styles.hourDiv}`}>
           <div className={`${styles.hourValue}`}>{hour.label}</div>
           <div className={`${styles.colorDiv} ${currentHourDivClass}`}></div>
-          {event ?
+          {event ? (
             <div
               style={styleOfFilledDiv}
               className={`${styles.colorDiv} ${styles.filled}`}
             >
               {event.title}
             </div>
-            :
+          ) : (
             <></>
-          }
+          )}
           <div
             style={{ height: `${overlapDivHeight}px` }}
             className={`${styles.colorDiv} ${styles.overlapFilled}`}
@@ -146,26 +148,29 @@ const TimelineView = ({ date, currentDuration }) => {
         </div>
       );
 
-    if (!event) //Event & Overlap not occur
+    if (!event)
+      //Event & Overlap not occur
       return (
-        <div key={hour.value} className={`${styles.hourDiv}`}>
-          <div className={`${styles.hourValue}`}>{hour.label}</div>
-          <div className={`${styles.colorDiv} ${currentHourDivClass}`}></div>
-        </div>
-      )
+        <TimeLineHourDiv
+          key={hour.value}
+          hourValue={hour.value}
+          hourLabel={hour.label}
+          isFilledCurrent={isEventAtHour}
+        />
+      );
 
-    return ( //Event occur
-      <div key={hour.value} className={`${styles.hourDiv}`}>
-        <div className={`${styles.hourValue}`}>{hour.label}</div>
-        <div
-          style={styleOfFilledDiv} className={`${styles.colorDiv} ${styles.filled}`}
-        >
-          {event.title}
-        </div>
-      </div>
+    return (
+      //Event occur
+      <TimeLineHourDiv
+        key={hour.value}
+        hourValue={hour.value}
+        hourLabel={hour.label}
+        isFilled={true}
+        heightOfDiv={heightOfDiv}
+        divContent={event.title}
+      />
     );
-  }
-  );
+  });
 
   return (
     <div className={`${styles.timelineDiv}`}>

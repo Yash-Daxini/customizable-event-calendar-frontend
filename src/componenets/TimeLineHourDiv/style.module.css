@@ -1,0 +1,98 @@
+.hourDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  height: 50px;
+  width: 98%;
+  font-size: 1vw;
+}
+
+.hourDiv::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.hourDiv .hourValue {
+  position: relative;
+  width: 25%;
+  height: 100%;
+  padding: 2px;
+}
+
+.hourDiv .colorDiv {
+  width: 75%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hourDiv .hourValue::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 1px;
+  background-color: #ccc;
+  transform: rotate(180);
+}
+
+.hourDiv .filled {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #aaaaaa;
+  color: #fff;
+  position: absolute;
+  left: 25%;
+  width: 75%;
+  top: 0;
+  font-size: 1.5vw;
+  z-index: 5;
+  border-bottom: 1px solid #fff;
+}
+
+.hourDiv .overlapFilled {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eb5f63;
+  color: #fff;
+  position: absolute;
+  left: 25%;
+  width: 75%;
+  top: 0;
+  font-size: 1.5vw;
+  z-index: 6;
+  border-bottom: 1px solid #fff;
+}
+
+.hourDiv .overlapFilled:hover {
+  opacity: 0.3;
+  background-color: #884244;
+}
+
+.hourDiv .overlapFilled:hover span {
+  visibility: hidden;
+}
+
+.hourDiv .filledCurrent {
+  background-color: #48c471;
+  color: #fff;
+  position: absolute;
+  left: 25%;
+  width: 75%;
+}
+
+@media (max-width: 1000px) {
+  .hourDiv {
+    font-size: 3vw;
+  }
+}
