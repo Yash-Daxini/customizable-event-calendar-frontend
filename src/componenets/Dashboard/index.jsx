@@ -17,31 +17,51 @@ const Dashboard = () => {
 
   const auth = useAuth();
 
+  const handleTokenExpiration = () => auth.logOut();
+
   const handleServerError = () => showErrorToaster("Can't connect to server!");
 
   useEffect(() => {
     fetchApi(`/api/users/${auth.user.id}/events/daily`, auth.user.token)
-      .then((res) => setDailyEvents(res.data))
+      .then((res) => {
+        if (res.status === 401) handleTokenExpiration();
+        setDailyEvents(res.data);
+      })
       .catch(() => handleServerError());
     fetchApi(`/api/users/${auth.user.id}/events/weekly`, auth.user.token)
-      .then((res) => setWeeklyEvents(res.data))
+      .then((res) => {
+        if (res.status === 401) handleTokenExpiration();
+        setWeeklyEvents(res.data);
+      })
       .catch(() => handleServerError());
     fetchApi(`/api/users/${auth.user.id}/events/monthly`, auth.user.token)
-      .then((res) => setMonthlyEvents(res.data))
+      .then((res) => {
+        if (res.status === 401) handleTokenExpiration();
+        setMonthlyEvents(res.data);
+      })
       .catch(() => handleServerError());
     fetchApi(`/api/sharedCalendars`, auth.user.token)
-      .then((res) => setSharedCalendars(res.data))
+      .then((res) => {
+        if (res.status === 401) handleTokenExpiration();
+        setSharedCalendars(res.data);
+      })
       .catch(() => handleServerError());
     fetchApi(
       `/api/users/${auth.user.id}/events/organizer-events`,
       auth.user.token,
     )
-      .then((res) => setOrganizedEvents(res.data))
+      .then((res) => {
+        if (res.status === 401) handleTokenExpiration();
+        setOrganizedEvents(res.data);
+      })
       .catch(() => handleServerError());
     fetchApi(`/api/users/${auth.user.id}/events/proposed`, auth.user.token)
-      .then((res) => setProposedEvents(res.data))
+      .then((res) => {
+        if (res.status === 401) handleTokenExpiration();
+        setProposedEvents(res.data);
+      })
       .catch(() => handleServerError());
-  }, []);
+  }, [auth.user]);
 
   let dailyEventsJSX = dailyEvents.map((event, index) => {
     return (
