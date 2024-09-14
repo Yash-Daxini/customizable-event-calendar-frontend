@@ -18,6 +18,8 @@ export const fetchApi = async (
 
     if (response.status === 400) return { status: 400, data: null };
 
+    if (response.status === 401) return { status: 401, data: null };
+
     if (method !== "DELETE") data = await response.json();
 
     return {
