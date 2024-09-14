@@ -7,8 +7,13 @@ import {
   getMonthName,
   getShorterDayName,
 } from "../../util/dateUtil";
-import { isHourOverlaps, convertTo12HourFormat } from "../../util/timeUtil";
+import {
+  isHourOverlaps,
+  convertTo12HourFormat,
+  isDurationOverlaps,
+} from "../../util/timeUtil";
 import { fetchApi } from "../../util/fetchApi";
+import TimeLineHourDiv from "../TimeLineHourDiv";
 
 const TimelineView = ({ date, currentDuration }) => {
   const [eventList, setEventList] = useState([]);
@@ -26,7 +31,7 @@ const TimelineView = ({ date, currentDuration }) => {
     fetchApi(apiEndPoint, auth.user.token)
       .then((res) => setEventList(res.data))
       .catch((err) => console.warn(err));
-  }, [currentDate, date]);
+  }, [currentDate, date, auth.user]);
 
   const hours = [];
 
@@ -44,78 +49,127 @@ const TimelineView = ({ date, currentDuration }) => {
     hours.push({ value: parseInt(i + 12), label: hour });
   }
 
-  let skipDuration;
-
-  let timelineDivContent = hours.map((hour) => {
-    const event = eventList.find((event) =>
-      isHourOverlaps(
+  let getEventsWithinDuration = (startHour, endHour) => {
+    return eventList.find((event) =>
+      isDurationOverlaps(
         event.duration.startHour,
         event.duration.endHour,
-        hour.value,
+        startHour,
+        endHour,
       ),
     );
+  };
 
-    const isSelectedHour = isHourOverlaps(
+  let getEventAtHour = (hour) => {
+    return eventList.find((event) =>
+      isHourOverlaps(event.duration.startHour, event.duration.endHour, hour),
+    );
+  };
+
+  let skipOverlapDuration;
+
+  let timelineDivContent = hours.map((hour) => {
+    const event = getEventAtHour(hour.value);
+
+    const isEventOverlappingCurrentDuration = getEventsWithinDuration(
+      currentDuration.startHour,
+      currentDuration.endHour,
+    );
+
+    const isEventAtHour = isHourOverlaps(
       currentDuration.startHour,
       currentDuration.endHour,
       hour.value,
     );
 
-    const isSelectedDurationOverlap = event && isSelectedHour;
+    const isSelectedDurationOverlap =
+      isEventOverlappingCurrentDuration &&
+      (!skipOverlapDuration ||
+        (skipOverlapDuration &&
+          !isHourOverlaps(
+            skipOverlapDuration.startHour,
+            skipOverlapDuration.endHour,
+            hour.value,
+          ))) &&
+      currentDuration.endHour - currentDuration.startHour > 0 &&
+      currentDuration.startHour === hour.value;
 
-    if (
-      !(
-        skipDuration &&
-        isHourOverlaps(skipDuration.startHour, skipDuration.endHour, hour.value)
-      )
-    ) {
-      const currentHourDivClass = isSelectedHour ? styles.filledCurrent : "";
-      let heightOfDiv = 50;
-      let overlapDivHeight = 0;
-      let currentStartHour = convertTo12HourFormat(currentDuration.startHour);
-      let currentEndHour = convertTo12HourFormat(currentDuration.endHour);
-      if (event) {
-        let startHour = Math.max(event.duration.startHour);
-        let endHour = event.duration.endHour;
-        heightOfDiv = (endHour - startHour) * heightOfDiv;
-        skipDuration = event.duration;
-        overlapDivHeight =
-          (event.duration.endHour - event.duration.startHour) * 50;
-      }
+    const currentHourDivClass = isEventAtHour ? styles.filledCurrent : "";
+    let heightOfDiv = 0;
+    let overlapDivHeight = 0;
+    let currentStartHour = currentDuration.startHour;
+    let currentEndHour = currentDuration.endHour;
 
-      return !event ? (
+    if (event && event.duration.startHour === hour.value) {
+      let startHour = event.duration.startHour;
+      let endHour = event.duration.endHour;
+      heightOfDiv = (endHour - startHour) * 50;
+    }
+
+    if (isSelectedDurationOverlap) {
+      overlapDivHeight = (currentEndHour - currentStartHour) * 50;
+      skipOverlapDuration = currentDuration;
+    }
+
+    let styleOfFilledDiv;
+
+    if (heightOfDiv === 0)
+      styleOfFilledDiv = {
+        border: "0px",
+        height: "0px",
+      };
+    else styleOfFilledDiv = { height: `${heightOfDiv}px` };
+
+    if (isSelectedDurationOverlap)
+      //Overlap occur
+      return (
         <div key={hour.value} className={`${styles.hourDiv}`}>
           <div className={`${styles.hourValue}`}>{hour.label}</div>
           <div className={`${styles.colorDiv} ${currentHourDivClass}`}></div>
-        </div>
-      ) : (
-        <div key={hour.value} className={`${styles.hourDiv}`}>
-          <div className={`${styles.hourValue}`}>{hour.label}</div>
-          <div
-            style={{ height: `${heightOfDiv}px` }}
-            className={`${styles.colorDiv} ${styles.filled}`}
-          >
-            {event.title}
-          </div>
-          {isSelectedDurationOverlap ? (
+          {event ? (
             <div
-              style={{ height: `${overlapDivHeight}px` }}
-              className={`${styles.colorDiv} ${styles.overlapFilled}`}
+              style={styleOfFilledDiv}
+              className={`${styles.colorDiv} ${styles.filled}`}
             >
-              <span>{currentStartHour} to {currentEndHour}</span>
+              {event.title}
             </div>
           ) : (
             <></>
           )}
+          <div
+            style={{ height: `${overlapDivHeight}px` }}
+            className={`${styles.colorDiv} ${styles.overlapFilled}`}
+          >
+            <span>
+              {convertTo12HourFormat(currentDuration.startHour)} to
+              {" " + convertTo12HourFormat(currentDuration.endHour)}
+            </span>
+          </div>
         </div>
       );
-    } else
+
+    if (!event)
+      //Event & Overlap not occur
       return (
-        <div key={hour.value} className={`${styles.hourDiv}`}>
-          <div className={`${styles.hourValue}`}>{hour.label}</div>
-          <div className={`${styles.colorDiv}`}></div>
-        </div>
+        <TimeLineHourDiv
+          key={hour.value}
+          hourValue={hour.value}
+          hourLabel={hour.label}
+          isFilledCurrent={isEventAtHour}
+        />
       );
+
+    return (
+      //Event occur
+      <TimeLineHourDiv
+        key={hour.value}
+        hourValue={hour.value}
+        hourLabel={hour.label}
+        isFilled={true}
+        heightOfDiv={heightOfDiv}
+        divContent={event.title}
+      />
+    );
   });
 
   return (
