@@ -1,11 +1,11 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { AuthContextType, useAuth } from "./AuthProvider";
-import { User } from "../models/User";
+import { AuthenticationResponse } from "../models/AuthenticationResponse";
 
 const PrivateRoute: React.FC = () => {
   const auth: AuthContextType | null = useAuth();
-  const user: User | undefined = auth?.user;
+  const user: AuthenticationResponse | undefined = auth?.user;
 
   if (!user) return <Navigate to="/login" />;
 

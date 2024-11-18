@@ -2,11 +2,11 @@ import { createContext, ReactNode, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { showSuccessToaster, showErrorToaster } from "../util/toaster";
 import { fetchApi } from "../util/fetchApi";
-import { User } from "../models/User";
+import { AuthenticationResponse } from "../models/AuthenticationResponse";
 const env = import.meta.env;
 
 export interface AuthContextType {
-  user: User,
+  user: AuthenticationResponse,
   loginAction: (data: any) => Promise<void>,
   logOut: () => void
 }
