@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { showSuccessToaster, showErrorToaster } from "../util/toaster";
 import { fetchApi } from "../util/fetchApi";
 import { AuthenticationResponse } from "../models/AuthenticationResponse";
+import { LOCALSTORAGE_TOKEN_KEY } from "../constants/authConstants";
 const env = import.meta.env;
 
 export interface AuthContextType {
@@ -20,7 +21,7 @@ interface AuthProviderProps {
 // eslint-disable-next-line react/prop-types
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderProps) => {
 
-  const storedUser: string | null = localStorage.getItem("user");
+  const storedUser: string | null = localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
 
   if (!storedUser)
     return;
@@ -36,7 +37,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
           showErrorToaster("Invalid user name or password !");
         } else {
           setUser(res.data);
-          localStorage.setItem("user", JSON.stringify(res.data));
+          localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, JSON.stringify(res.data));
           showSuccessToaster("Login successful !");
           navigate("/");
         }
@@ -46,7 +47,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
 
   const logOut = (): void => {
     setUser(null);
-    localStorage.removeItem("user");
+    localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
     navigate("/login");
   };
 
