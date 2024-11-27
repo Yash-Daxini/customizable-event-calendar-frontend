@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { showErrorToaster, showSuccessToaster } from "../../util/toaster";
 import { fetchApi } from "../../util/fetchApi";
+import { LOGIN_URL } from "../../constants/RouteConstants";
 
 const env = import.meta.env;
 
@@ -63,7 +64,7 @@ const SignupForm: React.FC = () => {
       </form>
       <div className={`${styles.loginLinkDiv}`}>
         <span>Have an account ? </span>
-        <Link to={"/Login"} className={`${styles.loginLink}`}>
+        <Link to={LOGIN_URL} className={`${styles.loginLink}`}>
           Log in
         </Link>
       </div>

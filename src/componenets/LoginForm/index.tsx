@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/AuthProvider'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css';
+import { SIGNUP_URL } from '../../constants/RouteConstants'
 
 const LoginForm: React.FC = () => {
 
@@ -44,7 +45,7 @@ const LoginForm: React.FC = () => {
             </form>
             <div className={`${styles.signupLinkDiv}`} >
                 <span>Don't have an account ? </span>
-                <Link to={"/SignUp"} className={`${styles.signupLink}`}>Register</Link>
+                <Link to={SIGNUP_URL} className={`${styles.signupLink}`}>Register</Link>
             </div>
         </div>
     )

@@ -4,6 +4,7 @@ import { showSuccessToaster, showErrorToaster } from "../util/toaster";
 import { fetchApi } from "../util/fetchApi";
 import { AuthenticationResponse } from "../models/AuthenticationResponse";
 import { LOCALSTORAGE_TOKEN_KEY } from "../constants/authConstants";
+import { LOGIN_URL } from "../constants/RouteConstants";
 const env = import.meta.env;
 
 export interface AuthContextType {
@@ -48,7 +49,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
   const logOut = (): void => {
     setUser(null);
     localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
-    navigate("/login");
+    navigate(LOGIN_URL);
   };
 
   return (
