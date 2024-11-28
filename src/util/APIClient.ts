@@ -1,5 +1,6 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { LOCALSTORAGE_TOKEN_KEY } from '../constants/authConstants';
+import { showErrorToaster } from './toaster';
 const env = import.meta.env;
 
 const axiosInstance = axios.create({
@@ -23,8 +24,11 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
     (response: AxiosResponse) => response,
     (error) => {
-        if (error.response?.status === 401) {
-            console.log('Unauthorized! Redirecting to login...');
+        if (error.response?.status === 401 || error.response?.status === 403) {
+            showErrorToaster('Unauthorized! Redirecting to login...');
+        }
+        else{
+            showErrorToaster('Oops ! Some error occured.');
         }
         return Promise.reject(error);
     }
