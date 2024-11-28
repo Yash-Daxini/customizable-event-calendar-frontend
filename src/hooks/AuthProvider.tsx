@@ -1,10 +1,11 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { showSuccessToaster, showErrorToaster } from "../util/toaster";
-import { fetchApi } from "../util/fetchApi";
 import { AuthenticationResponse } from "../models/AuthenticationResponse";
 import { LOCALSTORAGE_TOKEN_KEY } from "../constants/authConstants";
-import { LOGIN_URL } from "../constants/RouteConstants";
+import { HOME_URL, LOGIN_URL } from "../constants/RouteConstants";
+import { APIService } from "../services/APIService";
+import { UserRequest } from "../models/UserRequest";
 const env = import.meta.env;
 
 export interface AuthContextType {
@@ -31,19 +32,16 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
 
   const navigate = useNavigate();
 
-  const loginAction = async (data: any): Promise<void> => {
-    await fetchApi(`${env.VITE_Login_API}`, null, "POST", data)
-      .then((res) => {
-        if (res.statusCode === 400) {
-          showErrorToaster("Invalid user name or password !");
-        } else {
-          setUser(res.data);
-          localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, JSON.stringify(res.data));
-          showSuccessToaster("Login successful !");
-          navigate("/");
-        }
-      })
-      .catch(() => showErrorToaster(`Some error occurred !`));
+  const loginAction = async (data: UserRequest): Promise<void> => {
+    const response = await APIService.get<UserRequest>(env.VITE_Login_API, data);
+    if (response.statusCode === 400) {
+      showErrorToaster("Invalid user name or password !");
+    } else {
+      setUser(response.data);
+      localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, JSON.stringify(response.data));
+      showSuccessToaster("Login successful !");
+      navigate(HOME_URL);
+    }
   };
 
   const logOut = (): void => {

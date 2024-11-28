@@ -5,7 +5,7 @@ interface ApiResponse<T> {
     statusCode: number;
 }
 
-export const apiService = {
+export const APIService = {
     get: async <T>(url: string, params?: Record<string, any>): Promise<ApiResponse<T>> => {
         const response = await axiosInstance.get<T>(url, { params });
         return { data: response.data, statusCode: response.status };
