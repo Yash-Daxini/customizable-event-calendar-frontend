@@ -2,6 +2,7 @@ import React from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import { Link, Outlet } from "react-router-dom";
 import styles from "./style.module.css";
+import { GET_EVENTS_URL } from "../../constants/RouteConstants";
 
 const Layout: React.FC = () => {
   const auth = useAuth();
@@ -36,7 +37,7 @@ const Layout: React.FC = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/getEvents">
+                <Link className="nav-link" to={GET_EVENTS_URL}>
                   Events
                 </Link>
               </li>

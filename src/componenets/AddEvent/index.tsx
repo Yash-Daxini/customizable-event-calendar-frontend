@@ -10,6 +10,7 @@ import RecurrencePatternInput from "../RecurrencePatternInput";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchApi } from "../../util/fetchApi";
 import { showErrorToaster, showSuccessToaster } from "../../util/toaster";
+import { GET_EVENTS_URL } from "../../constants/RouteConstants";
 
 const AddEvent: React.FC = () => {
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ const AddEvent: React.FC = () => {
       .then((res) => {
         if (res.statusCode === 400) showErrorToaster("Invalid Input !");
         else if (res.statusCode === 201) {
-          navigate("/getEvents");
+          navigate(GET_EVENTS_URL);
           setTimeout(() => {
             showSuccessToaster("Event added successfully !");
           }, 50);
