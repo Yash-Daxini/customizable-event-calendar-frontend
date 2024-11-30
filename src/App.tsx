@@ -7,27 +7,25 @@ import Layout from './componenets/Layout'
 import Dashboard from './componenets/Dashboard'
 import CalendarView from './componenets/CalendarView'
 import AddEvent from './componenets/AddEvent'
+import { ADD_EVENT_URL, GET_EVENTS_URL, HOME_URL, LOGIN_URL, SIGNUP_URL } from './constants/RouteConstants'
 
 function App() {
-
   return (
-    <>
-      <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route path={'/Login'} element={<Login />} />
-            <Route path={'/signup'} element={<SignUp />} />
-            <Route element={<PrivateRoute />}>
-              <Route path='/' element={<Layout />}>
-                <Route index element={<Dashboard />} />
-                <Route path={'/getEvents'} element={<CalendarView />} />
-                <Route path={'/addEvent'} element={<AddEvent />} />
-              </Route>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path={LOGIN_URL} element={<Login />} />
+          <Route path={SIGNUP_URL} element={<SignUp />} />
+          <Route element={<PrivateRoute />}>
+            <Route path={HOME_URL} element={<Layout />}>
+              <Route index element={<Dashboard />} />
+              <Route path={GET_EVENTS_URL} element={<CalendarView />} />
+              <Route path={ADD_EVENT_URL} element={<AddEvent />} />
             </Route>
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
-    </>
+          </Route>
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
 
