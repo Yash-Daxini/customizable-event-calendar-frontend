@@ -25,10 +25,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
 
   const storedUser: string | null = localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
 
-  if (!storedUser)
-    return;
+  const storedUserObject: any = storedUser ? JSON.parse(storedUser) : null;
 
-  const [user, setUser] = useState(JSON.parse(storedUser));
+  const [user, setUser] = useState(JSON.parse(storedUserObject));
 
   const navigate = useNavigate();
 
