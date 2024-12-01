@@ -2,6 +2,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { showSuccessToaster, showErrorToaster } from "../util/toaster";
 import { AuthenticationResponse } from "../models/AuthenticationResponse";
+import { AuthenticationRequest } from "../models/AuthenticationRequest";
 import { LOCALSTORAGE_TOKEN_KEY } from "../constants/authConstants";
 import { HOME_URL, LOGIN_URL } from "../constants/RouteConstants";
 import { APIService } from "../services/APIService";
@@ -27,12 +28,12 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
 
   const storedUserObject: any = storedUser ? JSON.parse(storedUser) : null;
 
-  const [user, setUser] = useState(JSON.parse(storedUserObject));
+  const [user, setUser] = useState(storedUserObject);
 
   const navigate = useNavigate();
 
   const loginAction = async (data: UserRequest): Promise<void> => {
-    const response = await APIService.get<UserRequest>(env.VITE_Login_API, data);
+    const response = await APIService.post<AuthenticationResponse,AuthenticationRequest>(env.VITE_Login_API, data);
     if (response.statusCode === 400) {
       showErrorToaster("Invalid user name or password !");
     } else {

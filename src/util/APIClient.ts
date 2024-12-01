@@ -4,34 +4,34 @@ import { showErrorToaster } from './toaster';
 const env = import.meta.env;
 
 const axiosInstance = axios.create({
-    baseURL: env.VITE_BASE_URL,
-    timeout: 10000,
+  baseURL: env.VITE_BASE_URL,
+  timeout: 10000,
 })
 
 axiosInstance.interceptors.request.use(
-    (config: InternalAxiosRequestConfig) => {
-        const token = localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
+  (config: InternalAxiosRequestConfig) => {
+    const token = localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
 axiosInstance.interceptors.response.use(
-    (response: AxiosResponse) => response,
-    (error) => {
-        if (error.response?.status === 401 || error.response?.status === 403) {
-            showErrorToaster('Unauthorized! Redirecting to login...');
-        }
-        else{
-            showErrorToaster('Oops ! Some error occured.');
-        }
-        return Promise.reject(error);
+  (response: AxiosResponse) => response,
+  (error) => {
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      showErrorToaster('Unauthorized! Redirecting to login...');
     }
+    else {
+      showErrorToaster('Oops ! Some error occured.');
+    }
+    return Promise.reject(error);
+  }
 );
 
 export default axiosInstance;
