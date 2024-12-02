@@ -2,43 +2,42 @@ import styles from "./style.module.css";
 import DraggableDiv from "../DraggableDiv";
 import { useAuth } from "../../hooks/AuthProvider";
 import { useEffect, useState } from "react";
-import { fetchApi } from "../../util/fetchApi";
 import { convertTo12HourFormat } from "../../util/timeUtil";
 import { ToastContainer } from "react-toastify";
 import { showErrorToaster } from "../../util/toaster";
+import { APIService } from "../../services/APIService";
+import { EventResponse } from "../../models/EventResponse";
+import { SharedCalendar } from "../../models/SharedCalendar";
 
 const Dashboard: React.FC = () => {
-  const [dailyEvents, setDailyEvents] = useState([]);
-  const [weeklyEvents, setWeeklyEvents] = useState([]);
-  const [monthyEvents, setMonthlyEvents] = useState([]);
-  const [sharedCalendars, setSharedCalendars] = useState([]);
-  const [organizedEvents, setOrganizedEvents] = useState([]);
-  const [proposedEvents, setProposedEvents] = useState([]);
+  const [dailyEvents, setDailyEvents] = useState<EventResponse[]>([]);
+  const [weeklyEvents, setWeeklyEvents] = useState<EventResponse[]>([]);
+  const [monthyEvents, setMonthlyEvents] = useState<EventResponse[]>([]);
+  const [sharedCalendars, setSharedCalendars] = useState<SharedCalendar[]>([]);
+  const [organizedEvents, setOrganizedEvents] = useState<EventResponse[]>([]);
+  const [proposedEvents, setProposedEvents] = useState<EventResponse[]>([]);
 
   const auth = useAuth();
 
   const handleServerError = () => showErrorToaster("Can't connect to server!");
 
   useEffect(() => {
-    fetchApi(`/api/users/${auth!.user.id}/events/daily`, auth!.user.token)
+    APIService.get<EventResponse[]>(`/users/${auth!.user.id}/events/daily`)
       .then((res) => setDailyEvents(res.data))
       .catch(() => handleServerError());
-    fetchApi(`/api/users/${auth!.user.id}/events/weekly`, auth!.user.token)
+    APIService.get<EventResponse[]>(`/users/${auth!.user.id}/events/weekly`)
       .then((res) => setWeeklyEvents(res.data))
       .catch(() => handleServerError());
-    fetchApi(`/api/users/${auth!.user.id}/events/monthly`, auth!.user.token)
+    APIService.get<EventResponse[]>(`/users/${auth!.user.id}/events/monthly`)
       .then((res) => setMonthlyEvents(res.data))
       .catch(() => handleServerError());
-    fetchApi(`/api/sharedCalendars`, auth!.user.token)
+    APIService.get<SharedCalendar[]>(`/sharedCalendars`)
       .then((res) => setSharedCalendars(res.data))
       .catch(() => handleServerError());
-    fetchApi(
-      `/api/users/${auth!.user.id}/events/organizer-events`,
-      auth!.user.token,
-    )
+    APIService.get<EventResponse[]>(`/users/${auth!.user.id}/events/organizer-events`)
       .then((res) => setOrganizedEvents(res.data))
       .catch(() => handleServerError());
-    fetchApi(`/api/users/${auth!.user.id}/events/proposed`, auth!.user.token)
+    APIService.get<EventResponse[]>(`/users/${auth!.user.id}/events/proposed`)
       .then((res) => setProposedEvents(res.data))
       .catch(() => handleServerError());
   }, []);
