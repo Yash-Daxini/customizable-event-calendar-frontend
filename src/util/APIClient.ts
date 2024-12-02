@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { LOCALSTORAGE_TOKEN_KEY } from '../constants/authConstants';
+import { LOCALSTORAGE_USER_KEY } from '../constants/authConstants';
 import { showErrorToaster } from './toaster';
 const env = import.meta.env;
 
@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const userObject = localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
+    const userObject = localStorage.getItem(LOCALSTORAGE_USER_KEY);
     if (userObject) {
       config.headers.Authorization = `Bearer ${JSON.parse(userObject)?.token}`;
     }
