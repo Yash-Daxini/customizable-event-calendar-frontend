@@ -23,7 +23,7 @@ const AddEvent: React.FC = () => {
 
   let auth = useAuth();
 
-  const [selectedDate, setSelectedDate] = useState(date);
+  const [selectedDate, setSelectedDate] = useState<Date>(date);
   const [eventObj, setEventObj] = useState(
     isUpdate
       ? {

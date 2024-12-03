@@ -32,7 +32,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
   const auth = useAuth();
 
   useEffect(() => {
-    let apiEndPoint = `/api/users/${auth!.user.id}/events/eventsBetweenDates?startDate=${formatDate(currentDate.toString())}&endDate=${formatDate(currentDate.toString())}`;
+    let apiEndPoint = `/users/${auth!.user.id}/events/eventsBetweenDates?startDate=${formatDate(currentDate.toString())}&endDate=${formatDate(currentDate.toString())}`;
 
     APIService.get<EventResponse[]>(apiEndPoint)
       .then((res) => setEventList(res.data))
