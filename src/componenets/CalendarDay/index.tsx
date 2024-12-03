@@ -5,6 +5,7 @@ import EventPopOverBody from "../EventPopOverBody";
 import { useContext } from "react";
 import { formatDate } from "../../util/dateUtil";
 import { CalendarContext } from "../../hooks/context";
+import { ADD_EVENT_URL } from "../../constants/RouteConstants";
 
 interface CalendarDayProps {
   isEmptyDay: boolean,
@@ -36,7 +37,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
   };
 
   const handleDoubleClick = () => {
-    navigate("/addEvent", { state: { date: date } });
+    navigate(ADD_EVENT_URL, { state: { date: date } });
   };
 
   const getEventsJSXForGivenDay = () => {

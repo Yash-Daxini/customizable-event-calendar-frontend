@@ -12,8 +12,9 @@ import {
   convertTo12HourFormat,
   isDurationOverlaps,
 } from "../../util/timeUtil";
-import { fetchApi } from "../../util/fetchApi";
 import TimeLineHourDiv from "../TimeLineHourDiv";
+import { APIService } from "../../services/APIService";
+import { EventResponse } from "../../models/EventResponse";
 
 interface TimelineViewProps {
   date: Date,
@@ -21,7 +22,7 @@ interface TimelineViewProps {
 }
 
 const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: TimelineViewProps) => {
-  const [eventList, setEventList] = useState([]);
+  const [eventList, setEventList] = useState<EventResponse[]>([]);
 
   let [currentDate, setCurrentDate] = useState<Date>(date);
   useEffect(() => {
@@ -33,7 +34,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
   useEffect(() => {
     let apiEndPoint = `/api/users/${auth!.user.id}/events/eventsBetweenDates?startDate=${formatDate(currentDate.toString())}&endDate=${formatDate(currentDate.toString())}`;
 
-    fetchApi(apiEndPoint, auth!.user.token)
+    APIService.get<EventResponse[]>(apiEndPoint)
       .then((res) => setEventList(res.data))
       .catch((err) => console.warn(err));
   }, [currentDate, date, auth!.user]);

@@ -5,7 +5,7 @@ interface CalendarContextType {
     date: Date,
     setCurrentDate: (date: Date) => void,
     events: EventResponse[],
-    setEvents: (event: EventResponse) => void,
+    setEvents: (event: EventResponse[]) => void,
 };
 
 export const CalendarContext = createContext<CalendarContextType | null>(null);

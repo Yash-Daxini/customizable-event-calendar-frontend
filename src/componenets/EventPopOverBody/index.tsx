@@ -4,9 +4,10 @@ import { Captions, CalendarX, Pencil, Clock3 } from 'lucide-react';
 import { useAuth } from '../../hooks/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import { convertTo12HourFormat } from '../../util/timeUtil';
-import { fetchApi } from '../../util/fetchApi'
 import { showSuccessToaster, showErrorToaster } from '../../util/toaster'
 import { getShorterDayName } from '../../util/dateUtil';
+import { ADD_EVENT_URL } from '../../constants/RouteConstants';
+import { APIService } from '../../services/APIService';
 
 interface EventPopOverBodyProps {
   key: any,
@@ -22,14 +23,12 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ key, event, eventDa
   const auth = useAuth()
 
   const navigateToUpdatePage = () => {
-    navigate("/addEvent", { state: { event: event, date: eventDate } });
+    navigate(ADD_EVENT_URL, { state: { event: event, date: eventDate } });
   }
 
   const deleteEvent = () => {
-
     onDelete(event.id);
-
-    fetchApi(`/api/users/${auth!.user.id}/events/${event.id}`, auth!.user.token, 'DELETE')
+    APIService.delete(`/users/${auth!.user.id}/events/${event.id}`)
       .then(res => {
         if (res.statusCode === 400) {
           showErrorToaster("Some error occured !")

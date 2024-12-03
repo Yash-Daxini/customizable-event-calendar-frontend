@@ -5,13 +5,15 @@ import FormButton from "../FormButton";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { showErrorToaster, showSuccessToaster } from "../../util/toaster";
-import { fetchApi } from "../../util/fetchApi";
 import { LOGIN_URL } from "../../constants/RouteConstants";
+import { APIService } from "../../services/APIService";
+import { UserRequest } from "../../models/UserRequest";
 
 const env = import.meta.env;
 
 const SignupForm: React.FC = () => {
-  const [userInfo, setUserInfo] = useState<any>({
+  const [userInfo, setUserInfo] = useState<UserRequest>({
+    id: 0,
     name: "",
     email: "",
     password: "",
@@ -19,7 +21,7 @@ const SignupForm: React.FC = () => {
 
   let handleSignUp = (e: any) => {
     e.preventDefault();
-    fetchApi(env.VITE_Signup_API, null, "POST", userInfo)
+    APIService.post<number, UserRequest>(env.VITE_Signup_API, userInfo)
       .then((res) => {
         if (res.statusCode === 400) {
           showErrorToaster("Invalid input !");
@@ -40,7 +42,7 @@ const SignupForm: React.FC = () => {
         <FormInput
           type={"text"}
           placeholder={"Username"}
-          value={userInfo.userName}
+          value={userInfo.name}
           labelValue={"User name"}
           onChange={(e: any) => setUserInfo({ ...userInfo, name: e.target.value })}
         />
