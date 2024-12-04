@@ -42,7 +42,7 @@ const Dashboard: React.FC = () => {
       .catch(() => handleServerError());
   }, []);
 
-  let dailyEventsJSX = dailyEvents.map((event: any, index: number) => {
+  let dailyEventsJSX = dailyEvents.map((event: EventResponse, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
@@ -54,7 +54,7 @@ const Dashboard: React.FC = () => {
     );
   });
 
-  let weeklyEventsJSX = weeklyEvents.map((event: any, index: number) => {
+  let weeklyEventsJSX = weeklyEvents.map((event: EventResponse, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
@@ -66,7 +66,7 @@ const Dashboard: React.FC = () => {
     );
   });
 
-  let monthlyEventsJSX = monthyEvents.map((event: any, index: number) => {
+  let monthlyEventsJSX = monthyEvents.map((event: EventResponse, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
@@ -78,17 +78,16 @@ const Dashboard: React.FC = () => {
     );
   });
 
-  let sharedCalendarJSX = sharedCalendars.map((sharedCalendar: any, index: number) => {
+  let sharedCalendarJSX = sharedCalendars.map((sharedCalendar: SharedCalendar, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
-        {sharedCalendar.user}
         <br />
-        {sharedCalendar.fromDate} {sharedCalendar.toDate}
+        {sharedCalendar.fromDate.toString()} {sharedCalendar.toString()}
       </div>
     );
   });
 
-  let organizedEventsJSX = organizedEvents.map((event: any, index: number) => {
+  let organizedEventsJSX = organizedEvents.map((event: EventResponse, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
@@ -100,7 +99,7 @@ const Dashboard: React.FC = () => {
     );
   });
 
-  let proposedEventsJSX = proposedEvents.map((event: any, index: number) => {
+  let proposedEventsJSX = proposedEvents.map((event: EventResponse, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
