@@ -82,7 +82,7 @@ const Dashboard: React.FC = () => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <br />
-        {sharedCalendar.fromDate.toString()} {sharedCalendar.toString()}
+        {sharedCalendar.fromDate.toString()} to {sharedCalendar.toDate.toString()}
       </div>
     );
   });

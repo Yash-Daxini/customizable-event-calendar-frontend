@@ -8,9 +8,9 @@ import { ToastContainer } from "react-toastify";
 import TimelineView from "../TimelineView";
 import RecurrencePatternInput from "../RecurrencePatternInput";
 import { useLocation, useNavigate } from "react-router-dom";
-import { fetchApi } from "../../util/fetchApi";
 import { showErrorToaster, showSuccessToaster } from "../../util/toaster";
 import { GET_EVENTS_URL } from "../../constants/RouteConstants";
+import { APIService } from "../../services/APIService";
 
 const AddEvent: React.FC = () => {
   const navigate = useNavigate();
@@ -62,10 +62,8 @@ const AddEvent: React.FC = () => {
 
   const getApiEndPoint = () =>
     isRecurringEvent()
-      ? `/api/users/${auth!.user.id}/events/recurring-events`
-      : `/api/users/${auth!.user.id}/events`;
-
-  const getApiMethod = () => (isUpdate ? "PUT" : "POST");
+      ? `/users/${auth!.user.id}/events/recurring-events`
+      : `/users/${auth!.user.id}/events`;
 
   const isRecurringEvent = () =>
     eventObj.recurrencePattern.frequency !== "None";
@@ -74,21 +72,39 @@ const AddEvent: React.FC = () => {
     if (isRecurringEvent()) delete eventObj.eventDate;
 
     let endPoint = getApiEndPoint();
-    let method = getApiMethod();
     endPoint += isUpdate ? `${eventObj.id}` : ``;
 
-    fetchApi(endPoint, auth!.user.token, method, eventObj)
-      .then((res) => {
-        if (res.statusCode === 400) showErrorToaster("Invalid Input !");
-        else if (res.statusCode === 201) {
-          navigate(GET_EVENTS_URL);
-          setTimeout(() => {
-            showSuccessToaster("Event added successfully !");
-          }, 50);
-        }
-      })
-      .catch(() => showErrorToaster("Some error occurred !"));
+    if (isUpdate)
+      updateEvent(endPoint, eventObj);
+    else
+      insertEvent(endPoint, eventObj);
   };
+
+  const insertEvent = (endpoint: string, event: any) => {
+    APIService.post(endpoint, event).then((res) => {
+      if (res.statusCode === 400) showErrorToaster("Invalid Input !");
+      else if (res.statusCode === 201) {
+        navigate(GET_EVENTS_URL);
+        setTimeout(() => {
+          showSuccessToaster("Event added successfully !");
+        }, 50);
+      }
+    })
+      .catch(() => showErrorToaster("Some error occurred !"));
+  }
+
+  const updateEvent = (endpoint: string, event: any) => {
+    APIService.put(endpoint, event).then((res) => {
+      if (res.statusCode === 400) showErrorToaster("Invalid Input !");
+      else if (res.statusCode === 201) {
+        navigate(GET_EVENTS_URL);
+        setTimeout(() => {
+          showSuccessToaster("Event updated successfully !");
+        }, 50);
+      }
+    })
+      .catch(() => showErrorToaster("Some error occurred !"));
+  }
 
   return (
     <div className={`${styles.eventAddDiv}`}>
