@@ -46,6 +46,7 @@ const Dashboard: React.FC = () => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
+        <div>{event.occurrences[0].toString()}</div>
         <div className={styles.durationDiv}>
           {convertTo12HourFormat(event.duration.startHour)}-
           {convertTo12HourFormat(event.duration.endHour)}
@@ -58,6 +59,7 @@ const Dashboard: React.FC = () => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
+        <div>{event.occurrences[0].toString()}</div>
         <div className={styles.durationDiv}>
           {convertTo12HourFormat(event.duration.startHour)}-
           {convertTo12HourFormat(event.duration.endHour)}
@@ -70,6 +72,7 @@ const Dashboard: React.FC = () => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
+        <div>{event.occurrences[0].toString()}</div>
         <div className={styles.durationDiv}>
           {convertTo12HourFormat(event.duration.startHour)}-
           {convertTo12HourFormat(event.duration.endHour)}
@@ -91,6 +94,7 @@ const Dashboard: React.FC = () => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
+        <div>{event.occurrences[0].toString()}</div>
         <div className={styles.durationDiv}>
           {convertTo12HourFormat(event.duration.startHour)}-
           {convertTo12HourFormat(event.duration.endHour)}
