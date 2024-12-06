@@ -72,7 +72,7 @@ const AddEvent: React.FC = () => {
     if (isRecurringEvent()) delete eventObj.eventDate;
 
     let endPoint = getApiEndPoint();
-    endPoint += isUpdate ? `${eventObj.id}` : ``;
+    endPoint += isUpdate ? `/${eventObj.id}` : ``;
 
     if (isUpdate)
       updateEvent(endPoint, eventObj);
