@@ -1,6 +1,6 @@
 import axiosInstance from './../util/APIClient';
 
-interface ApiResponse<T> {
+export interface ApiResponse<T> {
     data: T;
     statusCode: number;
 }
