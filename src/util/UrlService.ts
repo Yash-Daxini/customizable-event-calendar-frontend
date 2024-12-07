@@ -1,4 +1,4 @@
-export const replaceIdsInUrl = (url: string, ids: number[]) => {
+export const replaceIdsInUrl = (url: string, ids: number[]): string => {
     try {
         const regExp: RegExp = /:[a-zA-Z]+/g;
         const occurrences: string[] = [...url.matchAll(regExp)].map(match => match[0]);
@@ -14,5 +14,7 @@ export const replaceIdsInUrl = (url: string, ids: number[]) => {
     }
     catch (exception) {
         console.error("Can't replace ids in url.")
+        return url;
     }
+
 }
