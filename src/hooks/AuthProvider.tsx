@@ -6,7 +6,6 @@ import { AuthenticationRequest } from "../models/AuthenticationRequest";
 import { LOCALSTORAGE_USER_KEY } from "../constants/authConstants";
 import { HOME_URL, LOGIN_URL } from "../constants/RouteConstants";
 import { APIService } from "../services/APIService";
-import { UserRequest } from "../models/UserRequest";
 const env = import.meta.env;
 
 export interface AuthContextType {
@@ -32,7 +31,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
 
   const navigate = useNavigate();
 
-  const loginAction = async (data: UserRequest): Promise<void> => {
+  const loginAction = async (data: AuthenticationRequest): Promise<void> => {
     const response = await APIService.post<AuthenticationResponse,AuthenticationRequest>(env.VITE_Login_API, data);
     if (response.statusCode === 400) {
       showErrorToaster("Invalid user name or password !");
