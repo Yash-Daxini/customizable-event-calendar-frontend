@@ -2,24 +2,30 @@ import { useContext } from "react";
 import { formatDate, getMonthName } from "../../util/dateUtil.js";
 import CalendarDay from "../CalendarDay/index.js";
 import styles from "./style.module.css";
-import { CalendarContext } from "../../hooks/context.js";
+import { CalendarContext, CalendarContextType } from "../../hooks/context.js";
 import { Expand, Shrink } from 'lucide-react';
+import { EventResponse } from "../../models/EventResponse.js";
 
 interface CalendarProps {
-  isFullSizeCalendar: any,
-  setIsFullSizeCalendar: any
+  isFullSizeCalendar: boolean,
+  setIsFullSizeCalendar: (input: boolean) => void
 }
 
 const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCalendar }: CalendarProps) => {
-  const { events }: any = useContext(CalendarContext);
-  const { date }: any = useContext(CalendarContext);
-  const { setCurrentDate }: any = useContext(CalendarContext);
-  const { setEvents }: any = useContext(CalendarContext);
+  const calendarContext: CalendarContextType | null = useContext(CalendarContext);
 
-  const currentDate = date;
+  if (!calendarContext)
+    return;
 
-  const updateEventStateOnDelete = (eventId: number) => {
-    setEvents(events.filter((eventObj: any) => eventObj.id !== eventId));
+  const events: EventResponse[] = calendarContext.events;
+  const date: Date = calendarContext.date;
+  const setCurrentDate: (date: Date) => void = calendarContext.setCurrentDate;
+  const setEvents: (event: EventResponse[]) => void = calendarContext.setEvents;
+
+  const currentDate: Date = date;
+
+  const updateEventStateOnDelete = (eventId: number): void => {
+    setEvents(events.filter((eventObj: EventResponse) => eventObj.id !== eventId));
   };
 
   const renderCalendar = () => {
@@ -34,9 +40,9 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
       0,
     ).getDate();
 
-    const days = [];
+    const days: any = [];
 
-    let column = 0;
+    let column: number = 0;
 
     for (let i = 0; i < firstDay; i++) {
       days.push(<CalendarDay key={`${i}empty`} isEmptyDay={true} day={0} column={0} updateEventStateOnDelete={undefined} />);
@@ -59,13 +65,13 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
     return days;
   };
 
-  const prevMonth = () => {
+  const prevMonth = (): void => {
     let newDate = new Date(currentDate);
     newDate.setMonth(newDate.getMonth() - 1);
     setCurrentDate(newDate);
   };
 
-  const nextMonth = () => {
+  const nextMonth = (): void => {
     let newDate = new Date(currentDate);
     newDate.setMonth(newDate.getMonth() + 1);
     setCurrentDate(newDate);
@@ -95,7 +101,7 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
         <input
           type="date"
           id={`${styles.date}`}
-          value={formatDate(currentDate)}
+          value={formatDate(currentDate.toString())}
           required
           onChange={(e) => setCurrentDate(new Date(e.target.value))}
         />

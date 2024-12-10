@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { EventResponse } from "../models/EventResponse";
 
-interface CalendarContextType {
+export interface CalendarContextType {
     date: Date,
     setCurrentDate: (date: Date) => void,
     events: EventResponse[],
