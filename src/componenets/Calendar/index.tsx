@@ -28,7 +28,7 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
     setEvents(events.filter((eventObj: EventResponse) => eventObj.id !== eventId));
   };
 
-  const renderCalendar = () => {
+  const renderCalendar = (): any => {
     const firstDay = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),

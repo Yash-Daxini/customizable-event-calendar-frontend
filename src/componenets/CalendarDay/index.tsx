@@ -79,20 +79,26 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
     return eventBars;
   };
 
-  const getClassList = (): string => {
-    if (
-      day == new Date().getDate() &&
+  const isSelectedDay = (): boolean => {
+    return day == new Date().getDate() &&
       currentDate.getMonth() === new Date().getMonth() &&
-      day == currentDate.getDate()
-    )
+      day == currentDate.getDate();
+  }
+
+  const isNonSelectedDay = (day: number, currentDate: Date): boolean => {
+    return day == new Date().getDate() &&
+      currentDate.getMonth() === new Date().getMonth();
+  }
+
+  const getClassList = (): string => {
+    if (isSelectedDay())
       return `${styles.day} ${styles.today} ${styles.selected}`;
-    else if (
-      day == new Date().getDate() &&
-      currentDate.getMonth() === new Date().getMonth()
-    )
+    else if (isNonSelectedDay(day, currentDate))
       return `${styles.day} ${styles.today}`;
-    else if (day == date.getDate()) return `${styles.day} ${styles.selected}`;
-    else return `${styles.day}`;
+    else if (day == date.getDate())
+      return `${styles.day} ${styles.selected}`;
+    else
+      return `${styles.day}`;
   };
 
   return isEmptyDay ? (
@@ -111,3 +117,4 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
 };
 
 export default CalendarDay;
+

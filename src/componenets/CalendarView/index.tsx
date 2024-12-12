@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/AuthProvider.js";
 import EventInfo from "../EventInfo/index.js";
 import { formatDate } from "../../util/dateUtil.js";
 import Calendar from "../Calendar/index.js";
-import { CalendarContext } from "../../hooks/context.js";
+import { CalendarContext, CalendarContextType } from "../../hooks/context.js";
 import { ToastContainer } from 'react-toastify';
 import { EventResponse } from "../../models/EventResponse.js";
 import { APIService } from "../../services/APIService.js";
@@ -13,7 +13,7 @@ const CalendarView = () => {
   const [eventList, setEventList] = useState<EventResponse[]>([]);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
 
-  const [isFullSizeCalendar, setIsFullSizeCalendar] = useState(false);
+  const [isFullSizeCalendar, setIsFullSizeCalendar] = useState<boolean>(false);
 
   const auth = useAuth();
 
@@ -25,11 +25,11 @@ const CalendarView = () => {
       .catch();
   }, []);
 
-  const getEventForGivenDate = (date: Date) => {
+  const getEventForGivenDate = (date: Date): EventResponse[] => {
     return eventList.filter((e: any) => e.occurrences.includes(formatDate(date.toString())));
   };
 
-  const valueOfContext = {
+  const valueOfContext:CalendarContextType = {
     date: currentDate,
     setCurrentDate: setCurrentDate,
     events: eventList,
