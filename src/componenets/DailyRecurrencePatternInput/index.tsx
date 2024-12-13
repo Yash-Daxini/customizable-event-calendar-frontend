@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react'
 import styles from './style.module.css'
 import Select from 'react-select';
 import LabelledCheckbox from '../LabelledCheckbox'
+import { RecurringEventRequest } from '../../models/RecurringEventRequest';
 
 interface DailyRecurrencePatternInputProps {
-  event: any,
-  updateEvent: any
+  event: RecurringEventRequest,
+  updateEvent: (event: RecurringEventRequest) => void
 }
 
 const DailyRecurrencePatternInput: React.FC<DailyRecurrencePatternInputProps> = ({ event, updateEvent }: DailyRecurrencePatternInputProps) => {
 
-  const [isIntervalPattern, setIsIntervalPattern] = useState(false);
-  const [isWeekDayPattern, setIsWeekDayPattern] = useState(false)
+  const [isIntervalPattern, setIsIntervalPattern] = useState<boolean>(false);
+  const [isWeekDayPattern, setIsWeekDayPattern] = useState<boolean>(false)
 
   const [weekDay, setWeekDay] = useState<number[]>([]);
 
@@ -27,7 +28,7 @@ const DailyRecurrencePatternInput: React.FC<DailyRecurrencePatternInputProps> = 
     updateEvent({ ...event, recurrencePattern: { ...event.recurrencePattern, interval: isIntervalPattern ? interval : 1, byWeekDay: isWeekDayPattern ? weekDay : [] } })
   }, [weekDay, interval])
 
-  const changeWeekDayArray = (e: any) => {
+  const changeWeekDayArray = (e: any): void => {
     if (e.target.checked)
       setWeekDay([...weekDay, e.target.value])
     else
