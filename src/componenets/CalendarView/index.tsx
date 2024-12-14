@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import { useAuth } from "../../hooks/AuthProvider.js";
 import EventInfo from "../EventInfo/index.js";
-import { formatDate } from "../../util/dateUtil.js";
 import Calendar from "../Calendar/index.js";
 import { CalendarContext, CalendarContextType } from "../../hooks/context.js";
 import { ToastContainer } from 'react-toastify';
@@ -26,10 +25,10 @@ const CalendarView = () => {
   }, []);
 
   const getEventForGivenDate = (date: Date): EventResponse[] => {
-    return eventList.filter((e: any) => e.occurrences.includes(formatDate(date.toString())));
+    return eventList.filter((e: EventResponse) => e.occurrences.includes(date));
   };
 
-  const valueOfContext:CalendarContextType = {
+  const valueOfContext: CalendarContextType = {
     date: currentDate,
     setCurrentDate: setCurrentDate,
     events: eventList,

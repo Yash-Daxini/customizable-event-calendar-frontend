@@ -9,6 +9,11 @@ interface DailyRecurrencePatternInputProps {
   updateEvent: (event: RecurringEventRequest) => void
 }
 
+type SelectionBoxOptionType = {
+  value: number,
+  label: number
+}
+
 const DailyRecurrencePatternInput: React.FC<DailyRecurrencePatternInputProps> = ({ event, updateEvent }: DailyRecurrencePatternInputProps) => {
 
   const [isIntervalPattern, setIsIntervalPattern] = useState<boolean>(false);
@@ -16,13 +21,13 @@ const DailyRecurrencePatternInput: React.FC<DailyRecurrencePatternInputProps> = 
 
   const [weekDay, setWeekDay] = useState<number[]>([]);
 
-  const intervals = [];
+  const intervals: SelectionBoxOptionType[] = [];
 
   for (let i = 1; i <= 5; i++) {
     intervals.push({ value: i, label: i });
   }
 
-  const [interval, setInterval] = useState(intervals[0].value);
+  const [interval, setInterval] = useState<number>(intervals[0].value);
 
   useEffect(() => {
     updateEvent({ ...event, recurrencePattern: { ...event.recurrencePattern, interval: isIntervalPattern ? interval : 1, byWeekDay: isWeekDayPattern ? weekDay : [] } })

@@ -69,6 +69,7 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
     let newDate = new Date(currentDate);
     newDate.setMonth(newDate.getMonth() - 1);
     setCurrentDate(newDate);
+    console.warn(currentDate);
   };
 
   const nextMonth = (): void => {
