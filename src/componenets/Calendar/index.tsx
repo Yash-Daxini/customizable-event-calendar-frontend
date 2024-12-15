@@ -22,7 +22,7 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
   const setCurrentDate: (date: Date) => void = calendarContext.setCurrentDate;
   const setEvents: (event: EventResponse[]) => void = calendarContext.setEvents;
 
-  const currentDate: Date = date;
+  const currentDate: Date = new Date(date);
 
   const updateEventStateOnDelete = (eventId: number): void => {
     setEvents(events.filter((eventObj: EventResponse) => eventObj.id !== eventId));
@@ -45,7 +45,7 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
     let column: number = 0;
 
     for (let i = 0; i < firstDay; i++) {
-      days.push(<CalendarDay key={`${i}empty`} isEmptyDay={true} day={0} column={0} updateEventStateOnDelete={undefined} />);
+      days.push(<CalendarDay key={`${i}empty`} isEmptyDay={true} day={0} column={0} updateEventStateOnDelete={updateEventStateOnDelete} />);
       column++;
     }
 
@@ -69,7 +69,6 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
     let newDate = new Date(currentDate);
     newDate.setMonth(newDate.getMonth() - 1);
     setCurrentDate(newDate);
-    console.warn(currentDate);
   };
 
   const nextMonth = (): void => {

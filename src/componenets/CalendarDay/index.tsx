@@ -6,12 +6,13 @@ import { useContext } from "react";
 import { CalendarContext, CalendarContextType } from "../../hooks/context";
 import { ADD_EVENT_URL } from "../../constants/RouteConstants";
 import { EventResponse } from "../../models/EventResponse";
+import { formatDate } from "../../util/dateUtil";
 
 interface CalendarDayProps {
   isEmptyDay: boolean,
   day: number,
   column: number,
-  updateEventStateOnDelete: any
+  updateEventStateOnDelete: (eventId: number) => void
 }
 
 const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, updateEventStateOnDelete }: CalendarDayProps) => {
@@ -26,12 +27,13 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
   const date: Date = calendarContext.date;
   const setCurrentDate: (date: Date) => void = calendarContext.setCurrentDate;
 
-  const currentDate: Date = date;
+  const currentDate: Date = new Date(date);
 
   if (day) currentDate.setDate(day);
 
-  const eventsByDate = events.filter((e: EventResponse) =>
-    e.occurrences.includes(currentDate));
+  const eventsByDate = events.filter((e: any) =>
+    e.occurrences.includes(formatDate(currentDate.toString())),
+  );
 
   const changeDay = (day: number): void => {
     let newDate = new Date(currentDate);
@@ -46,7 +48,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
   const getEventsJSXForGivenDay = (): any => {
     let placement: string = column > 3 ? "left" : "right";
 
-    const eventBars: any = eventsByDate.map((e: any, index: number) => {
+    const eventBars: any[] = eventsByDate.map((e: EventResponse, index: number) => {
       if (index > 2 && window.innerWidth > 1000) return;
 
       if (
@@ -81,13 +83,13 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
 
   const isSelectedDay = (): boolean => {
     return day == new Date().getDate() &&
-      currentDate.getMonth() === new Date().getMonth() &&
+      new Date(currentDate).getMonth() === new Date().getMonth() &&
       day == currentDate.getDate();
   }
 
   const isNonSelectedDay = (day: number, currentDate: Date): boolean => {
     return day == new Date().getDate() &&
-      currentDate.getMonth() === new Date().getMonth();
+      new Date(currentDate).getMonth() === new Date().getMonth();
   }
 
   const getClassList = (): string => {
