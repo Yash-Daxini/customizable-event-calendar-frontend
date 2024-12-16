@@ -101,7 +101,7 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
         <input
           type="date"
           id={`${styles.date}`}
-          value={formatDate(currentDate.toString())}
+          value={formatDate(currentDate)}
           required
           onChange={(e) => setCurrentDate(new Date(e.target.value))}
         />
