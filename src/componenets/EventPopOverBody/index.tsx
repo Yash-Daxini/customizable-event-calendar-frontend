@@ -3,9 +3,9 @@ import styles from './style.module.css';
 import { Captions, CalendarX, Pencil, Clock3 } from 'lucide-react';
 import { useAuth } from '../../hooks/AuthProvider';
 import { useNavigate } from 'react-router-dom';
-import { convertTo12HourFormat } from '../../util/timeUtil';
-import { showSuccessToaster, showErrorToaster } from '../../util/toaster'
-import { getShorterDayName } from '../../util/dateUtil';
+import { convertTo12HourFormat } from '../../util/TimeUtil';
+import { showSuccessToaster, showErrorToaster } from '../../util/Toaster'
+import { getShorterDayName } from '../../util/DateUtil';
 import { ADD_EVENT_URL } from '../../constants/RouteConstants';
 import { APIService } from '../../services/APIService';
 

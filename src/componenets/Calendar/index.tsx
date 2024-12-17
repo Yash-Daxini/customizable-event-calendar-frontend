@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { formatDate, getMonthName } from "../../util/dateUtil.js";
+import { formatDate, getMonthName } from "../../util/DateUtil.js";
 import CalendarDay from "../CalendarDay/index.js";
 import styles from "./style.module.css";
 import { CalendarContext, CalendarContextType } from "../../hooks/context.js";

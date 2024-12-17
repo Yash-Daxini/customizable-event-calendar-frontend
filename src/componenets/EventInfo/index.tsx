@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './style.module.css';
-import { getMonthName } from '../../util/dateUtil';
-import { convertTo12HourFormat } from '../../util/timeUtil';
+import { getMonthName } from '../../util/DateUtil';
+import { convertTo12HourFormat } from '../../util/TimeUtil';
 
 interface EventInfoProps {
     events: any[],

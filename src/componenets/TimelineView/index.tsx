@@ -6,12 +6,12 @@ import {
   formatDate,
   getMonthName,
   getShorterDayName,
-} from "../../util/dateUtil";
+} from "../../util/DateUtil";
 import {
   isHourOverlaps,
   convertTo12HourFormat,
   isDurationOverlaps,
-} from "../../util/timeUtil";
+} from "../../util/TimeUtil";
 import TimeLineHourDiv from "../TimeLineHourDiv";
 import { APIService } from "../../services/APIService";
 import { EventResponse } from "../../models/EventResponse";

@@ -1,6 +1,6 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { LOCALSTORAGE_USER_KEY } from '../constants/authConstants';
-import { showErrorToaster } from './toaster';
+import { showErrorToaster } from './Toaster';
 const env = import.meta.env;
 
 const axiosInstance = axios.create({

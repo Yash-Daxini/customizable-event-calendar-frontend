@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { CalendarContext, CalendarContextType } from "../../hooks/context";
 import { ADD_EVENT_URL } from "../../constants/RouteConstants";
 import { EventResponse } from "../../models/EventResponse";
-import { isEqualDates } from "../../util/dateUtil";
+import { isEqualDates } from "../../util/DateUtil";
 
 interface CalendarDayProps {
   isEmptyDay: boolean,

@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import TimelineView from "../TimelineView";
 import RecurrencePatternInput from "../RecurrencePatternInput";
 import { useLocation, useNavigate } from "react-router-dom";
-import { showErrorToaster, showSuccessToaster } from "../../util/toaster";
+import { showErrorToaster, showSuccessToaster } from "../../util/Toaster";
 import { GET_EVENTS_URL } from "../../constants/RouteConstants";
 import { APIService } from "../../services/APIService";
 

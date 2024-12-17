@@ -4,7 +4,7 @@ import FormInput from "../FormInput";
 import FormButton from "../FormButton";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { showErrorToaster, showSuccessToaster } from "../../util/toaster";
+import { showErrorToaster, showSuccessToaster } from "../../util/Toaster";
 import { LOGIN_URL } from "../../constants/RouteConstants";
 import { APIService } from "../../services/APIService";
 import { UserRequest } from "../../models/UserRequest";
