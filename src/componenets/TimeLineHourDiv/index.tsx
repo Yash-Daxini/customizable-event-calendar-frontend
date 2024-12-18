@@ -21,7 +21,7 @@ const TimeLineHourDiv: React.FC<TimeLineHourDivProps> = ({
 }: TimeLineHourDivProps) => {
   let styleOfFilledDiv;
 
-  let classOfDiv;
+  let classOfDiv: any;
 
   if (isOverlapping) classOfDiv = styles.overlapFilled;
   else if (isFilled) classOfDiv = styles.filled;

@@ -4,11 +4,11 @@ import HourDropdown from "../HourDropdown";
 import DateInput from "../DateInput";
 
 interface DateTimeInputProps {
-  onDateChange: any,
-  onHourChange: any,
-  isDateDisable: any,
-  initialDateValue: any,
-  initialHourValue: any
+  onDateChange: () => void,
+  onHourChange: () => void,
+  isDateDisable: boolean,
+  initialDateValue: Date,
+  initialHourValue: number
 }
 
 const DateTimeInput: React.FC<DateTimeInputProps> = ({
@@ -21,11 +21,11 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({
   return (
     <div className={`${styles.dateTimeSelectionDiv}`}>
       <DateInput
-        onChange={onDateChange}
+        onDateChange={onDateChange}
         isDateDisable={isDateDisable}
         initialValue={initialDateValue}
       />
-      <HourDropdown onChange={onHourChange} initialValue={initialHourValue} />
+      <HourDropdown onHourChange={onHourChange} initialValue={initialHourValue} />
     </div>
   );
 };

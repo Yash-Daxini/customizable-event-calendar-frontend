@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { showSuccessToaster, showErrorToaster } from "../util/Toaster";
+import { showSuccessToaster, showErrorToaster } from "../util/toaster";
 import { AuthenticationResponse } from "../models/AuthenticationResponse";
 import { AuthenticationRequest } from "../models/AuthenticationRequest";
 import { LOCALSTORAGE_USER_KEY } from "../constants/authConstants";

@@ -7,10 +7,11 @@ import { useAuth } from '../../hooks/AuthProvider'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css';
 import { SIGNUP_URL } from '../../constants/RouteConstants'
+import { AuthenticationRequest } from '../../models/AuthenticationRequest'
 
 const LoginForm: React.FC = () => {
 
-    const [userInfo, setUserInfo] = useState({ name: '', password: '' });
+    const [userInfo, setUserInfo] = useState<AuthenticationRequest>({ name: "", password: "" });
 
     const auth = useAuth();
 

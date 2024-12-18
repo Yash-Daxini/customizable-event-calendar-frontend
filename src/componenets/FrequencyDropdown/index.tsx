@@ -3,7 +3,7 @@ import Select from 'react-select'
 import styles from './style.module.css'
 
 interface FrequencyDropdownProps {
-    onChange: any,
+    onChange: (value:string) => void,
     initialValue: string
 }
 

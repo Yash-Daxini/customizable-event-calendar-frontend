@@ -1,16 +1,17 @@
 import React from 'react'
 import styles from './style.module.css';
-import { getMonthName } from '../../util/DateUtil';
-import { convertTo12HourFormat } from '../../util/TimeUtil';
+import { getLongerDayName, getMonthName } from '../../util/DateUtil';
+import { convertTo12HourFormat } from '../../util/timeUtil';
+import { EventResponse } from '../../models/EventResponse';
 
 interface EventInfoProps {
-    events: any[],
+    events: EventResponse[],
     date: Date
 }
 
 const EventInfo: React.FC<EventInfoProps> = ({ events, date }: EventInfoProps) => {
 
-    let getEventsJSXForGivenDay = events.map((e) => {
+    let getEventsJSXForGivenDay = events.map((e: EventResponse) => {
         return <div key={e.id} className={`${styles.eventBar}`}>
             <div>
                 <div className={`${styles.title}`}>{e.title}</div>
@@ -22,7 +23,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ events, date }: EventInfoProps) =
     return (
         <>
             <div className={`${styles.dateInfo}`} >
-                <span>{date.toLocaleDateString('en-US', { weekday: 'long' })},
+                <span>{getLongerDayName(date)},
                     &nbsp;{getMonthName(date)} {date.getDate()}</span>
             </div>
             <hr />

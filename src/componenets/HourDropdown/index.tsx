@@ -3,11 +3,11 @@ import Select from 'react-select';
 import styles from './style.module.css'
 
 interface HourDropdownProps {
-    onChange: any,
+    onHourChange: (value: any) => void,
     initialValue: number
 }
 
-const HourDropdown: React.FC<HourDropdownProps> = ({ onChange, initialValue }: HourDropdownProps) => {
+const HourDropdown: React.FC<HourDropdownProps> = ({ onHourChange: onHourChange, initialValue }: HourDropdownProps) => {
 
     const hours = [];
 
@@ -29,7 +29,7 @@ const HourDropdown: React.FC<HourDropdownProps> = ({ onChange, initialValue }: H
 
     const handleChange = (selectedOption: any) => {
         setSelectedTime(selectedOption);
-        onChange(selectedOption.value);
+        onHourChange(selectedOption.value);
     }
 
     return (

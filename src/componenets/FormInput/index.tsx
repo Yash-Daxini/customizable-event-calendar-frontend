@@ -4,7 +4,7 @@ interface FormInputProps {
     type: string,
     placeholder: string,
     value: string,
-    onChange: any,
+    onChange: (event:any) => void,
     labelValue: string
 }
 

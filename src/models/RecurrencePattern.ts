@@ -5,8 +5,8 @@ export interface RecurrencePattern {
     endDate: Date,
     frequency: Frequency,
     interval: number,
-    byWeekDay?: number[],
-    weekOrder?: number,
-    byMonthDay?: number,
+    byWeekDay: number[],
+    weekOrder?: number | null,
+    byMonthDay?: number | null,
     byMonth?: number
 }

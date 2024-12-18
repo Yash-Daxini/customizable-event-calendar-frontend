@@ -11,20 +11,22 @@ import {
   isHourOverlaps,
   convertTo12HourFormat,
   isDurationOverlaps,
-} from "../../util/TimeUtil";
+} from "../../util/timeUtil";
 import TimeLineHourDiv from "../TimeLineHourDiv";
 import { APIService } from "../../services/APIService";
 import { EventResponse } from "../../models/EventResponse";
+import { Duration } from "../../models/Duration";
 
 interface TimelineViewProps {
   date: Date,
-  currentDuration: any
+  currentDuration: Duration
 }
 
 const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: TimelineViewProps) => {
   const [eventList, setEventList] = useState<EventResponse[]>([]);
 
   let [currentDate, setCurrentDate] = useState<Date>(date);
+
   useEffect(() => {
     setCurrentDate(date);
   }, [date]);
@@ -55,7 +57,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
     hours.push({ value: i + 12, label: hour });
   }
 
-  let getEventsWithinDuration = (startHour: number, endHour: number) => {
+  let getEventsWithinDuration = (startHour: number, endHour: number): EventResponse | undefined => {
     return eventList.find((event: any) =>
       isDurationOverlaps(
         event.duration.startHour,
@@ -66,23 +68,23 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
     );
   };
 
-  let getEventAtHour = (hour: number) => {
+  let getEventAtHour = (hour: number): EventResponse | undefined => {
     return eventList.find((event: any) =>
       isHourOverlaps(event.duration.startHour, event.duration.endHour, hour),
     );
   };
 
-  let skipOverlapDuration: any;
+  let skipOverlapDuration: Duration;
 
   let timelineDivContent = hours.map((hour) => {
-    const event: any = getEventAtHour(hour.value);
+    const event: EventResponse | undefined = getEventAtHour(hour.value);
 
-    const isEventOverlappingCurrentDuration = getEventsWithinDuration(
+    const isEventOverlappingCurrentDuration: boolean = getEventsWithinDuration(
       currentDuration.startHour,
       currentDuration.endHour,
-    );
+    ) !== undefined;
 
-    const isEventAtHour = isHourOverlaps(
+    const isEventAtHour: boolean = isHourOverlaps(
       currentDuration.startHour,
       currentDuration.endHour,
       hour.value,
@@ -100,11 +102,11 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
       currentDuration.endHour - currentDuration.startHour > 0 &&
       currentDuration.startHour === hour.value;
 
-    const currentHourDivClass = isEventAtHour ? styles.filledCurrent : "";
-    let heightOfDiv = 0;
-    let overlapDivHeight = 0;
-    let currentStartHour = currentDuration.startHour;
-    let currentEndHour = currentDuration.endHour;
+    const currentHourDivClass: string = isEventAtHour ? styles.filledCurrent : "";
+    let heightOfDiv: number = 0;
+    let overlapDivHeight: number = 0;
+    let currentStartHour: number = currentDuration.startHour;
+    let currentEndHour: number = currentDuration.endHour;
 
     if (event && event.duration.startHour === hour.value) {
       let startHour = event.duration.startHour;
@@ -117,7 +119,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
       skipOverlapDuration = currentDuration;
     }
 
-    let styleOfFilledDiv;
+    let styleOfFilledDiv: any;
 
     if (heightOfDiv === 0)
       styleOfFilledDiv = {

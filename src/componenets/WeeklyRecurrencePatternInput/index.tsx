@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import Select from "react-select";
 import LabelledCheckbox from "../LabelledCheckbox";
+import { RecurringEventRequest } from "../../models/RecurringEventRequest";
 
 interface WeeklyRecurrencePatternInputProps {
-  event: any,
-  updateEvent: any
+  recurringEvent: RecurringEventRequest,
+  updateEvent: (recurringEvent: RecurringEventRequest) => void
 }
 
-const WeeklyRecurrencePatternInput: React.FC<WeeklyRecurrencePatternInputProps> = ({ event, updateEvent }: WeeklyRecurrencePatternInputProps) => {
+const WeeklyRecurrencePatternInput: React.FC<WeeklyRecurrencePatternInputProps> = ({ recurringEvent: event, updateEvent }: WeeklyRecurrencePatternInputProps) => {
   const intervals = [];
 
   for (let i = 1; i <= 5; i++) {

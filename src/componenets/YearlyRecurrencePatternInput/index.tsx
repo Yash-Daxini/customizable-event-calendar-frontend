@@ -1,55 +1,32 @@
 import React, { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import Select from "react-select";
+import { RecurringEventRequest } from "../../models/RecurringEventRequest";
+import { getDayNumberFromDate, getWeekNumber, getWeekOfMonth } from "../../util/DateUtil";
 
 interface YearlyRecurrencePatternInputProps {
   date: Date,
-  event: any,
-  updateEvent: any
+  recurringEvent: RecurringEventRequest,
+  updateEvent: (recurringEvent: RecurringEventRequest) => void
 }
 
-const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> = ({ date, event, updateEvent }: YearlyRecurrencePatternInputProps) => {
+const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> = ({ date, recurringEvent, updateEvent }: YearlyRecurrencePatternInputProps) => {
   const [isMonthDayPattern, setIsMonthDayPattern] = useState(true);
   const [isWeekOrderPattern, setIsWeekOrderPattern] = useState(false);
 
-  const intervals = [];
+  const intervals: any = [];
 
   for (let i = 1; i <= 5; i++) {
     intervals.push({ value: i, label: i });
   }
 
-  const [interval, setInterval] = useState(intervals[0].value);
-
-  const getWeekNumber = (date: Date) => (0 | (date.getDate() / 7)) + 1;
-
-  const getWeekOfMonth = (date: Date) => {
-    const weekNumber = (0 | (date.getDate() / 7)) + 1;
-    switch (weekNumber) {
-      case 1:
-        return "first";
-      case 2:
-        return "second";
-      case 3:
-        return "third";
-      case 4:
-        return "fourth";
-      default:
-        return "last";
-    }
-  };
-
-  const getDayNumberFromDate = (date: Date) => {
-    let day = date.getDay();
-
-    if (day == 0) return 7;
-    return day;
-  };
+  const [interval, setInterval] = useState<number>(intervals[0].value);
 
   useEffect(() => {
     updateEvent({
-      ...event,
+      ...recurringEvent,
       recurrencePattern: {
-        ...event.recurrencePattern,
+        ...recurringEvent.recurrencePattern,
         interval: interval,
         byMonthDay: isMonthDayPattern ? date.getDate() : null,
         weekOrder: isWeekOrderPattern ? getWeekNumber(date) : null,

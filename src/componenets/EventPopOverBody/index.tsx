@@ -3,17 +3,18 @@ import styles from './style.module.css';
 import { Captions, CalendarX, Pencil, Clock3 } from 'lucide-react';
 import { useAuth } from '../../hooks/AuthProvider';
 import { useNavigate } from 'react-router-dom';
-import { convertTo12HourFormat } from '../../util/TimeUtil';
-import { showSuccessToaster, showErrorToaster } from '../../util/Toaster'
+import { convertTo12HourFormat } from '../../util/timeUtil';
+import { showSuccessToaster, showErrorToaster } from '../../util/toaster'
 import { getShorterDayName } from '../../util/DateUtil';
 import { ADD_EVENT_URL } from '../../constants/RouteConstants';
 import { APIService } from '../../services/APIService';
+import { EventResponse } from '../../models/EventResponse';
 
 interface EventPopOverBodyProps {
   key: any,
-  event: any,
+  event: EventResponse,
   eventDate: Date,
-  onDelete: any
+  onDelete: (id: number) => void
 }
 
 const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ key, event, eventDate, onDelete }: EventPopOverBodyProps) => {
@@ -22,7 +23,7 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ key, event, eventDa
 
   const auth = useAuth()
 
-  const navigateToUpdatePage = () => {
+  const navigateToUpdatePage = (): void => {
     navigate(ADD_EVENT_URL, { state: { event: event, date: eventDate } });
   }
 

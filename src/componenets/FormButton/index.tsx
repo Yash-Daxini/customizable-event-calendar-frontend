@@ -3,7 +3,7 @@ import styles from './style.module.css'
 
 interface FormButtonProps {
     buttonText: string,
-    onClick: any
+    onClick: (event: any) => void
 }
 
 const FormButton: React.FC<FormButtonProps> = ({ buttonText, onClick }: FormButtonProps) => {
