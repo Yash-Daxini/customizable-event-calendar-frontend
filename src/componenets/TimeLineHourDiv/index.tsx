@@ -30,7 +30,7 @@ const TimeLineHourDiv: React.FC<TimeLineHourDivProps> = ({
   if (heightOfDiv === 0)
     styleOfFilledDiv = {
       border: "0px",
-      height: "50px",
+      height: "0px",
     };
   else styleOfFilledDiv = { height: `${heightOfDiv}px` };
 

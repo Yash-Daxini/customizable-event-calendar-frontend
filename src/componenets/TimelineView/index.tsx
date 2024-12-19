@@ -103,7 +103,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
       currentDuration.startHour === hour.value;
 
     const currentHourDivClass: string = isEventAtHour ? styles.filledCurrent : "";
-    let heightOfDiv: number = 0;
+    let eventAvailableDivHeight: number = 0;
     let overlapDivHeight: number = 0;
     let currentStartHour: number = currentDuration.startHour;
     let currentEndHour: number = currentDuration.endHour;
@@ -111,7 +111,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
     if (event && event.duration.startHour === hour.value) {
       let startHour = event.duration.startHour;
       let endHour = event.duration.endHour;
-      heightOfDiv = (endHour - startHour) * 50;
+      eventAvailableDivHeight = (endHour - startHour) * 50;
     }
 
     if (isSelectedDurationOverlap) {
@@ -121,12 +121,12 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
 
     let styleOfFilledDiv: any;
 
-    if (heightOfDiv === 0)
+    if (eventAvailableDivHeight === 0)
       styleOfFilledDiv = {
         border: "0px",
         height: "0px",
       };
-    else styleOfFilledDiv = { height: `${heightOfDiv}px` };
+    else styleOfFilledDiv = { height: `${eventAvailableDivHeight}px` };
 
     if (isSelectedDurationOverlap)
       //Overlap occur
@@ -163,7 +163,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
           key={hour.value}
           hourValue={hour.value}
           hourLabel={hour.label}
-          isFilledCurrent={isEventAtHour} isOverlapping={false} isFilled={false} heightOfDiv={0} divContent={undefined} />
+          isFilledCurrent={isEventAtHour} isOverlapping={false} isFilled={false} heightOfDiv={50} divContent={undefined} />
       );
 
     return (
@@ -173,7 +173,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
         hourValue={hour.value}
         hourLabel={hour.label}
         isFilled={true}
-        heightOfDiv={heightOfDiv}
+        heightOfDiv={eventAvailableDivHeight}
         divContent={event.title} isOverlapping={false} isFilledCurrent={false} />
     );
   });
