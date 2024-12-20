@@ -1,0 +1,1 @@
+export const TIMELINE_HOUR_DIV_HEIGHT: number = 50;

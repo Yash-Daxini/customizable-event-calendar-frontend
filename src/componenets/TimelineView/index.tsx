@@ -16,6 +16,7 @@ import TimeLineHourDiv from "../TimeLineHourDiv";
 import { APIService } from "../../services/APIService";
 import { EventResponse } from "../../models/EventResponse";
 import { Duration } from "../../models/Duration";
+import { TIMELINE_HOUR_DIV_HEIGHT } from "../../constants/timelineDivConstants";
 
 interface TimelineViewProps {
   date: Date,
@@ -111,11 +112,11 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
     if (event && event.duration.startHour === hour.value) {
       let startHour = event.duration.startHour;
       let endHour = event.duration.endHour;
-      eventAvailableDivHeight = (endHour - startHour) * 50;
+      eventAvailableDivHeight = (endHour - startHour) * TIMELINE_HOUR_DIV_HEIGHT;
     }
 
     if (isSelectedDurationOverlap) {
-      overlapDivHeight = (currentEndHour - currentStartHour) * 50;
+      overlapDivHeight = (currentEndHour - currentStartHour) * TIMELINE_HOUR_DIV_HEIGHT;
       skipOverlapDuration = currentDuration;
     }
 
@@ -163,7 +164,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
           key={hour.value}
           hourValue={hour.value}
           hourLabel={hour.label}
-          isFilledCurrent={isEventAtHour} isOverlapping={false} isFilled={false} heightOfDiv={50} divContent={undefined} />
+          isFilledCurrent={isEventAtHour} isOverlapping={false} isFilled={false} heightOfDiv={TIMELINE_HOUR_DIV_HEIGHT} divContent={undefined} />
       );
 
     return (
