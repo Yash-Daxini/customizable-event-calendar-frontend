@@ -1,13 +1,13 @@
 import styles from "./style.module.css";
 import DraggableDiv from "../DraggableDiv";
-import { useAuth } from "../../hooks/AuthProvider";
 import { useEffect, useState } from "react";
-import { convertTo12HourFormat } from "../../util/timeUtil";
+import { convertTo12HourFormat } from "../../util/TimeUtil";
 import { ToastContainer } from "react-toastify";
 import { showErrorToaster } from "../../util/toaster";
-import { APIService } from "../../services/APIService";
 import { EventResponse } from "../../models/EventResponse";
 import { SharedCalendar } from "../../models/SharedCalendar";
+import { GetDailyEvents, GetMonthlyEvents, GetOrganizerEvents, GetProposedEvents, GetWeeklyEvents } from "../../services/EventService";
+import { GetSharedCalendars } from "../../services/SharedCalendarService";
 
 const Dashboard: React.FC = () => {
   const [dailyEvents, setDailyEvents] = useState<EventResponse[]>([]);
@@ -17,28 +17,26 @@ const Dashboard: React.FC = () => {
   const [organizedEvents, setOrganizedEvents] = useState<EventResponse[]>([]);
   const [proposedEvents, setProposedEvents] = useState<EventResponse[]>([]);
 
-  const auth = useAuth();
-
   const handleServerError = () => showErrorToaster("Can't connect to server!");
 
   useEffect(() => {
-    APIService.get<EventResponse[]>(`/users/${auth!.user.id}/events/daily`)
-      .then((res) => setDailyEvents(res.data))
+    GetDailyEvents()
+      .then((events) => setDailyEvents(events))
       .catch(() => handleServerError());
-    APIService.get<EventResponse[]>(`/users/${auth!.user.id}/events/weekly`)
-      .then((res) => setWeeklyEvents(res.data))
+    GetWeeklyEvents()
+      .then((events) => setWeeklyEvents(events))
       .catch(() => handleServerError());
-    APIService.get<EventResponse[]>(`/users/${auth!.user.id}/events/monthly`)
-      .then((res) => setMonthlyEvents(res.data))
+    GetMonthlyEvents()
+      .then((events) => setMonthlyEvents(events))
       .catch(() => handleServerError());
-    APIService.get<SharedCalendar[]>(`/sharedCalendars`)
-      .then((res) => setSharedCalendars(res.data))
+    GetSharedCalendars()
+      .then((events) => setSharedCalendars(events))
       .catch(() => handleServerError());
-    APIService.get<EventResponse[]>(`/users/${auth!.user.id}/events/organizer-events`)
-      .then((res) => setOrganizedEvents(res.data))
+    GetOrganizerEvents()
+      .then((events) => setOrganizedEvents(events))
       .catch(() => handleServerError());
-    APIService.get<EventResponse[]>(`/users/${auth!.user.id}/events/proposed`)
-      .then((res) => setProposedEvents(res.data))
+    GetProposedEvents()
+      .then((events) => setProposedEvents(events))
       .catch(() => handleServerError());
   }, []);
 
