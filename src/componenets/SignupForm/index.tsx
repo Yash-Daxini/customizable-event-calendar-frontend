@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./style.module.css";
-import FormInput from "../FormInput";
+import FloatingInput from "../FloatingInput";
 import FormButton from "../FormButton";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -29,21 +29,21 @@ const SignupForm: React.FC = () => {
       <ToastContainer />
       <span className={`${styles.title}`}>Signup</span>
       <form>
-        <FormInput
+        <FloatingInput
           type={"text"}
           placeholder={"Username"}
           value={userInfo.name}
           labelValue={"User name"}
           onChange={(e: any) => setUserInfo({ ...userInfo, name: e.target.value })}
         />
-        <FormInput
+        <FloatingInput
           type={"email"}
           placeholder={"Email"}
           value={userInfo.email}
           labelValue={"Email"}
           onChange={(e: any) => setUserInfo({ ...userInfo, email: e.target.value })}
         />
-        <FormInput
+        <FloatingInput
           type={"password"}
           placeholder={"Password"}
           value={userInfo.password}

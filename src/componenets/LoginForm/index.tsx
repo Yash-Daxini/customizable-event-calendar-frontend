@@ -1,6 +1,6 @@
 import styles from './style.module.css'
 import React, { useState } from 'react'
-import FormInput from '../FormInput'
+import FloatingInput from '../FloatingInput'
 import FormButton from '../FormButton'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/AuthProvider'
@@ -25,14 +25,14 @@ const LoginForm: React.FC = () => {
             <ToastContainer />
             <span className={`${styles.title}`} >Login</span>
             <form>
-                <FormInput
+                <FloatingInput
                     type={"text"}
                     placeholder={"Username"}
                     value={userInfo.name}
                     labelValue={"User name"}
                     onChange={(e: any) => setUserInfo({ ...userInfo, name: e.target.value })}
                 />
-                <FormInput
+                <FloatingInput
                     type={"password"}
                     placeholder={"Password"}
                     value={userInfo.password}

@@ -11,6 +11,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { showErrorToaster, showSuccessToaster } from "../../util/Toaster";
 import { GET_EVENTS_URL } from "../../constants/RouteConstants";
 import { AddEvent, AddRecurringEvent, UpdateEvent, UpdateRecurringEvent } from "../../services/EventService";
+import IconedInput from "../IconedInput";
+import IconedTextarea from "../IconedTextarea";
 
 const EventForm: React.FC = () => {
   const navigate = useNavigate();
@@ -20,6 +22,8 @@ const EventForm: React.FC = () => {
   let { date } = location.state || {};
 
   const isUpdate = event !== undefined;
+
+  date = date ? new Date(date) : new Date();
 
   let auth = useAuth();
 
@@ -63,7 +67,7 @@ const EventForm: React.FC = () => {
   const isRecurringEvent = () =>
     eventObj.recurrencePattern.frequency !== "None";
 
-  let handleClick = () => {
+  const handleClick = () => {
     if (isRecurringEvent()) delete eventObj.eventDate;
 
     if (isUpdate)
@@ -114,43 +118,28 @@ const EventForm: React.FC = () => {
     <div className={`${styles.eventAddDiv}`}>
       <ToastContainer />
       <div className={`${styles.addDiv}`}>
-        <div className={`${styles.inputDiv}`}>
-          <Captions />
-          <input
-            className={`${styles.stringInput}`}
-            value={`${eventObj.title}`}
-            type="text"
-            placeholder="Add a title"
-            onChange={(e) =>
-              setEventObj({ ...eventObj, title: e.target.value })
-            }
-          />
-        </div>
-        <div className={`${styles.inputDiv}`}>
-          <MapPin />
-          <input
-            className={`${styles.stringInput}`}
-            value={`${eventObj.location}`}
-            type="text"
-            placeholder="Add a location"
-            onChange={(e) =>
-              setEventObj({ ...eventObj, location: e.target.value })
-            }
-          />
-        </div>
-        <div className={`${styles.inputDiv}`}>
-          <NotebookTabs />
-          <textarea
-            className={`${styles.textarea}`}
-            value={eventObj.description}
-            typeof={"textarea"}
-            rows={4}
-            placeholder="Add a description"
-            onChange={(e) =>
-              setEventObj({ ...eventObj, description: e.target.value })
-            }
-          />
-        </div>
+        <IconedInput
+          icon={<Captions />}
+          placeholder={"Add a title"}
+          inputValue={`${eventObj.title}`}
+          onChange={(e) =>
+            setEventObj({ ...eventObj, title: e.target.value })}
+        />
+        <IconedInput
+          icon={<MapPin />}
+          placeholder={"Add a location"}
+          inputValue={`${eventObj.location}`}
+          onChange={(e) =>
+            setEventObj({ ...eventObj, location: e.target.value })}
+        />
+        <IconedTextarea
+          icon={<NotebookTabs />}
+          placeholder={"Add a description"}
+          inputValue={eventObj.description}
+          textAreaRows={4}
+          onChange={(e) =>
+            setEventObj({ ...eventObj, description: e.target.value })}
+        />
 
         <div className={`${styles.inputDiv}`}>
           <UserPlus />

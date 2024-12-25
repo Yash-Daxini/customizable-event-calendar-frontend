@@ -8,7 +8,7 @@ interface FormInputProps {
     labelValue: string
 }
 
-const FormInput: React.FC<FormInputProps> = ({ type, placeholder, value, onChange, labelValue }: FormInputProps) => {
+const FloatingInput: React.FC<FormInputProps> = ({ type, placeholder, value, onChange, labelValue }: FormInputProps) => {
     return (
         <div className="form-floating mb-3">
             <input
@@ -24,4 +24,4 @@ const FormInput: React.FC<FormInputProps> = ({ type, placeholder, value, onChang
     )
 }
 
-export default FormInput
+export default FloatingInput
