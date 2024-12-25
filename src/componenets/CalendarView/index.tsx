@@ -6,6 +6,7 @@ import { CalendarContext, CalendarContextType } from "../../hooks/context.js";
 import { ToastContainer } from 'react-toastify';
 import { EventResponse } from "../../models/EventResponse.js";
 import { GetAllEvents } from "../../services/EventService.js";
+import { isEqualDates } from "../../util/DateUtil.js";
 
 const CalendarView = () => {
   const [eventList, setEventList] = useState<EventResponse[]>([]);
@@ -20,7 +21,10 @@ const CalendarView = () => {
   }, []);
 
   const getEventForGivenDate = (date: Date): EventResponse[] => {
-    return eventList.filter((e: EventResponse) => e.occurrences.includes(date));
+    const targetDate = new Date(date);
+    return eventList.filter((e: EventResponse) =>
+      e.occurrences.some(eventDate => isEqualDates(new Date(eventDate), targetDate))
+    );
   };
 
   const valueOfContext: CalendarContextType = {
