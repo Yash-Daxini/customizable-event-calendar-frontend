@@ -6,7 +6,7 @@ import {
   handleDragEnter,
   handleDragLeave,
   handleDragEnd,
-} from "../../util/dragdropUtil";
+} from "../../util/DragdropUtil";
 import { Grip } from "lucide-react";
 
 interface DraggableDivProps {

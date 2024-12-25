@@ -8,11 +8,11 @@ import { ToastContainer } from "react-toastify";
 import TimelineView from "../TimelineView";
 import RecurrencePatternInput from "../RecurrencePatternInput";
 import { useLocation, useNavigate } from "react-router-dom";
-import { showErrorToaster, showSuccessToaster } from "../../util/toaster";
+import { showErrorToaster, showSuccessToaster } from "../../util/Toaster";
 import { GET_EVENTS_URL } from "../../constants/RouteConstants";
-import { APIService } from "../../services/APIService";
+import { AddEvent, AddRecurringEvent, UpdateEvent, UpdateRecurringEvent } from "../../services/EventService";
 
-const AddEvent: React.FC = () => {
+const EventForm: React.FC = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -60,50 +60,54 @@ const AddEvent: React.FC = () => {
       },
   );
 
-  const getApiEndPoint = () =>
-    isRecurringEvent()
-      ? `/users/${auth!.user.id}/events/recurring-events`
-      : `/users/${auth!.user.id}/events`;
-
   const isRecurringEvent = () =>
     eventObj.recurrencePattern.frequency !== "None";
 
   let handleClick = () => {
     if (isRecurringEvent()) delete eventObj.eventDate;
 
-    let endPoint = getApiEndPoint();
-    endPoint += isUpdate ? `/${eventObj.id}` : ``;
-
     if (isUpdate)
-      updateEvent(endPoint, eventObj);
+      updateEvent(eventObj, isRecurringEvent());
     else
-      insertEvent(endPoint, eventObj);
+      insertEvent(eventObj, isRecurringEvent());
   };
 
-  const insertEvent = (endpoint: string, event: any) => {
-    APIService.post(endpoint, event).then((res) => {
-      if (res.statusCode === 400) showErrorToaster("Invalid Input !");
-      else if (res.statusCode === 201) {
-        navigate(GET_EVENTS_URL);
-        setTimeout(() => {
+  const insertEvent = (event: any, isRecurringEvent: boolean) => {
+    if (isRecurringEvent) {
+      AddRecurringEvent(event)
+        .then(() => {
+          navigate(GET_EVENTS_URL)
           showSuccessToaster("Event added successfully !");
-        }, 50);
-      }
-    })
-      .catch(() => showErrorToaster("Some error occurred !"));
+        })
+        .catch(() => showErrorToaster("Some error occurred !"));
+    }
+    else {
+      AddEvent(event)
+        .then(() => {
+          navigate(GET_EVENTS_URL)
+          showSuccessToaster("Event added successfully !");
+        })
+        .catch(() => showErrorToaster("Some error occurred !"));
+    }
   }
 
-  const updateEvent = (endpoint: string, event: any) => {
-    APIService.put(endpoint, event).then((res) => {
-      if (res.statusCode === 400) showErrorToaster("Invalid Input !");
-      else if (res.statusCode === 201) {
-        navigate(GET_EVENTS_URL);
-        setTimeout(() => {
+  const updateEvent = (event: any, isRecurringEvent: boolean) => {
+    if (isRecurringEvent) {
+      UpdateRecurringEvent(event, event.Id)
+        .then(() => {
+          navigate(GET_EVENTS_URL)
           showSuccessToaster("Event updated successfully !");
-        }, 50);
-      }
-    })
-      .catch(() => showErrorToaster("Some error occurred !"));
+        })
+        .catch(() => showErrorToaster("Some error occurred !"));
+    }
+    else {
+      UpdateEvent(event, event.Id)
+        .then(() => {
+          navigate(GET_EVENTS_URL)
+          showSuccessToaster("Event updated successfully !");
+        })
+        .catch(() => showErrorToaster("Some error occurred !"));
+    }
   }
 
   return (
@@ -270,4 +274,4 @@ const AddEvent: React.FC = () => {
   );
 };
 
-export default AddEvent;
+export default EventForm;

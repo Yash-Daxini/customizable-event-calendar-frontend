@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './style.module.css';
 import { getLongerDayName, getMonthName } from '../../util/DateUtil';
-import { convertTo12HourFormat } from '../../util/timeUtil';
+import { convertTo12HourFormat } from '../../util/TimeUtil';
 import { EventResponse } from '../../models/EventResponse';
 
 interface EventInfoProps {

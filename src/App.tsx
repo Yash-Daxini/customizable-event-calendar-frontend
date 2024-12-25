@@ -6,7 +6,7 @@ import PrivateRoute from './hooks/PrivateRoute'
 import Layout from './componenets/Layout'
 import Dashboard from './componenets/Dashboard'
 import CalendarView from './componenets/CalendarView'
-import AddEvent from './componenets/AddEvent'
+import EventForm from './componenets/AddEvent'
 import { ADD_EVENT_URL, GET_EVENTS_URL, HOME_URL, LOGIN_URL, SIGNUP_URL } from './constants/RouteConstants'
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
             <Route path={HOME_URL} element={<Layout />}>
               <Route index element={<Dashboard />} />
               <Route path={GET_EVENTS_URL} element={<CalendarView />} />
-              <Route path={ADD_EVENT_URL} element={<AddEvent />} />
+              <Route path={ADD_EVENT_URL} element={<EventForm />} />
             </Route>
           </Route>
         </Routes>

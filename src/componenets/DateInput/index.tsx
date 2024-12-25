@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './style.module.css';
 
 interface DateInputProps {
-    onDateChange: () => void,
+    onDateChange: (event:any) => void,
     isDateDisable: boolean,
     initialValue: Date
 }

@@ -1,14 +1,13 @@
 import React from 'react'
 import styles from './style.module.css';
 import { Captions, CalendarX, Pencil, Clock3 } from 'lucide-react';
-import { useAuth } from '../../hooks/AuthProvider';
 import { useNavigate } from 'react-router-dom';
-import { convertTo12HourFormat } from '../../util/timeUtil';
+import { convertTo12HourFormat } from '../../util/TimeUtil';
 import { showSuccessToaster, showErrorToaster } from '../../util/toaster'
 import { getShorterDayName } from '../../util/DateUtil';
 import { ADD_EVENT_URL } from '../../constants/RouteConstants';
-import { APIService } from '../../services/APIService';
 import { EventResponse } from '../../models/EventResponse';
+import { DeleteEvent } from '../../services/EventService';
 
 interface EventPopOverBodyProps {
   key: any,
@@ -21,28 +20,16 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ key, event, eventDa
 
   const navigate = useNavigate();
 
-  const auth = useAuth()
-
   const navigateToUpdatePage = (): void => {
     navigate(ADD_EVENT_URL, { state: { event: event, date: eventDate } });
   }
 
   const deleteEvent = () => {
     onDelete(event.id);
-    APIService.delete(`/users/${auth!.user.id}/events/${event.id}`)
-      .then(res => {
-        if (res.statusCode === 400) {
-          showErrorToaster("Some error occured !")
-        }
-        else if (res.statusCode === 200) {
-          showSuccessToaster("Successfully Deleted Event !");
-        }
-        else {
-          showErrorToaster("Some error occured !")
-        }
-      })
+    DeleteEvent(event.id)
+      .then(() => showSuccessToaster("Successfully Deleted Event !"))
+      .catch(() => showErrorToaster("Failed to delete event !"));
   }
-
 
   return (
     <div key={key} className={styles.eventPopOverDiv}>

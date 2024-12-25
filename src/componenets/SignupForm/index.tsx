@@ -4,12 +4,10 @@ import FormInput from "../FormInput";
 import FormButton from "../FormButton";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { showErrorToaster, showSuccessToaster } from "../../util/toaster";
+import { showErrorToaster, showSuccessToaster } from "../../util/Toaster";
 import { LOGIN_URL } from "../../constants/RouteConstants";
-import { APIService } from "../../services/APIService";
 import { UserRequest } from "../../models/UserRequest";
-
-const env = import.meta.env;
+import { SignUp } from "../../services/AuthService";
 
 const SignupForm: React.FC = () => {
   const [userInfo, setUserInfo] = useState<UserRequest>({
@@ -21,17 +19,9 @@ const SignupForm: React.FC = () => {
 
   let handleSignUp = (e: any) => {
     e.preventDefault();
-    APIService.post<number, UserRequest>(env.VITE_Signup_API, userInfo)
-      .then((res) => {
-        if (res.statusCode === 400) {
-          showErrorToaster("Invalid input !");
-        } else if (res.statusCode === 200) {
-          showSuccessToaster("Successfully signed up !");
-        }
-      })
-      .catch(() => {
-        showErrorToaster(`Some error occurred !`);
-      });
+    SignUp(userInfo)
+      .then(() => showSuccessToaster("Successfully signed up !"))
+      .catch(() => showErrorToaster(`Some error occurred !`));
   };
 
   return (

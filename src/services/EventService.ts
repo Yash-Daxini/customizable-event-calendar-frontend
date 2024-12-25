@@ -1,6 +1,7 @@
 import { EventResponse } from "../models/EventResponse";
 import { NonRecurringEventRequest } from "../models/NonRecurringEventRequest";
 import { RecurringEventRequest } from "../models/RecurringEventRequest";
+import { formatDate } from "../util/DateUtil";
 import { replaceIdsInUrl } from "../util/UrlService";
 import { ApiResponse, APIService } from "./APIService";
 const env = import.meta.env;
@@ -37,6 +38,13 @@ export const GetOrganizerEvents = async (): Promise<EventResponse[]> => {
 
 export const GetProposedEvents = async (): Promise<EventResponse[]> => {
     const endPoint: string = env.VITE_GET_PROPOSED_EVENTS_URL
+    const response: ApiResponse<EventResponse[]> = await APIService.get<EventResponse[]>(endPoint);
+    return response.data;
+}
+
+export const GetEventsBetweenDates = async (startDate: Date, endDate: Date): Promise<EventResponse[]> => {
+    let endPoint: string = env.VITE_GET_EVENTS_BETWEEN_DATES
+    endPoint += `?startDate=${formatDate(startDate)}&endDate=${formatDate(endDate)}`;
     const response: ApiResponse<EventResponse[]> = await APIService.get<EventResponse[]>(endPoint);
     return response.data;
 }

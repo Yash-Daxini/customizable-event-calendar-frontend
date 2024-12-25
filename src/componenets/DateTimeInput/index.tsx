@@ -4,8 +4,8 @@ import HourDropdown from "../HourDropdown";
 import DateInput from "../DateInput";
 
 interface DateTimeInputProps {
-  onDateChange: () => void,
-  onHourChange: () => void,
+  onDateChange: (event:any) => void,
+  onHourChange: (event:any) => void,
   isDateDisable: boolean,
   initialDateValue: Date,
   initialHourValue: number

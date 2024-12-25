@@ -1,12 +1,11 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { showSuccessToaster, showErrorToaster } from "../util/toaster";
+import { showSuccessToaster, showErrorToaster } from "../util/Toaster";
 import { AuthenticationResponse } from "../models/AuthenticationResponse";
 import { AuthenticationRequest } from "../models/AuthenticationRequest";
 import { LOCALSTORAGE_USER_KEY } from "../constants/authConstants";
 import { HOME_URL, LOGIN_URL } from "../constants/RouteConstants";
-import { APIService } from "../services/APIService";
-const env = import.meta.env;
+import { Login } from "../services/AuthService";
 
 export interface AuthContextType {
   user: AuthenticationResponse,
@@ -32,15 +31,12 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
   const navigate = useNavigate();
 
   const loginAction = async (data: AuthenticationRequest): Promise<void> => {
-    const response = await APIService.post<AuthenticationResponse,AuthenticationRequest>(env.VITE_Login_API, data);
-    if (response.statusCode === 400) {
-      showErrorToaster("Invalid user name or password !");
-    } else {
-      setUser(response.data);
-      localStorage.setItem(LOCALSTORAGE_USER_KEY, JSON.stringify(response.data));
+    Login(data).then((response) => {
+      setUser(response);
+      localStorage.setItem(LOCALSTORAGE_USER_KEY, JSON.stringify(data));
       showSuccessToaster("Login successful !");
       navigate(HOME_URL);
-    }
+    }).catch(() => showErrorToaster("Login failed !"));
   };
 
   const logOut = (): void => {

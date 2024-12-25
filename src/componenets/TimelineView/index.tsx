@@ -3,7 +3,6 @@ import styles from "./style.module.css";
 import { CalendarArrowUp } from "lucide-react";
 import { useAuth } from "../../hooks/AuthProvider";
 import {
-  formatDate,
   getMonthName,
   getShorterDayName,
 } from "../../util/DateUtil";
@@ -11,12 +10,12 @@ import {
   isHourOverlaps,
   convertTo12HourFormat,
   isDurationOverlaps,
-} from "../../util/timeUtil";
+} from "../../util/TimeUtil";
 import TimeLineHourDiv from "../TimeLineHourDiv";
-import { APIService } from "../../services/APIService";
 import { EventResponse } from "../../models/EventResponse";
 import { Duration } from "../../models/Duration";
 import { TIMELINE_HOUR_DIV_HEIGHT } from "../../constants/timelineDivConstants";
+import { GetEventsBetweenDates } from "../../services/EventService";
 
 interface TimelineViewProps {
   date: Date,
@@ -35,10 +34,8 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
   const auth = useAuth();
 
   useEffect(() => {
-    let apiEndPoint = `/users/${auth!.user.id}/events/eventsBetweenDates?startDate=${formatDate(currentDate)}&endDate=${formatDate(currentDate)}`;
-
-    APIService.get<EventResponse[]>(apiEndPoint)
-      .then((res) => setEventList(res.data))
+    GetEventsBetweenDates(currentDate,currentDate)
+      .then((events) => setEventList(events))
       .catch((err) => console.warn(err));
   }, [currentDate, date, auth!.user]);
 
