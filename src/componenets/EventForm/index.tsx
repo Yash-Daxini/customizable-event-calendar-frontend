@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import DateTimeInput from "../DateTimeInput";
 import FrequencyDropdown from "../FrequencyDropdown";
@@ -13,6 +13,9 @@ import { GET_EVENTS_URL } from "../../constants/RouteConstants";
 import { AddEvent, AddRecurringEvent, UpdateEvent, UpdateRecurringEvent } from "../../services/EventService";
 import IconedInput from "../IconedInput";
 import IconedTextarea from "../IconedTextarea";
+import { UserResponse } from "../../models/UserResponse";
+import { GetUsersToInvite } from "../../services/UserService";
+import SelectionDropdown, { OptionType } from "../SelectionDropdown";
 
 const EventForm: React.FC = () => {
   const navigate = useNavigate();
@@ -26,6 +29,15 @@ const EventForm: React.FC = () => {
   date = date ? new Date(date) : new Date();
 
   let auth = useAuth();
+
+  const [usersToInvite, setUsersToInvite] = useState<UserResponse[]>([]);
+
+  useEffect(() => {
+    GetUsersToInvite()
+      .then(res => setUsersToInvite(res))
+      .catch(err => console.error(err))
+  }, [])
+
 
   const [selectedDate, setSelectedDate] = useState<Date>(date);
   const [eventObj, setEventObj] = useState(
@@ -114,6 +126,15 @@ const EventForm: React.FC = () => {
     }
   }
 
+  const getUsersDropdownOptions = (): OptionType[] => {
+    return usersToInvite.map((user): OptionType => {
+      return {
+        label: user.email,
+        value: user.id.toString(),
+      };
+    });
+  }
+
   return (
     <div className={`${styles.eventAddDiv}`}>
       <ToastContainer />
@@ -141,14 +162,13 @@ const EventForm: React.FC = () => {
             setEventObj({ ...eventObj, description: e.target.value })}
         />
 
-        <div className={`${styles.inputDiv}`}>
-          <UserPlus />
-          <input
-            className={`${styles.stringInput}`}
-            type="text"
-            placeholder="Add a invitees"
-          />
-        </div>
+        <SelectionDropdown
+          isCloseMenuOnSelect={false}
+          defaultValue={[]}
+          isMultiSelect={true}
+          options={getUsersDropdownOptions()}
+          placeholder={"Select invitees"}
+          icon={<UserPlus />} />
 
         <div className={`${styles.inputDiv}`}>
           <Clock3 />
