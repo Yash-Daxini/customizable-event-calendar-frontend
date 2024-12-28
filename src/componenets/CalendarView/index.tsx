@@ -3,7 +3,6 @@ import styles from "./style.module.css";
 import EventInfo from "../EventInfo/index.js";
 import Calendar from "../Calendar/index.js";
 import { CalendarContext, CalendarContextType } from "../../hooks/context.js";
-import { ToastContainer } from 'react-toastify';
 import { EventResponse } from "../../models/EventResponse.js";
 import { GetAllEvents } from "../../services/EventService.js";
 import { isEqualDates } from "../../util/DateUtil.js";
@@ -36,7 +35,6 @@ const CalendarView = () => {
 
   return (
     <div className={`${styles.calendarViewDiv}`}>
-      <ToastContainer />
       <CalendarContext.Provider value={valueOfContext}>
         <Calendar
           isFullSizeCalendar={isFullSizeCalendar}

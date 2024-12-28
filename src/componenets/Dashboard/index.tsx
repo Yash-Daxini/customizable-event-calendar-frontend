@@ -2,8 +2,7 @@ import styles from "./style.module.css";
 import DraggableDiv from "../DraggableDiv";
 import { useEffect, useState } from "react";
 import { convertTo12HourFormat } from "../../util/TimeUtil";
-import { ToastContainer } from "react-toastify";
-import { showErrorToaster } from "../../util/toaster";
+import { showErrorToaster } from "../../util/Toaster";
 import { EventResponse } from "../../models/EventResponse";
 import { SharedCalendar } from "../../models/SharedCalendar";
 import { GetDailyEvents, GetMonthlyEvents, GetOrganizerEvents, GetProposedEvents, GetWeeklyEvents } from "../../services/EventService";
@@ -115,7 +114,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
-      <ToastContainer />
       <div className={`${styles.dashboardDiv} container`}>
         <DraggableDiv
           key={1}

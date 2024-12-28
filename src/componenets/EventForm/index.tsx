@@ -4,7 +4,6 @@ import DateTimeInput from "../DateTimeInput";
 import FrequencyDropdown from "../FrequencyDropdown";
 import { useAuth } from "../../hooks/AuthProvider";
 import { Captions, MapPin, NotebookTabs, Clock3, UserPlus } from "lucide-react";
-import { ToastContainer } from "react-toastify";
 import TimelineView from "../TimelineView";
 import RecurrencePatternInput from "../RecurrencePatternInput";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -137,7 +136,6 @@ const EventForm: React.FC = () => {
 
   return (
     <div className={`${styles.eventAddDiv}`}>
-      <ToastContainer />
       <div className={`${styles.addDiv}`}>
         <IconedInput
           icon={<Captions />}

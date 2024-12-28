@@ -3,12 +3,14 @@ import { useAuth } from "../../hooks/AuthProvider";
 import { Link, Outlet } from "react-router-dom";
 import styles from "./style.module.css";
 import { GET_EVENTS_URL } from "../../constants/RouteConstants";
+import { ToastContainer } from "react-toastify";
 
 const Layout: React.FC = () => {
   const auth = useAuth();
 
   return (
     <>
+      <ToastContainer />
       <nav
         className={` ${styles.navbar} navbar navbar-expand-lg bg-body-tertiary`}
       >

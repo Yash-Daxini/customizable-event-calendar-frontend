@@ -4,7 +4,6 @@ import FloatingInput from '../FloatingInput'
 import FormButton from '../FormButton'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/AuthProvider'
-import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css';
 import { SIGNUP_URL } from '../../constants/RouteConstants'
 import { AuthenticationRequest } from '../../models/AuthenticationRequest'
@@ -22,7 +21,6 @@ const LoginForm: React.FC = () => {
 
     return (
         <div id={`${styles.loginDiv}`}>
-            <ToastContainer />
             <span className={`${styles.title}`} >Login</span>
             <form>
                 <FloatingInput

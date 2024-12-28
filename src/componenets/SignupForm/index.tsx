@@ -3,7 +3,6 @@ import styles from "./style.module.css";
 import FloatingInput from "../FloatingInput";
 import FormButton from "../FormButton";
 import { Link } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import { showErrorToaster, showSuccessToaster } from "../../util/Toaster";
 import { LOGIN_URL } from "../../constants/RouteConstants";
 import { UserRequest } from "../../models/UserRequest";
@@ -26,7 +25,6 @@ const SignupForm: React.FC = () => {
 
   return (
     <div id={`${styles.signupDiv}`}>
-      <ToastContainer />
       <span className={`${styles.title}`}>Signup</span>
       <form>
         <FloatingInput
