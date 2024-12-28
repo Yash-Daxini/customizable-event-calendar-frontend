@@ -14,7 +14,11 @@ import IconedInput from "../IconedInput";
 import IconedTextarea from "../IconedTextarea";
 import { UserResponse } from "../../models/UserResponse";
 import { GetUsersToInvite } from "../../services/UserService";
-import SelectionDropdown, { OptionType } from "../SelectionDropdown";
+import SelectionDropdown from "../SelectionDropdown";
+import { EventCollaboratorRole } from "../../enums/EventCollaboratorRole";
+import { ConfirmationStatus } from "../../enums/ConfirmationStatus";
+import { DropdownInput } from "../../common/types";
+import { Frequency } from "../../enums/Frequency";
 
 const EventForm: React.FC = () => {
   const navigate = useNavigate();
@@ -47,8 +51,8 @@ const EventForm: React.FC = () => {
         eventCollaborators: [
           {
             userId: auth!.user.id,
-            eventCollaboratorRole: "Organizer",
-            confirmationStatus: "Accept",
+            eventCollaboratorRole: EventCollaboratorRole.Organizer,
+            confirmationStatus: ConfirmationStatus.Accept,
           },
         ],
       }
@@ -61,22 +65,22 @@ const EventForm: React.FC = () => {
           endHour: 0,
         },
         recurrencePattern: {
-          frequency: "None",
+          frequency: Frequency.None,
           startDate: selectedDate.toISOString().split("T")[0],
         },
         eventDate: selectedDate.toISOString().split("T")[0],
         eventCollaborators: [
           {
             userId: auth!.user.id,
-            eventCollaboratorRole: "Organizer",
-            confirmationStatus: "Accept",
+            eventCollaboratorRole: EventCollaboratorRole.Organizer,
+            confirmationStatus: ConfirmationStatus.Accept,
           },
         ],
       },
   );
 
   const isRecurringEvent = () =>
-    eventObj.recurrencePattern.frequency !== "None";
+    eventObj.recurrencePattern.frequency !== Frequency.None;
 
   const handleClick = () => {
     if (isRecurringEvent()) delete eventObj.eventDate;
@@ -125,11 +129,11 @@ const EventForm: React.FC = () => {
     }
   }
 
-  const getUsersDropdownOptions = (): OptionType[] => {
-    return usersToInvite.map((user): OptionType => {
+  const getUsersDropdownOptions = (): DropdownInput[] => {
+    return usersToInvite.map((user): DropdownInput => {
       return {
         label: user.email,
-        value: user.id.toString(),
+        value: user.id,
       };
     });
   }
@@ -166,7 +170,19 @@ const EventForm: React.FC = () => {
           isMultiSelect={true}
           options={getUsersDropdownOptions()}
           placeholder={"Select invitees"}
-          icon={<UserPlus />} />
+          icon={<UserPlus />}
+          onChange={(value: DropdownInput[]): void => {
+            setEventObj({
+              ...eventObj,
+              eventCollaborators: [...eventObj.eventCollaborators, ...value.map((user: DropdownInput) => {
+                return {
+                  userId: user.value,
+                  eventCollaboratorRole: EventCollaboratorRole.Participant,
+                  confirmationStatus: ConfirmationStatus.Pending,
+                };
+              })],
+            });
+          }} />
 
         <div className={`${styles.inputDiv}`}>
           <Clock3 />

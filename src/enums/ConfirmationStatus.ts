@@ -1,7 +1,7 @@
 export enum ConfirmationStatus {
-    Accept,
-    Reject,
-    Maybe,
-    Pending,
-    Proposed
+    Accept = "Accept",
+    Reject = "Reject",
+    Maybe = "Maybe",
+    Pending = "Pending",
+    Proposed = "Proposed"
 }

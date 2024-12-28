@@ -2,26 +2,26 @@ import React from 'react';
 import makeAnimated from 'react-select/animated';
 import Select from 'react-select';
 import styles from './style.module.css';
-
-export type OptionType = { label: string, value: string };
+import { DropdownInput } from '../../common/types';
 
 interface SelectionDropdownProps {
     isCloseMenuOnSelect: boolean,
-    defaultValue: OptionType[],
+    defaultValue: DropdownInput[],
     isMultiSelect: boolean,
-    options: OptionType[],
+    options: DropdownInput[],
     placeholder: string,
-    icon: any
+    icon: any,
+    onChange: (value: any) => void
 }
 
-const SelectionDropdown: React.FC<SelectionDropdownProps> = ({ isCloseMenuOnSelect, defaultValue, isMultiSelect, options, placeholder, icon
+const SelectionDropdown: React.FC<SelectionDropdownProps> = ({ isCloseMenuOnSelect, defaultValue, isMultiSelect, options, placeholder, icon, onChange
 }) => {
 
     const animatedComponents = makeAnimated();
 
     return (
         <div className={`${styles.inputDiv}`}>
-          {icon}
+            {icon}
             <Select
                 closeMenuOnSelect={isCloseMenuOnSelect}
                 components={animatedComponents}
@@ -30,6 +30,7 @@ const SelectionDropdown: React.FC<SelectionDropdownProps> = ({ isCloseMenuOnSele
                 options={options}
                 placeholder={placeholder}
                 className={`${styles.dropdown}`}
+                onChange={onChange}
             />
         </div>
     )

@@ -1,0 +1,1 @@
+export type DropdownInput = { label: string, value: any };

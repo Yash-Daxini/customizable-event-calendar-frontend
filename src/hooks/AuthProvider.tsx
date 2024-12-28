@@ -33,7 +33,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
   const loginAction = async (data: AuthenticationRequest): Promise<void> => {
     Login(data).then((response) => {
       setUser(response);
-      localStorage.setItem(LOCALSTORAGE_USER_KEY, JSON.stringify(data));
+      localStorage.setItem(LOCALSTORAGE_USER_KEY, JSON.stringify(response));
       showSuccessToaster("Login successful !");
       navigate(HOME_URL);
     }).catch(() => showErrorToaster("Login failed !"));

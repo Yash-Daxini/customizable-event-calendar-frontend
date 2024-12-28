@@ -1,5 +1,5 @@
 export enum EventCollaboratorRole {
-    Organizer,
-    Participant,
-    Collaborator
+    Organizer="Organizer",
+    Participant="Participant",
+    Collaborator="Collaborator"
 }
