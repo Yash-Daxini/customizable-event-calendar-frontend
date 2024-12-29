@@ -7,6 +7,7 @@ import { showErrorToaster, showSuccessToaster } from "../../util/Toaster";
 import { LOGIN_URL } from "../../constants/RouteConstants";
 import { UserRequest } from "../../models/UserRequest";
 import { SignUp } from "../../services/AuthService";
+import { ToastContainer } from "react-toastify";
 
 const SignupForm: React.FC = () => {
   const [userInfo, setUserInfo] = useState<UserRequest>({
@@ -25,6 +26,7 @@ const SignupForm: React.FC = () => {
 
   return (
     <div id={`${styles.signupDiv}`}>
+      <ToastContainer />
       <span className={`${styles.title}`}>Signup</span>
       <form>
         <FloatingInput
