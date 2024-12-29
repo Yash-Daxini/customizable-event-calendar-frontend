@@ -1,5 +1,5 @@
 import { Duration } from "./Duration";
-import { EventCollaborator } from "./EventCollaborator";
+import { EventCollaboratorResponse } from "./EventCollaboratorResponse";
 
 export interface NonRecurringEventRequest {
     id: number,
@@ -8,5 +8,5 @@ export interface NonRecurringEventRequest {
     description: string,
     duration: Duration,
     eventDate: Date,
-    eventCollaborators: EventCollaborator[]
+    eventCollaborators: EventCollaboratorResponse[]
 }

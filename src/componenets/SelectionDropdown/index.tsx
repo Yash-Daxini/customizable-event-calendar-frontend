@@ -6,7 +6,7 @@ import { DropdownInput } from '../../common/types';
 
 interface SelectionDropdownProps {
     isCloseMenuOnSelect: boolean,
-    defaultValue: DropdownInput[],
+    value: DropdownInput[],
     isMultiSelect: boolean,
     options: DropdownInput[],
     placeholder: string,
@@ -14,7 +14,7 @@ interface SelectionDropdownProps {
     onChange: (value: any) => void
 }
 
-const SelectionDropdown: React.FC<SelectionDropdownProps> = ({ isCloseMenuOnSelect, defaultValue, isMultiSelect, options, placeholder, icon, onChange
+const SelectionDropdown: React.FC<SelectionDropdownProps> = ({ isCloseMenuOnSelect, value, isMultiSelect, options, placeholder, icon, onChange
 }) => {
 
     const animatedComponents = makeAnimated();
@@ -25,7 +25,7 @@ const SelectionDropdown: React.FC<SelectionDropdownProps> = ({ isCloseMenuOnSele
             <Select
                 closeMenuOnSelect={isCloseMenuOnSelect}
                 components={animatedComponents}
-                defaultValue={defaultValue}
+                value={value}
                 isMulti={isMultiSelect}
                 options={options}
                 placeholder={placeholder}

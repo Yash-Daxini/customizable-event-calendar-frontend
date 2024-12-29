@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./style.module.css";
 import DateTimeInput from "../DateTimeInput";
 import FrequencyDropdown from "../FrequencyDropdown";
 import { useAuth } from "../../hooks/AuthProvider";
-import { Captions, MapPin, NotebookTabs, Clock3, UserPlus } from "lucide-react";
+import { Captions, MapPin, NotebookTabs, Clock3 } from "lucide-react";
 import TimelineView from "../TimelineView";
 import RecurrencePatternInput from "../RecurrencePatternInput";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -12,13 +12,12 @@ import { GET_EVENTS_URL } from "../../constants/RouteConstants";
 import { AddEvent, AddRecurringEvent, UpdateEvent, UpdateRecurringEvent } from "../../services/EventService";
 import IconedInput from "../IconedInput";
 import IconedTextarea from "../IconedTextarea";
-import { UserResponse } from "../../models/UserResponse";
-import { GetUsersToInvite } from "../../services/UserService";
-import SelectionDropdown from "../SelectionDropdown";
 import { EventCollaboratorRole } from "../../enums/EventCollaboratorRole";
 import { ConfirmationStatus } from "../../enums/ConfirmationStatus";
-import { DropdownInput } from "../../common/types";
 import { Frequency } from "../../enums/Frequency";
+import InviteeDropdown from "../InviteeDropdown";
+import { RecurringEventRequest } from "../../models/RecurringEventRequest";
+import { NonRecurringEventRequest } from "../../models/NonRecurringEventRequest";
 
 const EventForm: React.FC = () => {
   const navigate = useNavigate();
@@ -33,28 +32,12 @@ const EventForm: React.FC = () => {
 
   let auth = useAuth();
 
-  const [usersToInvite, setUsersToInvite] = useState<UserResponse[]>([]);
-
-  useEffect(() => {
-    GetUsersToInvite()
-      .then(res => setUsersToInvite(res))
-      .catch(err => console.error(err))
-  }, [])
-
-
   const [selectedDate, setSelectedDate] = useState<Date>(date);
-  const [eventObj, setEventObj] = useState(
+  const [eventObj, setEventObj] = useState<any>(
     isUpdate
       ? {
         ...event,
-        eventDate: date.toISOString().split("T")[0],
-        eventCollaborators: [
-          {
-            userId: auth!.user.id,
-            eventCollaboratorRole: EventCollaboratorRole.Organizer,
-            confirmationStatus: ConfirmationStatus.Accept,
-          },
-        ],
+        eventDate: date.toISOString().split("T")[0]
       }
       : {
         title: "",
@@ -91,9 +74,9 @@ const EventForm: React.FC = () => {
       insertEvent(eventObj, isRecurringEvent());
   };
 
-  const insertEvent = (event: any, isRecurringEvent: boolean) => {
+  const insertEvent = (event: RecurringEventRequest | NonRecurringEventRequest, isRecurringEvent: boolean) => {
     if (isRecurringEvent) {
-      AddRecurringEvent(event)
+      AddRecurringEvent(event as RecurringEventRequest)
         .then(() => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event added successfully !");
@@ -101,7 +84,7 @@ const EventForm: React.FC = () => {
         .catch(() => showErrorToaster("Some error occurred !"));
     }
     else {
-      AddEvent(event)
+      AddEvent(event as NonRecurringEventRequest)
         .then(() => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event added successfully !");
@@ -110,9 +93,9 @@ const EventForm: React.FC = () => {
     }
   }
 
-  const updateEvent = (event: any, isRecurringEvent: boolean) => {
+  const updateEvent = (event: RecurringEventRequest | NonRecurringEventRequest, isRecurringEvent: boolean) => {
     if (isRecurringEvent) {
-      UpdateRecurringEvent(event, event.Id)
+      UpdateRecurringEvent(event as RecurringEventRequest, event.id)
         .then(() => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event updated successfully !");
@@ -120,22 +103,13 @@ const EventForm: React.FC = () => {
         .catch(() => showErrorToaster("Some error occurred !"));
     }
     else {
-      UpdateEvent(event, event.Id)
+      UpdateEvent(event as NonRecurringEventRequest, event.id)
         .then(() => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event updated successfully !");
         })
         .catch(() => showErrorToaster("Some error occurred !"));
     }
-  }
-
-  const getUsersDropdownOptions = (): DropdownInput[] => {
-    return usersToInvite.map((user): DropdownInput => {
-      return {
-        label: user.email,
-        value: user.id,
-      };
-    });
   }
 
   return (
@@ -164,25 +138,10 @@ const EventForm: React.FC = () => {
             setEventObj({ ...eventObj, description: e.target.value })}
         />
 
-        <SelectionDropdown
-          isCloseMenuOnSelect={false}
-          defaultValue={[]}
-          isMultiSelect={true}
-          options={getUsersDropdownOptions()}
-          placeholder={"Select invitees"}
-          icon={<UserPlus />}
-          onChange={(value: DropdownInput[]): void => {
-            setEventObj({
-              ...eventObj,
-              eventCollaborators: [...eventObj.eventCollaborators, ...value.map((user: DropdownInput) => {
-                return {
-                  userId: user.value,
-                  eventCollaboratorRole: EventCollaboratorRole.Participant,
-                  confirmationStatus: ConfirmationStatus.Pending,
-                };
-              })],
-            });
-          }} />
+        <InviteeDropdown
+          eventObj={eventObj}
+          setEventObj={setEventObj}
+        />
 
         <div className={`${styles.inputDiv}`}>
           <Clock3 />
@@ -253,7 +212,7 @@ const EventForm: React.FC = () => {
                     duration: { ...eventObj.duration, endHour: e },
                   })
                 }
-                isDateDisable={eventObj.recurrencePattern.frequency === "None"}
+                isDateDisable={eventObj.recurrencePattern.frequency === Frequency.None}
                 initialDateValue={
                   !eventObj.recurrencePattern.endDate
                     ? selectedDate
