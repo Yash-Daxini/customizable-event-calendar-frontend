@@ -28,7 +28,11 @@ axiosInstance.interceptors.response.use(
       showErrorToaster('Unauthorized! Redirecting to login...');
     }
     else {
-      showErrorToaster('Oops ! Some error occured.');
+      const serverErrorMessage = error.response?.data?.errorMessage;
+      if (serverErrorMessage)
+        showErrorToaster(serverErrorMessage);
+      else
+        showErrorToaster('Oops ! Some error occured.');
     }
     return Promise.reject(error);
   }
