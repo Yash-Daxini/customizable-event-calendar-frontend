@@ -18,6 +18,7 @@ import { Frequency } from "../../enums/Frequency";
 import InviteeDropdown from "../InviteeDropdown";
 import { RecurringEventRequest } from "../../models/RecurringEventRequest";
 import { NonRecurringEventRequest } from "../../models/NonRecurringEventRequest";
+import { CreateEvent } from "../../util/Mapping";
 
 const EventForm: React.FC = () => {
   const navigate = useNavigate();
@@ -35,10 +36,7 @@ const EventForm: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(date);
   const [eventObj, setEventObj] = useState<any>(
     isUpdate
-      ? {
-        ...event,
-        eventDate: date.toISOString().split("T")[0]
-      }
+      ? CreateEvent({ ...event, eventDate: date.toISOString().split("T")[0] })
       : {
         title: "",
         location: "",
@@ -103,6 +101,7 @@ const EventForm: React.FC = () => {
         .catch(() => showErrorToaster("Some error occurred !"));
     }
     else {
+      console.warn(eventObj);
       UpdateEvent(event as NonRecurringEventRequest, event.id)
         .then(() => {
           navigate(GET_EVENTS_URL)

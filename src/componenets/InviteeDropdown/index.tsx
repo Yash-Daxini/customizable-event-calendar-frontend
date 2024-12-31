@@ -59,8 +59,7 @@ const InviteeDropdown: React.FC<InviteeDropdownProps> = ({ eventObj, setEventObj
             onChange={(value: DropdownInput[]) => {
                 let eventCollaborators = [...eventObj.eventCollaborators.filter((eventCollaborator: any) => eventCollaborator.eventCollaboratorRole === EventCollaboratorRole.Organizer), ...value.map((user: DropdownInput) => {
                     return {
-                        id: 0,
-                        user: { id: user.value, name: "", email: user.label },
+                        userId: user.value,
                         eventCollaboratorRole: EventCollaboratorRole.Participant,
                         confirmationStatus: ConfirmationStatus.Pending,
                     };

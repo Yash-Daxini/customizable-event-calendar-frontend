@@ -1,5 +1,5 @@
 import { Duration } from "./Duration";
-import { EventCollaboratorResponse } from "./EventCollaboratorResponse";
+import { EventCollaboratorRequest } from "./EventCollaboratorRequest";
 import { RecurrencePattern } from "./RecurrencePattern";
 
 export interface RecurringEventRequest {
@@ -9,5 +9,5 @@ export interface RecurringEventRequest {
     description: string,
     duration: Duration,
     recurrencePattern: RecurrencePattern,
-    eventCollaborators: EventCollaboratorResponse[]
+    eventCollaborators: EventCollaboratorRequest[]
 }
