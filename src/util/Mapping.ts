@@ -1,17 +1,16 @@
-import { EventResponse } from "../models/EventResponse";
-
-export const CreateEvent = (event: EventResponse): any => {
+export const CreateEvent = (event: any): any => {
     return {
         id: event.id,
         title: event.title,
         description: event.description,
         location: event.location,
         recurrencePattern: event.recurrencePattern,
+        eventDate: event.eventDate,
         duration: {
             startHour: event.duration.startHour,
             endHour: event.duration.endHour,
         },
-        eventCollaborators: event.eventCollaborators.map((eventCollaborator) => {
+        eventCollaborators: event.eventCollaborators.map((eventCollaborator: any) => {
             return {
                 id: eventCollaborator.id,
                 userId: eventCollaborator.user.id,
