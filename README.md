@@ -1,10 +1,13 @@
 Customizable Event Calendar Frontend
 
-To-Do tasks : 
+> To-Do tasks :
 
-Use day js library for date
-Use loader while data not arrived from API
-Test time line component
+- &#9744; Use day js library for date
+- &#9744; Use loader while data not arrived from API
+- &#9745; Test time line component
+- &#9744; Handle multiple errors while multiple API fails on same page
+- &#9744; Fix the update issue
 
-Backend To-Dos :
-Modify api endpoints & remove user id 
+> Backend To-Dos :
+
+- &#9744; Modify api endpoints & remove user id - Done
