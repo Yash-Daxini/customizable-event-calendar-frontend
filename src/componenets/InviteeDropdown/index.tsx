@@ -31,7 +31,7 @@ const InviteeDropdown: React.FC<InviteeDropdownProps> = ({ eventObj, setEventObj
     }, [])
 
     const getUsersDropdownOptions = (dropdownValues: DropdownInput[], users: UserResponse[], eventCollaborators: any[]): DropdownInput[] => {
-        return users.filter(user => !eventCollaborators.some((x: any) => x.user?.id === user.id) && !dropdownValues.some(_ => _.value === user.id)).map((user): DropdownInput => {
+        return users.filter(user => !eventCollaborators.some((x: any) => x.userId === user.id) && !dropdownValues.some(_ => _.value === user.id)).map((user): DropdownInput => {
             return {
                 label: user.email,
                 value: user.id,
@@ -40,7 +40,7 @@ const InviteeDropdown: React.FC<InviteeDropdownProps> = ({ eventObj, setEventObj
     }
 
     const getDefaultUserDropdownOptions = (users: UserResponse[]): DropdownInput[] => {
-        return users.filter(user => eventObj.eventCollaborators.some((x: any) => x.user?.id === user.id)).map((user): DropdownInput => {
+        return users.filter(user => eventObj.eventCollaborators.some((x: any) => x.userId === user.id)).map((user): DropdownInput => {
             return {
                 label: user.email,
                 value: user.id,
