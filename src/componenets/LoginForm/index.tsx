@@ -31,6 +31,7 @@ const LoginForm: React.FC = () => {
                     value={userInfo.name}
                     labelValue={"User name"}
                     onChange={(e: any) => setUserInfo({ ...userInfo, name: e.target.value })}
+                    autoComplete={"username"}
                 />
                 <FloatingInput
                     type={"password"}
@@ -38,6 +39,7 @@ const LoginForm: React.FC = () => {
                     value={userInfo.password}
                     labelValue={"Password"}
                     onChange={(e: any) => setUserInfo({ ...userInfo, password: e.target.value })}
+                    autoComplete={"current-password"}
                 />
                 <FormButton
                     buttonText={"Login"}

@@ -35,6 +35,7 @@ const SignupForm: React.FC = () => {
           value={userInfo.name}
           labelValue={"User name"}
           onChange={(e: any) => setUserInfo({ ...userInfo, name: e.target.value })}
+          autoComplete="username"
         />
         <FloatingInput
           type={"email"}
@@ -51,6 +52,7 @@ const SignupForm: React.FC = () => {
           onChange={(e: any) =>
             setUserInfo({ ...userInfo, password: e.target.value })
           }
+          autoComplete={"current-password"}
         />
         <FormButton buttonText={"Signup"} onClick={(e: any) => handleSignUp(e)} />
       </form>
