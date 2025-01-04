@@ -66,7 +66,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
               <EventPopOverBody
                 onDelete={updateEventStateOnDelete}
                 event={e}
-                eventDate={new Date(currentDate)} key={undefined} />
+                eventDate={new Date(currentDate)} />
             }
           />
         );

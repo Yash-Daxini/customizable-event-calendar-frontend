@@ -3,20 +3,24 @@ import styles from './style.module.css';
 import { Captions, CalendarX, Pencil, Clock3 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { convertTo12HourFormat } from '../../util/TimeUtil';
-import { showSuccessToaster, showErrorToaster } from '../../util/toaster'
+import { showSuccessToaster, showErrorToaster } from '../../util/Toaster'
 import { getShorterDayName } from '../../util/DateUtil';
 import { ADD_EVENT_URL } from '../../constants/RouteConstants';
 import { EventResponse } from '../../models/EventResponse';
 import { DeleteEvent } from '../../services/EventService';
+import { EventCollaboratorRole } from '../../enums/EventCollaboratorRole';
+import { useAuth } from '../../hooks/AuthProvider';
 
 interface EventPopOverBodyProps {
-  key: any,
   event: EventResponse,
   eventDate: Date,
   onDelete: (id: number) => void
 }
 
-const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ key, event, eventDate, onDelete }: EventPopOverBodyProps) => {
+
+const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, onDelete }: EventPopOverBodyProps) => {
+
+  const auth = useAuth();
 
   const navigate = useNavigate();
 
@@ -31,25 +35,37 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ key, event, eventDa
       .catch(() => showErrorToaster("Failed to delete event !"));
   }
 
+  const hasActionsAccessible = () => {
+    return auth?.user?.id === getEventOrganizerId();
+  }
+
+  const getEventOrganizerId = () => {
+    return event.eventCollaborators.find(_ => _.eventCollaboratorRole === EventCollaboratorRole.Organizer)?.user.id;
+  }
+
   return (
-    <div key={key} className={styles.eventPopOverDiv}>
+    <div key={event.id} className={styles.eventPopOverDiv}>
       <div className={styles.titleDiv}><Captions />{event.title}</div>
       <div className={styles.timeDisplayDiv}>
         <Clock3 />
         <span>{getShorterDayName(eventDate)} {eventDate.toLocaleDateString()} {convertTo12HourFormat(event.duration.startHour)} - {convertTo12HourFormat(event.duration.endHour)}</span>
       </div>
-      <div className={styles.buttonDiv}>
-        <button className={`${styles.actionBtn}`} onClick={navigateToUpdatePage}>
-          <span className={`${styles.icon} ${styles.editIcon}`}><Pencil size={15} /></span>
-          Edit
-        </button>
-        <button className={`${styles.actionBtn}`}
-          onClick={deleteEvent}>
-          <span className={`${styles.icon} ${styles.deleteIcon}`}><CalendarX size={20} strokeWidth={1} />
-          </span>
-          Delete
-        </button>
-      </div>
+      {
+        hasActionsAccessible() ?
+          <div className={styles.buttonDiv}>
+            <button className={`${styles.actionBtn}`} onClick={navigateToUpdatePage}>
+              <span className={`${styles.icon} ${styles.editIcon}`}><Pencil size={15} /></span>
+              Edit
+            </button>
+            <button className={`${styles.actionBtn}`}
+              onClick={deleteEvent}>
+              <span className={`${styles.icon} ${styles.deleteIcon}`}><CalendarX size={20} strokeWidth={1} />
+              </span>
+              Delete
+            </button>
+          </div>
+          : <div className={styles.buttonDiv}></div>
+      }
     </div>
   )
 }
