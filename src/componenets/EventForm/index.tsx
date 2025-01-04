@@ -19,6 +19,7 @@ import InviteeDropdown from "../InviteeDropdown";
 import { RecurringEventRequest } from "../../models/RecurringEventRequest";
 import { NonRecurringEventRequest } from "../../models/NonRecurringEventRequest";
 import { CreateEvent } from "../../util/Mapping";
+import { DropdownInput } from "../../common/types";
 
 const EventForm: React.FC = () => {
   const navigate = useNavigate();
@@ -110,6 +111,21 @@ const EventForm: React.FC = () => {
     }
   }
 
+  const modifyEventCollaborators = (dropdownInputList: DropdownInput[]) => {
+    let eventCollaborators = [...eventObj.eventCollaborators.filter((eventCollaborator: any) => eventCollaborator.eventCollaboratorRole === EventCollaboratorRole.Organizer), ...dropdownInputList.map((user: DropdownInput) => {
+      return {
+        userId: user.value,
+        eventCollaboratorRole: EventCollaboratorRole.Participant,
+        confirmationStatus: ConfirmationStatus.Pending,
+      };
+    })];
+
+    setEventObj({
+      ...eventObj,
+      eventCollaborators: eventCollaborators,
+    });
+  }
+
   return (
     <div className={`${styles.eventAddDiv}`}>
       <div className={`${styles.addDiv}`}>
@@ -137,8 +153,8 @@ const EventForm: React.FC = () => {
         />
 
         <InviteeDropdown
-          eventObj={eventObj}
-          setEventObj={setEventObj}
+          eventCollaborators={eventObj.eventCollaborators}
+          onChange={modifyEventCollaborators}
         />
 
         <div className={`${styles.inputDiv}`}>
