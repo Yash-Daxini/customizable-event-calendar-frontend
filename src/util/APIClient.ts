@@ -29,7 +29,6 @@ axiosInstance.interceptors.response.use(
     }
     else {
       const serverErrorMessage = error.response?.data?.errorMessage;
-      console.warn(error);
       if (serverErrorMessage)
         showErrorToaster(serverErrorMessage);
       else

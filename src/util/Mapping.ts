@@ -1,3 +1,5 @@
+import { EventCollaboratorResponse } from "../models/EventCollaboratorResponse";
+
 export const CreateEvent = (event: any): any => {
     return {
         id: event.id,
@@ -10,9 +12,8 @@ export const CreateEvent = (event: any): any => {
             startHour: event.duration.startHour,
             endHour: event.duration.endHour,
         },
-        eventCollaborators: event.eventCollaborators.map((eventCollaborator: any) => {
+        eventCollaborators: event.eventCollaborators.map((eventCollaborator: EventCollaboratorResponse) => {
             return {
-                id: eventCollaborator.id,
                 userId: eventCollaborator.user.id,
                 eventCollaboratorRole: eventCollaborator.eventCollaboratorRole,
                 confirmationStatus: eventCollaborator.confirmationStatus,

@@ -101,7 +101,6 @@ const EventForm: React.FC = () => {
         .catch(() => showErrorToaster("Some error occurred !"));
     }
     else {
-      console.warn(eventObj);
       UpdateEvent(event as NonRecurringEventRequest, event.id)
         .then(() => {
           navigate(GET_EVENTS_URL)
