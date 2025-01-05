@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './style.module.css';
-import { Captions, CalendarX, Pencil, Clock3, X, Check } from 'lucide-react';
+import { Captions, CalendarX, Pencil, Clock3, X, Check, Maximize2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { convertTo12HourFormat } from '../../util/TimeUtil';
 import { showSuccessToaster, showErrorToaster } from '../../util/Toaster'
@@ -51,9 +51,23 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
     console.warn("Invitation Rejected");
   }
 
+  const navigateToEventDetails = () => {
+    console.warn("Navigate to event details");
+  }
+
   return (
     <div key={event.id} className={styles.eventPopOverDiv}>
-      <div className={styles.titleDiv}><Captions />{event.title}</div>
+      <div className={styles.headerDiv}>
+        <div className={styles.titleDiv}>
+          <Captions />
+          {event.title}
+        </div>
+        <div className={styles.expandBtnDiv}>
+          <button className={`${styles.expandBtn}`} onClick={navigateToEventDetails}>
+            <Maximize2 size={18} />
+          </button>
+        </div>
+      </div>
       <div className={styles.timeDisplayDiv}>
         <Clock3 />
         <span>{getShorterDayName(eventDate)} {eventDate.toLocaleDateString()} {convertTo12HourFormat(event.duration.startHour)} - {convertTo12HourFormat(event.duration.endHour)}</span>
