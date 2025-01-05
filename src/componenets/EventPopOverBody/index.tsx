@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './style.module.css';
-import { Captions, CalendarX, Pencil, Clock3 } from 'lucide-react';
+import { Captions, CalendarX, Pencil, Clock3, X, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { convertTo12HourFormat } from '../../util/TimeUtil';
 import { showSuccessToaster, showErrorToaster } from '../../util/Toaster'
@@ -35,12 +35,20 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
       .catch(() => showErrorToaster("Failed to delete event !"));
   }
 
-  const hasActionsAccessible = () => {
+  const hasActionsAccessible = (): boolean => {
     return auth?.user?.id === getEventOrganizerId();
   }
 
-  const getEventOrganizerId = () => {
+  const getEventOrganizerId = (): number | undefined => {
     return event.eventCollaborators.find(_ => _.eventCollaboratorRole === EventCollaboratorRole.Organizer)?.user.id;
+  }
+
+  const acceptEventIvitation = () => {
+    console.warn("Invitation Accepted");
+  }
+
+  const rejectEventIvitation = () => {
+    console.warn("Invitation Rejected");
   }
 
   return (
@@ -51,8 +59,8 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
         <span>{getShorterDayName(eventDate)} {eventDate.toLocaleDateString()} {convertTo12HourFormat(event.duration.startHour)} - {convertTo12HourFormat(event.duration.endHour)}</span>
       </div>
       {
-        hasActionsAccessible() ?
-          <div className={styles.buttonDiv}>
+        hasActionsAccessible()
+          ? <div className={styles.buttonDiv}>
             <button className={`${styles.actionBtn}`} onClick={navigateToUpdatePage}>
               <span className={`${styles.icon} ${styles.editIcon}`}><Pencil size={15} /></span>
               Edit
@@ -64,7 +72,18 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
               Delete
             </button>
           </div>
-          : <div className={styles.buttonDiv}></div>
+          : <div className={styles.buttonDiv}>
+            <button className={`${styles.actionBtn}`} onClick={acceptEventIvitation}>
+              <span className={`${styles.icon} ${styles.acceptIcon}`}><Check size={15} /></span>
+              Accept
+            </button>
+            <button className={`${styles.actionBtn}`}
+              onClick={rejectEventIvitation}>
+              <span className={`${styles.icon} ${styles.rejectIcon}`}><X size={20} strokeWidth={1} />
+              </span>
+              Reject
+            </button>
+          </div>
       }
     </div>
   )

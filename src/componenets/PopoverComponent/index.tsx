@@ -10,9 +10,10 @@ interface PopoverComponentProps {
 }
 
 const PopoverComponent: React.FC<PopoverComponentProps> = ({ placement, displayValue, className, body }: PopoverComponentProps) => {
+
     const PopOver = (
         <Popover id="popover-contained" className={styles.popOverDiv}>
-            <Popover.Header as="h3">Calendar</Popover.Header>
+            <Popover.Header as="h3" id={styles.popoverHeader}></Popover.Header>
             <Popover.Body>
                 {body}
             </Popover.Body>
