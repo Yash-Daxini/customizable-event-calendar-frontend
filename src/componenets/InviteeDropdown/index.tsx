@@ -4,6 +4,7 @@ import { DropdownInput } from '../../common/types';
 import SelectionDropdown from '../SelectionDropdown';
 import { UserPlus } from 'lucide-react';
 import { UserResponse } from '../../models/UserResponse';
+import { EventCollaboratorRequest } from '../../models/EventCollaboratorRequest';
 
 interface InviteeDropdownProps {
     eventCollaborators: any[];
@@ -14,11 +15,11 @@ const InviteeDropdown: React.FC<InviteeDropdownProps> = ({ eventCollaborators, o
 
     const [usersToInvite, setUsersToInvite] = useState<UserResponse[]>([]);
 
-    let dropdownOptions: any[] = [];
+    let dropdownOptions: DropdownInput[] = [];
 
     const getUsersDropdownOptions = (): DropdownInput[] => {
         return usersToInvite.filter(user => !eventCollaborators
-            .some((x: any) => x.userId === user.id)
+            .some((_: EventCollaboratorRequest) => _.userId === user.id)
             && !dropdownOptions.some(_ => _.value === user.id))
             .map((user): DropdownInput => {
                 return {

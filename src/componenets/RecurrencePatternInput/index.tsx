@@ -10,7 +10,7 @@ import { Frequency } from '../../enums/Frequency';
 interface RecurrencePatternInputProps {
   eventObj: RecurringEventRequest,
   date: Date,
-  updateEvent: (recurringEvent: RecurringEventRequest) => void
+  updateEvent: React.Dispatch<React.SetStateAction<RecurringEventRequest>>
 }
 
 const RecurrencePatternInput: React.FC<RecurrencePatternInputProps> = ({ eventObj, date, updateEvent }: RecurrencePatternInputProps) => {

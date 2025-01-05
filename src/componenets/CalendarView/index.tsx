@@ -20,7 +20,7 @@ const CalendarView = () => {
   }, []);
 
   const getEventForGivenDate = (date: Date): EventResponse[] => {
-    const targetDate = new Date(date);
+    const targetDate: Date = new Date(date);
     return eventList.filter((e: EventResponse) =>
       e.occurrences.some(eventDate => isEqualDates(new Date(eventDate), targetDate))
     );

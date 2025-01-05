@@ -16,6 +16,7 @@ import { EventResponse } from "../../models/EventResponse";
 import { Duration } from "../../models/Duration";
 import { TIMELINE_HOUR_DIV_HEIGHT } from "../../constants/timelineDivConstants";
 import { GetEventsBetweenDates } from "../../services/EventService";
+import { DropdownInput } from "../../common/types";
 
 interface TimelineViewProps {
   date: Date,
@@ -34,12 +35,12 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
   const auth = useAuth();
 
   useEffect(() => {
-    GetEventsBetweenDates(currentDate,currentDate)
+    GetEventsBetweenDates(currentDate, currentDate)
       .then((events) => setEventList(events))
       .catch((err) => console.warn(err));
   }, [currentDate, date, auth!.user]);
 
-  const hours = [];
+  const hours: DropdownInput[] = [];
 
   hours.push({ value: 0, label: `12:00 AM` });
 

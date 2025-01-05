@@ -28,7 +28,7 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
     navigate(ADD_EVENT_URL, { state: { event: event, date: eventDate } });
   }
 
-  const deleteEvent = () => {
+  const deleteEvent = (): void => {
     onDelete(event.id);
     DeleteEvent(event.id)
       .then(() => showSuccessToaster("Successfully Deleted Event !"))
@@ -43,15 +43,15 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
     return event.eventCollaborators.find(_ => _.eventCollaboratorRole === EventCollaboratorRole.Organizer)?.user.id;
   }
 
-  const acceptEventIvitation = () => {
+  const acceptEventIvitation = (): void => {
     console.warn("Invitation Accepted");
   }
 
-  const rejectEventIvitation = () => {
+  const rejectEventIvitation = (): void => {
     console.warn("Invitation Rejected");
   }
 
-  const navigateToEventDetails = () => {
+  const navigateToEventDetails = (): void => {
     console.warn("Navigate to event details");
   }
 

@@ -3,9 +3,9 @@ import { EventResponse } from "../models/EventResponse";
 
 export interface CalendarContextType {
     date: Date,
-    setCurrentDate: (date: Date) => void,
+    setCurrentDate: React.Dispatch<React.SetStateAction<Date>>,
     events: EventResponse[],
-    setEvents: (event: EventResponse[]) => void,
+    setEvents: React.Dispatch<React.SetStateAction<EventResponse[]>>,
 };
 
 export const CalendarContext = createContext<CalendarContextType | null>(null);

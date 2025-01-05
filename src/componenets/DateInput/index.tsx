@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './style.module.css';
 
 interface DateInputProps {
-    onDateChange: (event:any) => void,
+    onDateChange: React.Dispatch<React.SetStateAction<any>>,
     isDateDisable: boolean,
     initialValue: Date
 }

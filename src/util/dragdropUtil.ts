@@ -1,11 +1,11 @@
-export var draggedItem: DragEvent | null = null;
+export var draggedItem: React.DragEvent<HTMLDivElement> | null = null;
 
 
-export const handleDragOver = (e: DragEvent): void => {
+export const handleDragOver = (e: React.DragEvent<HTMLDivElement>): void => {
     e.preventDefault();
 }
 
-export const handleDragStart = (e: DragEvent): void => {
+export const handleDragStart = (e: React.DragEvent<HTMLDivElement>): void => {
     const target = e.target as HTMLElement;
 
     if (target) {
@@ -17,7 +17,7 @@ export const handleDragStart = (e: DragEvent): void => {
     e.dataTransfer!.setData('text/html', target.innerHTML);
 }
 
-export const handleDragEnd = (e: DragEvent): void => {
+export const handleDragEnd = (e: React.DragEvent<HTMLDivElement>): void => {
     const target = e.target as HTMLElement;
 
     if (target) {
@@ -31,7 +31,7 @@ export const handleDragEnd = (e: DragEvent): void => {
     })
 }
 
-export const handleDragEnter = (e: DragEvent) => {
+export const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement;
 
     if (target && target.classList.contains("draggable")) {
@@ -39,7 +39,7 @@ export const handleDragEnter = (e: DragEvent) => {
     }
 }
 
-export const handleDragLeave = (e: DragEvent) => {
+export const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement;
 
     if (target && target.classList.contains("draggable")) {
@@ -47,7 +47,7 @@ export const handleDragLeave = (e: DragEvent) => {
     }
 }
 
-export const handleDragDrop = (e: DragEvent) => {
+export const handleDragDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.stopPropagation();
 
     const target = e.target as HTMLElement;

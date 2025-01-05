@@ -4,7 +4,7 @@ import styles from './style.module.css'
 interface LabelledCheckboxProps {
     labelValue: string,
     inputValue: string,
-    onChange: (event: any) => void
+    onChange: React.Dispatch<React.SetStateAction<any>>
 }
 
 const LabelledCheckbox: React.FC<LabelledCheckboxProps> = ({ labelValue, inputValue, onChange }: LabelledCheckboxProps) => {

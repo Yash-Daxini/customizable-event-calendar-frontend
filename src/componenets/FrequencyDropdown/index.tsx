@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import styles from './style.module.css'
+import { Frequency } from '../../enums/Frequency'
+import { DropdownInput } from '../../common/types'
 
 interface FrequencyDropdownProps {
-    onChange: (value:string) => void,
+    onChange: React.Dispatch<React.SetStateAction<string>>
     initialValue: string
 }
 
 const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onChange, initialValue }: FrequencyDropdownProps) => {
 
-    let frequencies = [
-        { value: "None", label: "No Repeat" },
-        { value: "Daily", label: "Daily" },
-        { value: "Weekly", label: "Weekly" },
-        { value: "Monthly", label: "Monthly" },
-        { value: "Yearly", label: "Yearly" }
+    let frequencies: DropdownInput[] = [
+        { value: Frequency.None, label: "No Repeat" },
+        { value: Frequency.Daily, label: "Daily" },
+        { value: Frequency.Weekly, label: "Weekly" },
+        { value: Frequency.Monthly, label: "Monthly" },
+        { value: Frequency.Yearly, label: "Yearly" }
     ];
 
-    const [selectedFrequency, setSelectedFrequency] = useState(frequencies.find(freq => freq.value === initialValue));
+    const [selectedFrequency, setSelectedFrequency] = useState<DropdownInput | undefined>(frequencies.find(freq => freq.value === initialValue));
 
     const customStyles = {
         control: (defaultStyles: any) => ({
@@ -39,7 +41,7 @@ const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onChange, initial
         onChange(selectedFrequency!.value)
     }, [])
 
-    const handleChange = (selectedOption:any) => {
+    const handleChange = (selectedOption: any) => {
         setSelectedFrequency(selectedOption)
         onChange(selectedOption.value);
     };

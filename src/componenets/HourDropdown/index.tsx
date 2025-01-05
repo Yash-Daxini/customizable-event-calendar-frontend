@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
-import Select from 'react-select';
+import Select, { SingleValue } from 'react-select';
 import styles from './style.module.css'
+import { DropdownInput } from '../../common/types';
 
 interface HourDropdownProps {
-    onHourChange: (value: any) => void,
+    onHourChange: React.Dispatch<React.SetStateAction<any>>
     initialValue: number
 }
 
 const HourDropdown: React.FC<HourDropdownProps> = ({ onHourChange: onHourChange, initialValue }: HourDropdownProps) => {
 
-    const hours = [];
+    const hours: DropdownInput[] = [];
 
     hours.push({ value: 0, label: `12:00 AM` });
 
@@ -25,18 +26,18 @@ const HourDropdown: React.FC<HourDropdownProps> = ({ onHourChange: onHourChange,
         hours.push({ value: i + 12, label: hour });
     }
 
-    const [selectedTime, setSelectedTime] = useState(hours.filter(hour => hour.value == initialValue));
+    const [selectedTime, setSelectedTime] = useState<DropdownInput | undefined | null>(hours.find(hour => hour.value == initialValue));
 
-    const handleChange = (selectedOption: any) => {
+    const handleChange = (selectedOption: DropdownInput | null) => {
         setSelectedTime(selectedOption);
-        onHourChange(selectedOption.value);
+        onHourChange(selectedOption?.value);
     }
 
     return (
         <div>
             <Select
                 defaultValue={selectedTime}
-                onChange={handleChange}
+                onChange={(value: SingleValue<DropdownInput>) => handleChange(value)}
                 options={hours}
                 className={`${styles.dropdown}`}
             />

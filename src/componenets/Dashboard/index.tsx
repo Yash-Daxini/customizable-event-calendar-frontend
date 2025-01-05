@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
   const [organizedEvents, setOrganizedEvents] = useState<EventResponse[]>([]);
   const [proposedEvents, setProposedEvents] = useState<EventResponse[]>([]);
 
-  const handleServerError = () => showErrorToaster("Can't connect to server!");
+  const handleServerError = (): void => showErrorToaster("Can't connect to server!");
 
   useEffect(() => {
     GetDailyEvents()
@@ -39,7 +39,7 @@ const Dashboard: React.FC = () => {
       .catch(() => handleServerError());
   }, []);
 
-  let dailyEventsJSX = dailyEvents.map((event: EventResponse, index: number) => {
+  let dailyEventsJSX: any = dailyEvents.map((event: EventResponse, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
@@ -52,7 +52,7 @@ const Dashboard: React.FC = () => {
     );
   });
 
-  let weeklyEventsJSX = weeklyEvents.map((event: EventResponse, index: number) => {
+  let weeklyEventsJSX: any = weeklyEvents.map((event: EventResponse, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
@@ -65,7 +65,7 @@ const Dashboard: React.FC = () => {
     );
   });
 
-  let monthlyEventsJSX = monthyEvents.map((event: EventResponse, index: number) => {
+  let monthlyEventsJSX:any = monthyEvents.map((event: EventResponse, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
@@ -78,18 +78,18 @@ const Dashboard: React.FC = () => {
     );
   });
 
-  let sharedCalendarJSX = sharedCalendars.map((sharedCalendar: SharedCalendar, index: number) => {
+  let sharedCalendarJSX:any = sharedCalendars.map((sharedCalendar: SharedCalendar, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <br />
         Sent By: {sharedCalendar.sender.email} <br />
-        From {sharedCalendar.fromDate.toString()} 
+        From {sharedCalendar.fromDate.toString()}
         To {sharedCalendar.toDate.toString()}
       </div>
     );
   });
 
-  let organizedEventsJSX = organizedEvents.map((event: EventResponse, index: number) => {
+  let organizedEventsJSX:any = organizedEvents.map((event: EventResponse, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
@@ -102,7 +102,7 @@ const Dashboard: React.FC = () => {
     );
   });
 
-  let proposedEventsJSX = proposedEvents.map((event: EventResponse, index: number) => {
+  let proposedEventsJSX:any = proposedEvents.map((event: EventResponse, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>

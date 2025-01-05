@@ -4,8 +4,8 @@ import HourDropdown from "../HourDropdown";
 import DateInput from "../DateInput";
 
 interface DateTimeInputProps {
-  onDateChange: (event:any) => void,
-  onHourChange: (event:any) => void,
+  onDateChange: React.Dispatch<React.SetStateAction<any>>,
+  onHourChange: React.Dispatch<React.SetStateAction<any>>,
   isDateDisable: boolean,
   initialDateValue: Date,
   initialHourValue: number

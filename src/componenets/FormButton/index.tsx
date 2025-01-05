@@ -3,7 +3,7 @@ import styles from './style.module.css'
 
 interface FormButtonProps {
     buttonText: string,
-    onClick: (event: any) => void
+    onClick: React.Dispatch<React.SetStateAction<any>>
 }
 
 const FormButton: React.FC<FormButtonProps> = ({ buttonText, onClick }: FormButtonProps) => {

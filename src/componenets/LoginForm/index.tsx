@@ -11,11 +11,11 @@ import { ToastContainer } from 'react-toastify'
 
 const LoginForm: React.FC = () => {
 
-    const [userInfo, setUserInfo] = useState<AuthenticationRequest>({ name: "", password: "" });
+    const [userInfo, setUserInfo] = useState<AuthenticationRequest>({} as AuthenticationRequest);
 
     const auth = useAuth();
 
-    let handleLogin = (e: any) => {
+    let handleLogin = (e: React.MouseEvent<HTMLInputElement>) => {
         e.preventDefault();
         auth!.loginAction(userInfo);
     }

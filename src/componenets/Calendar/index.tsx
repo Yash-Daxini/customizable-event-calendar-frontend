@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { formatDate, getMonthName } from "../../util/DateUtil.js";
 import CalendarDay from "../CalendarDay/index.js";
 import styles from "./style.module.css";
@@ -8,7 +8,7 @@ import { EventResponse } from "../../models/EventResponse.js";
 
 interface CalendarProps {
   isFullSizeCalendar: boolean,
-  setIsFullSizeCalendar: (input: boolean) => void
+  setIsFullSizeCalendar: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCalendar }: CalendarProps) => {
@@ -34,6 +34,7 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
       currentDate.getMonth(),
       1,
     ).getDay();
+    
     const daysInMonth = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth() + 1,

@@ -3,10 +3,11 @@ import styles from "./style.module.css";
 import Select from "react-select";
 import { RecurringEventRequest } from "../../models/RecurringEventRequest";
 import { getDayNumberFromDate, getWeekNumber, getWeekOfMonth } from "../../util/DateUtil";
+import { DropdownInput } from "../../common/types";
 
 interface MonthlyRecurrencePatternInputProps {
   event: RecurringEventRequest,
-  updateEvent: (recurringEvent: RecurringEventRequest) => void,
+  updateEvent: React.Dispatch<React.SetStateAction<RecurringEventRequest>>
   date: Date
 }
 
@@ -14,10 +15,10 @@ const MonthlyRecurrencePatternInput: React.FC<MonthlyRecurrencePatternInputProps
   const [isMonthDayPattern, setIsMonthDayPattern] = useState<boolean>(true);
   const [isWeekOrderPattern, setIsWeekOrderPattern] = useState<boolean>(false);
 
-  const intervals: any[] = [];
+  const intervals: DropdownInput[] = [];
 
   for (let i = 1; i <= 5; i++) {
-    intervals.push({ value: i, label: i });
+    intervals.push({ value: i, label: i.toString() });
   }
 
   const [interval, setInterval] = useState<number>(intervals[0].value);

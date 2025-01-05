@@ -11,7 +11,7 @@ interface SelectionDropdownProps {
     options: DropdownInput[],
     placeholder: string,
     icon: any,
-    onChange: (value: any) => void
+    onChange: React.Dispatch<React.SetStateAction<any>>
 }
 
 const SelectionDropdown: React.FC<SelectionDropdownProps> = ({ isCloseMenuOnSelect, value, isMultiSelect, options, placeholder, icon, onChange

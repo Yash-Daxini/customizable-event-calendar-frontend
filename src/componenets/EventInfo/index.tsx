@@ -10,7 +10,7 @@ interface EventInfoProps {
 }
 
 const EventInfo: React.FC<EventInfoProps> = ({ events, date }: EventInfoProps) => {
-    let getEventsJSXForGivenDay = events.map((e: EventResponse) => {
+    let eventsJSXForGivenDay:any = events.map((e: EventResponse) => {
         return <div key={e.id} className={`${styles.eventBar}`}>
             <div>
                 <div className={`${styles.title}`}>{e.title}</div>
@@ -27,7 +27,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ events, date }: EventInfoProps) =
             </div>
             <hr />
             <div className={`${styles.eventInfo}`}>
-                {getEventsJSXForGivenDay}
+                {eventsJSXForGivenDay}
             </div>
         </>
     )

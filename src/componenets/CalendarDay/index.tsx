@@ -31,7 +31,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
 
   if (day) currentDate.setDate(day);
 
-  const eventsByDate = events.filter((e: EventResponse) =>
+  const eventsByDate: EventResponse[] = events.filter((e: EventResponse) =>
     e.occurrences.some((eventDate: Date) => isEqualDates(new Date(eventDate), currentDate))
   );
 

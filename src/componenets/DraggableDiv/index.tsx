@@ -16,7 +16,7 @@ interface DraggableDivProps {
 }
 
 const DraggableDiv: React.FC<DraggableDivProps> = ({ title, bodyOfDiv, orderClass }: DraggableDivProps) => {
-  let previousPosition = localStorage.getItem(title);
+  let previousPosition: any = localStorage.getItem(title);
 
   if (previousPosition === null) {
     previousPosition = orderClass;
@@ -27,12 +27,12 @@ const DraggableDiv: React.FC<DraggableDivProps> = ({ title, bodyOfDiv, orderClas
     <div
       className={`${styles.draggableDiv} draggable ${previousPosition}`}
       draggable
-      onDragOver={(e: any) => handleDragOver(e)}
-      onDragStart={(e: any) => handleDragStart(e)}
-      onDragEnter={(e: any) => handleDragEnter(e)}
-      onDragLeave={(e: any) => handleDragLeave(e)}
-      onDragEnd={(e: any) => handleDragEnd(e)}
-      onDrop={(e: any) => handleDragDrop(e)}
+      onDragOver={(e: React.DragEvent<HTMLDivElement>) => handleDragOver(e)}
+      onDragStart={(e: React.DragEvent<HTMLDivElement>) => handleDragStart(e)}
+      onDragEnter={(e: React.DragEvent<HTMLDivElement>) => handleDragEnter(e)}
+      onDragLeave={(e: React.DragEvent<HTMLDivElement>) => handleDragLeave(e)}
+      onDragEnd={(e: React.DragEvent<HTMLDivElement>) => handleDragEnd(e)}
+      onDrop={(e: React.DragEvent<HTMLDivElement>) => handleDragDrop(e)}
     >
       <div className={`${styles.header}`}>
         <div className={`${styles.title}`}>{title}</div>

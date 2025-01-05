@@ -4,7 +4,7 @@ interface FormInputProps {
     type: string,
     placeholder: string,
     value: string,
-    onChange: (event: any) => void,
+    onChange: React.Dispatch<React.SetStateAction<any>>,
     labelValue: string,
     autoComplete?: string
 }

@@ -10,14 +10,9 @@ import { SignUp } from "../../services/AuthService";
 import { ToastContainer } from "react-toastify";
 
 const SignupForm: React.FC = () => {
-  const [userInfo, setUserInfo] = useState<UserRequest>({
-    id: 0,
-    name: "",
-    email: "",
-    password: "",
-  });
+  const [userInfo, setUserInfo] = useState<UserRequest>({} as UserRequest);
 
-  let handleSignUp = (e: any) => {
+  let handleSignUp = (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
     SignUp(userInfo)
       .then(() => showSuccessToaster("Successfully signed up !"))
