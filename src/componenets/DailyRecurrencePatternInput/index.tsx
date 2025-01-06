@@ -2,13 +2,13 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import styles from './style.module.css'
 import Select, { SingleValue } from 'react-select';
 import LabelledCheckbox from '../LabelledCheckbox'
-import { RecurringEventRequest } from '../../models/RecurringEventRequest';
 import { WeekDayAlias } from '../../enums/WeekDayAlias';
 import { DropdownInput } from '../../common/types';
+import { EventRequestModel } from '../../models/EventRequestModel';
 
 interface DailyRecurrencePatternInputProps {
-  event: RecurringEventRequest,
-  updateEvent: React.Dispatch<React.SetStateAction<RecurringEventRequest>>
+  event: EventRequestModel,
+  updateEvent: React.Dispatch<React.SetStateAction<EventRequestModel>>
 }
 
 const DailyRecurrencePatternInput: React.FC<DailyRecurrencePatternInputProps> = ({ event, updateEvent }: DailyRecurrencePatternInputProps) => {

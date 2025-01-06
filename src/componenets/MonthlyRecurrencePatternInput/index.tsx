@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import Select from "react-select";
-import { RecurringEventRequest } from "../../models/RecurringEventRequest";
 import { getDayNumberFromDate, getWeekNumber, getWeekOfMonth } from "../../util/DateUtil";
 import { DropdownInput } from "../../common/types";
+import { EventRequestModel } from "../../models/EventRequestModel";
 
 interface MonthlyRecurrencePatternInputProps {
-  event: RecurringEventRequest,
-  updateEvent: React.Dispatch<React.SetStateAction<RecurringEventRequest>>
+  event: EventRequestModel,
+  updateEvent: React.Dispatch<React.SetStateAction<EventRequestModel>>,
   date: Date
 }
 

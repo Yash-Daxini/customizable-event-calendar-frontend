@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import DateTimeInput from "../DateTimeInput";
 import FrequencyDropdown from "../FrequencyDropdown";
@@ -16,66 +16,75 @@ import { EventCollaboratorRole } from "../../enums/EventCollaboratorRole";
 import { ConfirmationStatus } from "../../enums/ConfirmationStatus";
 import { Frequency } from "../../enums/Frequency";
 import InviteeDropdown from "../InviteeDropdown";
-import { RecurringEventRequest } from "../../models/RecurringEventRequest";
-import { NonRecurringEventRequest } from "../../models/NonRecurringEventRequest";
-import { CreateEvent } from "../../util/Mapping";
+import { GetEventModel, GetNonRecurringEventModel, GetRecurringEventModel } from "../../util/Mapping";
 import { DropdownInput } from "../../common/types";
+import { EventRequestModel } from "../../models/EventRequestModel";
 
 const EventForm: React.FC = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  let { event } = location.state || {};
+  let eventToUpdate = location?.state?.event || null;
   let { date } = location.state || {};
 
-  const isUpdate = event !== undefined;
+  const isUpdate = eventToUpdate !== null;
 
   date = date ? new Date(date) : new Date();
 
   let auth = useAuth();
 
   const [selectedDate, setSelectedDate] = useState<Date>(date);
-  const [eventObj, setEventObj] = useState<any>(
-    isUpdate
-      ? CreateEvent({ ...event, eventDate: date.toISOString().split("T")[0] })
-      : {
-        title: "",
-        location: "",
-        description: "",
-        duration: {
-          startHour: 0,
-          endHour: 0,
-        },
-        recurrencePattern: {
+
+  const [event, setEvent] = useState({
+    title: "",
+    location: "",
+    description: "",
+    eventDate: date,
+    duration: {
+      startHour: 0,
+      endHour: 0,
+    },
+    recurrencePattern: {
+      frequency: Frequency.None,
+      startDate: date,
+      endDate: date,
+    },
+    eventCollaborators: [{
+      userId: auth!.user.id,
+      eventCollaboratorRole: EventCollaboratorRole.Organizer,
+      confirmationStatus: ConfirmationStatus.Accept,
+    }]
+  } as EventRequestModel);
+
+  useEffect(() => {
+    if (isUpdate) {
+      setEvent(GetEventModel(eventToUpdate, date));
+    }
+    else {
+      setEvent({
+        ...event, eventDate: date, recurrencePattern: {
+          ...event.recurrencePattern,
           frequency: Frequency.None,
-          startDate: selectedDate.toISOString().split("T")[0],
-        },
-        eventDate: selectedDate.toISOString().split("T")[0],
-        eventCollaborators: [
-          {
-            userId: auth!.user.id,
-            eventCollaboratorRole: EventCollaboratorRole.Organizer,
-            confirmationStatus: ConfirmationStatus.Accept,
-          },
-        ],
-      },
-  );
+        }
+      });
+    }
+  }, []);
 
   const isRecurringEvent = () =>
-    eventObj.recurrencePattern.frequency !== Frequency.None;
+    event?.recurrencePattern?.frequency !== Frequency.None;
 
   const handleClick = () => {
-    if (isRecurringEvent()) delete eventObj.eventDate;
-
     if (isUpdate)
-      updateEvent(eventObj, isRecurringEvent());
+      updateEvent();
     else
-      insertEvent(eventObj, isRecurringEvent());
+      insertEvent();
   };
 
-  const insertEvent = (event: RecurringEventRequest | NonRecurringEventRequest, isRecurringEvent: boolean) => {
-    if (isRecurringEvent) {
-      AddRecurringEvent(event as RecurringEventRequest)
+  const insertEvent = () => {
+    console.warn(event);
+    if (isRecurringEvent()) {
+      const recurringEvent = GetRecurringEventModel(event);
+      AddRecurringEvent(recurringEvent)
         .then(() => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event added successfully !");
@@ -83,7 +92,8 @@ const EventForm: React.FC = () => {
         .catch(() => showErrorToaster("Some error occurred !"));
     }
     else {
-      AddEvent(event as NonRecurringEventRequest)
+      const nonRecurringEvent = GetNonRecurringEventModel(event);
+      AddEvent(nonRecurringEvent)
         .then(() => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event added successfully !");
@@ -92,9 +102,10 @@ const EventForm: React.FC = () => {
     }
   }
 
-  const updateEvent = (event: RecurringEventRequest | NonRecurringEventRequest, isRecurringEvent: boolean) => {
-    if (isRecurringEvent) {
-      UpdateRecurringEvent(event as RecurringEventRequest, event.id)
+  const updateEvent = () => {
+    if (isRecurringEvent()) {
+      const recurringEvent = GetRecurringEventModel(event);
+      UpdateRecurringEvent(recurringEvent, event.id)
         .then(() => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event updated successfully !");
@@ -102,7 +113,8 @@ const EventForm: React.FC = () => {
         .catch(() => showErrorToaster("Some error occurred !"));
     }
     else {
-      UpdateEvent(event as NonRecurringEventRequest, event.id)
+      const nonRecurringEvent = GetNonRecurringEventModel(event);
+      UpdateEvent(nonRecurringEvent, event.id)
         .then(() => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event updated successfully !");
@@ -112,7 +124,7 @@ const EventForm: React.FC = () => {
   }
 
   const modifyEventCollaborators = (dropdownInputList: DropdownInput[]) => {
-    let eventCollaborators = [...eventObj.eventCollaborators.filter((eventCollaborator: any) => eventCollaborator.eventCollaboratorRole === EventCollaboratorRole.Organizer), ...dropdownInputList.map((user: DropdownInput) => {
+    let eventCollaborators = [...event.eventCollaborators.filter((eventCollaborator: any) => eventCollaborator.eventCollaboratorRole === EventCollaboratorRole.Organizer), ...dropdownInputList.map((user: DropdownInput) => {
       return {
         userId: user.value,
         eventCollaboratorRole: EventCollaboratorRole.Participant,
@@ -120,8 +132,8 @@ const EventForm: React.FC = () => {
       };
     })];
 
-    setEventObj({
-      ...eventObj,
+    setEvent({
+      ...event,
       eventCollaborators: eventCollaborators,
     });
   }
@@ -132,28 +144,28 @@ const EventForm: React.FC = () => {
         <IconedInput
           icon={<Captions />}
           placeholder={"Add a title"}
-          inputValue={`${eventObj.title}`}
+          inputValue={`${event.title}`}
           onChange={(e) =>
-            setEventObj({ ...eventObj, title: e.target.value })}
+            setEvent({ ...event, title: e.target.value })}
         />
         <IconedInput
           icon={<MapPin />}
           placeholder={"Add a location"}
-          inputValue={`${eventObj.location}`}
+          inputValue={`${event.location}`}
           onChange={(e) =>
-            setEventObj({ ...eventObj, location: e.target.value })}
+            setEvent({ ...event, location: e.target.value })}
         />
         <IconedTextarea
           icon={<NotebookTabs />}
           placeholder={"Add a description"}
-          inputValue={eventObj.description}
+          inputValue={event.description}
           textAreaRows={4}
           onChange={(e) =>
-            setEventObj({ ...eventObj, description: e.target.value })}
+            setEvent({ ...event, description: e.target.value })}
         />
 
         <InviteeDropdown
-          eventCollaborators={eventObj.eventCollaborators}
+          eventCollaborators={event.eventCollaborators}
           onChange={modifyEventCollaborators}
         />
 
@@ -164,83 +176,83 @@ const EventForm: React.FC = () => {
               {!isRecurringEvent() ? (
                 <DateTimeInput
                   onDateChange={(e: any) => {
-                    setEventObj({ ...eventObj, eventDate: e.target.value });
+                    setEvent({ ...event, eventDate: e.target.value });
                     setSelectedDate(new Date(e.target.value));
                   }}
                   onHourChange={(e: any) =>
-                    setEventObj({
-                      ...eventObj,
-                      duration: { ...eventObj.duration, startHour: e },
+                    setEvent({
+                      ...event,
+                      duration: { ...event.duration, startHour: e },
                     })
                   }
                   isDateDisable={false}
                   initialDateValue={
-                    !eventObj.eventDate
+                    !event.eventDate
                       ? selectedDate
-                      : new Date(eventObj.eventDate)
+                      : new Date(event.eventDate)
                   }
-                  initialHourValue={eventObj.duration.startHour}
+                  initialHourValue={event.duration.startHour}
                 />
               ) : (
                 <DateTimeInput
                   onDateChange={(e: any) => {
-                    setEventObj({
-                      ...eventObj,
+                    setEvent({
+                      ...event,
                       recurrencePattern: {
-                        ...eventObj.recurrencePattern,
+                        ...event.recurrencePattern,
                         startDate: e.target.value,
                       },
                     });
                     setSelectedDate(new Date(e.target.value));
                   }}
                   onHourChange={(e: any) =>
-                    setEventObj({
-                      ...eventObj,
-                      duration: { ...eventObj.duration, startHour: e },
+                    setEvent({
+                      ...event,
+                      duration: { ...event.duration, startHour: e },
                     })
                   }
                   isDateDisable={false}
                   initialDateValue={
-                    !eventObj.recurrencePattern.startDate
+                    !event.recurrencePattern.startDate
                       ? selectedDate
-                      : new Date(eventObj.recurrencePattern.startDate)
+                      : new Date(event.recurrencePattern.startDate)
                   }
-                  initialHourValue={eventObj.duration.startHour}
+                  initialHourValue={event.duration.startHour}
                 />
               )}
             </div>
             <div className={`${styles.dateTimeFrequencyDiv}`}>
               <DateTimeInput
                 onDateChange={(e: any) => {
-                  setEventObj({
-                    ...eventObj,
+                  setEvent({
+                    ...event,
                     recurrencePattern: {
-                      ...eventObj.recurrencePattern,
-                      endDate: e.target.value,
+                      ...event.recurrencePattern,
+                      endDate: new Date(e.target.value),
                     },
                   });
                 }}
                 onHourChange={(e: any) =>
-                  setEventObj({
-                    ...eventObj,
-                    duration: { ...eventObj.duration, endHour: e },
+                  setEvent({
+                    ...event,
+                    duration: { ...event.duration, endHour: e },
                   })
                 }
-                isDateDisable={eventObj.recurrencePattern.frequency === Frequency.None}
+                isDateDisable={event.recurrencePattern.frequency === Frequency.None}
                 initialDateValue={
-                  !eventObj.recurrencePattern.endDate
+                  !event.recurrencePattern.endDate
                     ? selectedDate
-                    : new Date(eventObj.recurrencePattern.endDate)
+                    : new Date(event.recurrencePattern.endDate)
                 }
-                initialHourValue={eventObj.duration.endHour}
+                initialHourValue={event.duration.endHour}
               />
               <FrequencyDropdown
-                initialValue={eventObj.recurrencePattern.frequency}
+                initialValue={event.recurrencePattern.frequency}
                 onChange={(e: any) =>
-                  setEventObj({
-                    ...eventObj,
+                  setEvent({
+                    ...event,
                     recurrencePattern: {
-                      ...eventObj.recurrencePattern,
+                      ...event.recurrencePattern,
                       frequency: e,
                     },
                   })
@@ -249,9 +261,9 @@ const EventForm: React.FC = () => {
             </div>
 
             <RecurrencePatternInput
-              eventObj={eventObj}
+              event={event}
               date={selectedDate}
-              updateEvent={setEventObj}
+              updateEvent={setEvent}
             />
           </div>
         </div>
@@ -265,7 +277,7 @@ const EventForm: React.FC = () => {
           </button>
         </div>
       </div>
-      <TimelineView date={selectedDate} currentDuration={eventObj.duration} />
+      <TimelineView date={selectedDate} currentDuration={event.duration} />
     </div>
   );
 };

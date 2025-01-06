@@ -4,16 +4,16 @@ import DailyRecurrencePatternInput from '../DailyRecurrencePatternInput'
 import WeeklyRecurrencePatternInput from '../WeeklyRecurrencePatternInput';
 import MonthlyRecurrencePatternInput from '../MonthlyRecurrencePatternInput'
 import YearlyRecurrencePatternInput from '../YearlyRecurrencePatternInput';
-import { RecurringEventRequest } from '../../models/RecurringEventRequest';
 import { Frequency } from '../../enums/Frequency';
+import { EventRequestModel } from '../../models/EventRequestModel';
 
 interface RecurrencePatternInputProps {
-  eventObj: RecurringEventRequest,
+  event: EventRequestModel,
   date: Date,
-  updateEvent: React.Dispatch<React.SetStateAction<RecurringEventRequest>>
+  updateEvent: React.Dispatch<React.SetStateAction<EventRequestModel>>
 }
 
-const RecurrencePatternInput: React.FC<RecurrencePatternInputProps> = ({ eventObj, date, updateEvent }: RecurrencePatternInputProps) => {
+const RecurrencePatternInput: React.FC<RecurrencePatternInputProps> = ({ event: eventObj, date, updateEvent }: RecurrencePatternInputProps) => {
 
   const renderAppropriateComponent = () => {
 
