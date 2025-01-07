@@ -12,6 +12,10 @@ export const formatDate = (date: Date): string => {
     return [year, month, day].join('-');
 }
 
+export const getBackendAcceptedFormat = (date: Date): string => {
+    return new Date(date).toISOString().split('T')[0];
+}
+
 export const getMonthName = (date: Date): string => {
     return date.toLocaleString('default', { month: 'long' })
 }

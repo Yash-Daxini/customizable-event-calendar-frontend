@@ -7,6 +7,6 @@ export interface NonRecurringEventRequest {
     location: string,
     description: string,
     duration: Duration,
-    eventDate: Date,
+    eventDate: string,
     eventCollaborators: EventCollaboratorRequest[]
 }
