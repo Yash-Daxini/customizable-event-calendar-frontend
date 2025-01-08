@@ -14,4 +14,4 @@ Customizable Event Calendar Frontend
 
 > Backend To-Dos :
 
-- &#9744; Modify api endpoints & remove user id - Done
+- &#9745; Modify api endpoints & remove user id - Done

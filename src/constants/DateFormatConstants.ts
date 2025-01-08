@@ -1,0 +1,2 @@
+export const DATE_DISPLAY_FORMAT="DD-MM-YYYY"
+export const DATE_BACKEND_FORMAT="YYYY-MM-DD"

@@ -1,4 +1,5 @@
 import dayjs, { Dayjs } from "dayjs";
+import { DATE_BACKEND_FORMAT } from "../constants/DateFormatConstants";
 
 export const formatDate = (date: Date): string => {
     var d = new Date(date),
@@ -60,32 +61,19 @@ export const getDayNumberFromDate = (date: Date): number => {
     return day;
 };
 
-
-// Common format strings
-const DATE_FORMAT = "YYYY-MM-DD";
-const DATE_TIME_FORMAT = "YYYY-MM-DD HH:mm:ss";
-
-// Utility functions
-export const formatDateDayJS = (date: string | Dayjs, format: string = DATE_FORMAT): string => {
+// DayJs Utility functions
+export const formatDateDayJS = (date: string | Dayjs, format: string = DATE_BACKEND_FORMAT): string => {
     return dayjs(date).format(format);
 };
 
-export const formatDateTime = (date: string | Dayjs): string => {
-    return dayjs(date).format(DATE_TIME_FORMAT);
-};
-
-export const parseDate = (dateStr: string, format: string = DATE_FORMAT): Dayjs => {
+export const parseDate = (dateStr: string, format: string = DATE_BACKEND_FORMAT): Dayjs => {
     return dayjs(dateStr, format);
 };
 
-export const getCurrentDate = (): string => {
-    return dayjs().format(DATE_FORMAT);
+export const getCurrentDate = (): Dayjs => {
+    return dayjs(DATE_BACKEND_FORMAT);
 };
 
-export const getCurrentDateDayJS = (date: string): Dayjs => {
+export const convertToDayJS = (date: Date): Dayjs => {
     return dayjs(date);
 }
-
-export const getCurrentDateTime = (): string => {
-    return dayjs().format(DATE_TIME_FORMAT);
-};
