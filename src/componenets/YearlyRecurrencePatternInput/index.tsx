@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import Select from "react-select";
 import { getDayNumberFromDate, getWeekNumber, getWeekOfMonth } from "../../util/DateUtil";
-import { DropdownInput } from "../../common/types";
+import { DateType, DropdownInput } from "../../common/types";
 import { EventRequestModel } from "../../models/EventRequestModel";
 
 interface YearlyRecurrencePatternInputProps {
-  date: Date,
+  date: DateType,
   recurringEvent: EventRequestModel,
   updateEvent: React.Dispatch<React.SetStateAction<EventRequestModel>>;
 }

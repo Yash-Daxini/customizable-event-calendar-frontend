@@ -1,10 +1,11 @@
 import React from 'react'
 import styles from './style.module.css';
+import { DateType } from '../../common/types';
 
 interface DateInputProps {
     onDateChange: React.Dispatch<React.SetStateAction<any>>,
     isDateDisable: boolean,
-    initialValue: Date
+    initialValue: DateType
 }
 
 const DateInput: React.FC<DateInputProps> = ({ onDateChange: onChange, isDateDisable, initialValue }: DateInputProps) => {

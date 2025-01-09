@@ -17,8 +17,9 @@ import { ConfirmationStatus } from "../../enums/ConfirmationStatus";
 import { Frequency } from "../../enums/Frequency";
 import InviteeDropdown from "../InviteeDropdown";
 import { GetEventModel, GetNonRecurringEventModel, GetRecurringEventModel } from "../../util/Mapping";
-import { DropdownInput } from "../../common/types";
+import { DateType, DropdownInput } from "../../common/types";
 import { EventRequestModel } from "../../models/EventRequestModel";
+import { getCurrentDate, parseDate } from "../../util/DateUtil";
 
 const EventForm: React.FC = () => {
   const navigate = useNavigate();
@@ -29,20 +30,20 @@ const EventForm: React.FC = () => {
 
   const isUpdate = eventToUpdate !== null;
 
-  date = date ? new Date(date) : new Date();
+  date = date ? parseDate(date) : getCurrentDate();
 
   let auth = useAuth();
 
-  const [selectedDate, setSelectedDate] = useState<Date>(date);
+  const [selectedDate, setSelectedDate] = useState<DateType>(date);
 
-  const [event, setEvent] = useState({
+  const [event, setEvent] = useState<EventRequestModel>({
     title: "",
     location: "",
     description: "",
     eventDate: date,
     duration: {
       startHour: 0,
-      endHour: 0,
+      endHour: 1,
     },
     recurrencePattern: {
       frequency: Frequency.None,
@@ -176,7 +177,7 @@ const EventForm: React.FC = () => {
                 <DateTimeInput
                   onDateChange={(e: any) => {
                     setEvent({ ...event, eventDate: e.target.value });
-                    setSelectedDate(new Date(e.target.value));
+                    setSelectedDate(parseDate(e.target.value));
                   }}
                   onHourChange={(e: any) =>
                     setEvent({
@@ -188,7 +189,7 @@ const EventForm: React.FC = () => {
                   initialDateValue={
                     !event.eventDate
                       ? selectedDate
-                      : new Date(event.eventDate)
+                      : (event.eventDate)
                   }
                   initialHourValue={event.duration.startHour}
                 />
@@ -202,7 +203,7 @@ const EventForm: React.FC = () => {
                         startDate: e.target.value,
                       },
                     });
-                    setSelectedDate(new Date(e.target.value));
+                    setSelectedDate(parseDate(e.target.value));
                   }}
                   onHourChange={(e: any) =>
                     setEvent({
@@ -214,7 +215,7 @@ const EventForm: React.FC = () => {
                   initialDateValue={
                     !event.recurrencePattern.startDate
                       ? selectedDate
-                      : new Date(event.recurrencePattern.startDate)
+                      : event.recurrencePattern.startDate
                   }
                   initialHourValue={event.duration.startHour}
                 />
@@ -227,7 +228,7 @@ const EventForm: React.FC = () => {
                     ...event,
                     recurrencePattern: {
                       ...event.recurrencePattern,
-                      endDate: new Date(e.target.value),
+                      endDate: parseDate(e.target.value),
                     },
                   });
                 }}
@@ -241,7 +242,7 @@ const EventForm: React.FC = () => {
                 initialDateValue={
                   !event.recurrencePattern.endDate
                     ? selectedDate
-                    : new Date(event.recurrencePattern.endDate)
+                    : event.recurrencePattern.endDate
                 }
                 initialHourValue={event.duration.endHour}
               />

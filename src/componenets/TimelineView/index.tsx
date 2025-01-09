@@ -3,6 +3,7 @@ import styles from "./style.module.css";
 import { CalendarArrowUp } from "lucide-react";
 import { useAuth } from "../../hooks/AuthProvider";
 import {
+  getCurrentDate,
   getMonthName,
   getShorterDayName,
 } from "../../util/DateUtil";
@@ -16,17 +17,17 @@ import { EventResponse } from "../../models/EventResponse";
 import { Duration } from "../../models/Duration";
 import { TIMELINE_HOUR_DIV_HEIGHT } from "../../constants/timelineDivConstants";
 import { GetEventsBetweenDates } from "../../services/EventService";
-import { DropdownInput } from "../../common/types";
+import { DateType, DropdownInput } from "../../common/types";
 
 interface TimelineViewProps {
-  date: Date,
+  date: DateType,
   currentDuration: Duration
 }
 
 const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: TimelineViewProps) => {
   const [eventList, setEventList] = useState<EventResponse[]>([]);
 
-  let [currentDate, setCurrentDate] = useState<Date>(date);
+  let [currentDate, setCurrentDate] = useState<DateType>(date);
 
   useEffect(() => {
     setCurrentDate(date);
@@ -184,7 +185,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
           <div
             className={`${styles.prev}`}
             onClick={() => {
-              const newDate = new Date(currentDate);
+              const newDate = currentDate;
               newDate.setDate(newDate.getDate() - 1);
               setCurrentDate(newDate);
             }}
@@ -194,7 +195,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
           <div
             className={`${styles.todayBtn}`}
             onClick={() => {
-              setCurrentDate(new Date());
+              setCurrentDate(getCurrentDate());
             }}
           >
             <CalendarArrowUp />
@@ -202,7 +203,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
           <div
             className={`${styles.next}`}
             onClick={() => {
-              const newDate = new Date(currentDate);
+              const newDate = currentDate;
               newDate.setDate(newDate.getDate() + 1);
               setCurrentDate(newDate);
             }}

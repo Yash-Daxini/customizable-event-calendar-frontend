@@ -5,6 +5,7 @@ import styles from "./style.module.css";
 import { CalendarContext, CalendarContextType } from "../../hooks/context.js";
 import { Expand, Shrink } from 'lucide-react';
 import { EventResponse } from "../../models/EventResponse.js";
+import { DateType } from "../../common/types.js";
 
 interface CalendarProps {
   isFullSizeCalendar: boolean,
@@ -18,11 +19,11 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
     return;
 
   const events: EventResponse[] = calendarContext.events;
-  const date: Date = calendarContext.date;
-  const setCurrentDate: (date: Date) => void = calendarContext.setCurrentDate;
+  const date: DateType = calendarContext.date;
+  const setCurrentDate: (date: DateType) => void = calendarContext.setCurrentDate;
   const setEvents: (event: EventResponse[]) => void = calendarContext.setEvents;
 
-  const currentDate: Date = new Date(date);
+  const currentDate: DateType = date;
 
   const updateEventStateOnDelete = (eventId: number): void => {
     setEvents(events.filter((eventObj: EventResponse) => eventObj.id !== eventId));

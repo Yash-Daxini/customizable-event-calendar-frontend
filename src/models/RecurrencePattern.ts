@@ -1,8 +1,9 @@
+import { DateType } from "../common/types";
 import { Frequency } from "../enums/Frequency";
 
 export interface RecurrencePattern {
-    startDate: Date,
-    endDate: Date,
+    startDate: DateType,
+    endDate: DateType,
     frequency: Frequency,
     interval: number,
     byWeekDay: number[],

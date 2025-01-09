@@ -1,3 +1,4 @@
+import { DateType } from "../common/types"
 import { UserResponse } from "./UserResponse"
 
 export interface SharedCalendar {
@@ -6,6 +7,6 @@ export interface SharedCalendar {
     receiverUserId: number,
     sender: UserResponse,
     receiver: UserResponse,
-    fromDate: Date,
-    toDate: Date
+    fromDate: DateType,
+    toDate: DateType
 }
