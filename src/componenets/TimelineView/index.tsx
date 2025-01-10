@@ -3,9 +3,13 @@ import styles from "./style.module.css";
 import { CalendarArrowUp } from "lucide-react";
 import { useAuth } from "../../hooks/AuthProvider";
 import {
+  decrementMonth,
   getCurrentDate,
-  getMonthName,
-  getShorterDayName,
+  getDate,
+  getFourDigitYear,
+  getFullMonthName,
+  getShorterWeekDayName,
+  incrementMonth,
 } from "../../util/DateUtil";
 import {
   isHourOverlaps,
@@ -185,9 +189,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
           <div
             className={`${styles.prev}`}
             onClick={() => {
-              const newDate = currentDate;
-              newDate.setDate(newDate.getDate() - 1);
-              setCurrentDate(newDate);
+              setCurrentDate(decrementMonth(currentDate));
             }}
           >
             &#10094;
@@ -203,9 +205,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
           <div
             className={`${styles.next}`}
             onClick={() => {
-              const newDate = currentDate;
-              newDate.setDate(newDate.getDate() + 1);
-              setCurrentDate(newDate);
+              setCurrentDate(incrementMonth(currentDate));
             }}
           >
             &#10095;
@@ -213,9 +213,9 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
         </div>
         <div
           className={`${styles.monthName}`}
-        >{`${getShorterDayName(currentDate)}, 
-           ${getMonthName(currentDate)} ${currentDate.getDate()}, 
-           ${currentDate.getFullYear()}`}</div>
+        >{`${getShorterWeekDayName(currentDate)}, 
+           ${getFullMonthName(currentDate)} ${getDate(currentDate)}, 
+           ${getFourDigitYear(currentDate)}`}</div>
       </div>
       <div className={`${styles.timelineBody}`}>{timelineDivContent}</div>
     </div>

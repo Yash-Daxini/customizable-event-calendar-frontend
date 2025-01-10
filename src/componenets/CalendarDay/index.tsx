@@ -6,7 +6,8 @@ import { useContext } from "react";
 import { CalendarContext, CalendarContextType } from "../../hooks/context";
 import { ADD_EVENT_URL } from "../../constants/RouteConstants";
 import { EventResponse } from "../../models/EventResponse";
-import { isEqualDates } from "../../util/DateUtil";
+import { isEqualDates, setDay } from "../../util/DateUtil";
+import { DateType } from "../../common/types";
 
 interface CalendarDayProps {
   isEmptyDay: boolean,
@@ -24,12 +25,12 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
     return;
 
   const events: EventResponse[] = calendarContext.events;
-  const date: Date = calendarContext.date;
-  const setCurrentDate: (date: Date) => void = calendarContext.setCurrentDate;
+  const date: DateType = calendarContext.date;
+  const setCurrentDate: (date: DateType) => void = calendarContext.setCurrentDate;
 
-  const currentDate: Date = new Date(date);
+  const currentDate: DateType = date;
 
-  if (day) currentDate.setDate(day);
+  if (day) setDay(currentDate, day);
 
   const eventsByDate: EventResponse[] = events.filter((e: EventResponse) =>
     e.occurrences.some((eventDate: Date) => isEqualDates(new Date(eventDate), currentDate))

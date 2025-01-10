@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { formatDate, getMonthName } from "../../util/DateUtil.js";
+import { decrementMonth, formatDateDayJS, getCurrentDate, getDaysInMonth, getFirstDayOfMonth, getFourDigitYear, getFullMonthName, incrementMonth, parseDate } from "../../util/DateUtil.js";
 import CalendarDay from "../CalendarDay/index.js";
 import styles from "./style.module.css";
 import { CalendarContext, CalendarContextType } from "../../hooks/context.js";
@@ -30,17 +30,9 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
   };
 
   const renderCalendar = (): any => {
-    const firstDay = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      1,
-    ).getDay();
-    
-    const daysInMonth = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() + 1,
-      0,
-    ).getDate();
+    const firstDay = getFirstDayOfMonth(currentDate);
+
+    const daysInMonth = getDaysInMonth(currentDate);
 
     const days: any = [];
 
@@ -68,15 +60,11 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
   };
 
   const prevMonth = (): void => {
-    let newDate = new Date(currentDate);
-    newDate.setMonth(newDate.getMonth() - 1);
-    setCurrentDate(newDate);
+    setCurrentDate(decrementMonth(currentDate));
   };
 
   const nextMonth = (): void => {
-    let newDate = new Date(currentDate);
-    newDate.setMonth(newDate.getMonth() + 1);
-    setCurrentDate(newDate);
+    setCurrentDate(incrementMonth(currentDate));
   };
 
   return (
@@ -87,7 +75,7 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
         <div
           className={`${styles.todayBtn}`}
           onClick={() => {
-            setCurrentDate(new Date());
+            setCurrentDate(getCurrentDate());
           }}
         >
           Today
@@ -99,13 +87,13 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
           &#10095;
         </div>
         <div
-        >{`${getMonthName(currentDate)} ${currentDate.getFullYear()}`}</div>
+        >{`${getFullMonthName(currentDate)} ${getFourDigitYear(currentDate)}`}</div>
         <input
           type="date"
           id={`${styles.date}`}
-          value={formatDate(currentDate)}
+          value={formatDateDayJS(currentDate)}
           required
-          onChange={(e) => setCurrentDate(new Date(e.target.value))}
+          onChange={(e) => setCurrentDate(parseDate(e.target.value))}
         />
       </div>
       <div className={`${styles.weekdays}`}>

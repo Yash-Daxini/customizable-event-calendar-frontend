@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import Select from "react-select";
-import { getDayNumberFromDate, getWeekNumber, getWeekOfMonth } from "../../util/DateUtil";
+import { getDate, getDayNumberFromDate, getDayOfMonth, getWeekDayName, getWeekNumber, getWeekOfMonth } from "../../util/DateUtil";
 import { DateType, DropdownInput } from "../../common/types";
 import { EventRequestModel } from "../../models/EventRequestModel";
 
@@ -29,7 +29,7 @@ const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> 
       recurrencePattern: {
         ...recurringEvent.recurrencePattern,
         interval: interval,
-        byMonthDay: isMonthDayPattern ? date.getDate() : null,
+        byMonthDay: isMonthDayPattern ? getDayOfMonth(date) : null,
         weekOrder: isWeekOrderPattern ? getWeekNumber(date) : null,
         byWeekDay: isWeekOrderPattern ? [getDayNumberFromDate(date)] : [],
       },
@@ -61,7 +61,7 @@ const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> 
               setIsWeekOrderPattern(false);
             }}
           />
-          <label htmlFor="interval">On day {date.getDate()}</label>
+          <label htmlFor="interval">On day {getDate(date)}</label>
         </div>
         <div>
           <input
@@ -76,7 +76,7 @@ const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> 
           />
           <label htmlFor="weekday">
             On the {getWeekOfMonth(date)}{" "}
-            {date.toLocaleDateString("en-us", { weekday: "long" })}
+            {getWeekDayName(date)}
           </label>
         </div>
       </div>
