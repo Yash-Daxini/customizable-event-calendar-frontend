@@ -2,11 +2,11 @@ import { useNavigate } from "react-router-dom";
 import styles from "./style.module.css";
 import PopoverComponent from "../PopoverComponent";
 import EventPopOverBody from "../EventPopOverBody";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CalendarContext, CalendarContextType } from "../../hooks/context";
 import { ADD_EVENT_URL } from "../../constants/RouteConstants";
 import { EventResponse } from "../../models/EventResponse";
-import { isEqualDates, setDay } from "../../util/DateUtil";
+import { getCurrentDate, getDate, getMonth, isEqualDates, setDay } from "../../util/DateUtil";
 import { DateType } from "../../common/types";
 
 interface CalendarDayProps {
@@ -19,27 +19,31 @@ interface CalendarDayProps {
 const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, updateEventStateOnDelete }: CalendarDayProps) => {
   const navigate = useNavigate();
 
+  useEffect(() => {
+
+    console.warn(getDate(getCurrentDate()));
+    console.warn(day);
+
+  }, [])
+
+
   const calendarContext: CalendarContextType | null = useContext(CalendarContext);
 
   if (!calendarContext)
     return;
 
   const events: EventResponse[] = calendarContext.events;
-  const date: DateType = calendarContext.date;
+  const contextDate: DateType = calendarContext.date;
   const setCurrentDate: (date: DateType) => void = calendarContext.setCurrentDate;
 
-  const currentDate: DateType = date;
-
-  if (day) setDay(currentDate, day);
+  const [date, setDate] = useState<DateType>(setDay(contextDate, day));
 
   const eventsByDate: EventResponse[] = events.filter((e: EventResponse) =>
-    e.occurrences.some((eventDate: Date) => isEqualDates(new Date(eventDate), currentDate))
+    e.occurrences.some((eventDate: DateType) => isEqualDates(eventDate, contextDate))
   );
 
-  const changeDay = (day: number): void => {
-    let newDate = new Date(currentDate);
-    newDate.setDate(day);
-    setCurrentDate(newDate);
+  const changeDay = (): void => {
+    setCurrentDate(date);
   };
 
   const handleDoubleClick = (): void => {
@@ -67,7 +71,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
               <EventPopOverBody
                 onDelete={updateEventStateOnDelete}
                 event={e}
-                eventDate={new Date(currentDate)} />
+                eventDate={date} />
             }
           />
         );
@@ -83,22 +87,22 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
   };
 
   const isSelectedDay = (): boolean => {
-    return day == new Date().getDate() &&
-      new Date(currentDate).getMonth() === new Date().getMonth() &&
-      day == currentDate.getDate();
+    return day === getDate(getCurrentDate()) &&
+      getMonth(date) === getMonth(getCurrentDate()) &&
+      day === getDate(date);
   }
 
-  const isNonSelectedDay = (day: number, currentDate: Date): boolean => {
-    return day == new Date().getDate() &&
-      new Date(currentDate).getMonth() === new Date().getMonth();
+  const isNonSelectedDay = (day: number, currentDate: DateType): boolean => {
+    return day === getDate(getCurrentDate()) &&
+      getMonth(currentDate) === getMonth(getCurrentDate());
   }
 
   const getClassList = (): string => {
     if (isSelectedDay())
       return `${styles.day} ${styles.today} ${styles.selected}`;
-    else if (isNonSelectedDay(day, currentDate))
+    else if (isNonSelectedDay(day, date))
       return `${styles.day} ${styles.today}`;
-    else if (day == date.getDate())
+    else if (day == getDate(contextDate))
       return `${styles.day} ${styles.selected}`;
     else
       return `${styles.day}`;
@@ -110,7 +114,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
     <div
       className={getClassList()}
       key={day}
-      onClick={() => changeDay(day)}
+      onClick={() => changeDay()}
       onDoubleClick={handleDoubleClick}
     >
       <span>{day}</span>

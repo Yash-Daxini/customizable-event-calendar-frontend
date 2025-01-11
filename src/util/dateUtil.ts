@@ -1,40 +1,14 @@
 import dayjs, { Dayjs } from "dayjs";
-import * as isoWeek from 'dayjs/plugin/isoWeek';
-import { DATE_BACKEND_FORMAT } from "../constants/DateFormatConstants";
+import isoWeek from 'dayjs/plugin/isoWeek';
+import { DATE_BACKEND_FORMAT, DATE_DISPLAY_FORMAT } from "../constants/DateFormatConstants";
 import { DateType } from "../common/types";
 
 dayjs.extend(isoWeek);
 
-export const formatDate = (date: Date): string => {
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2)
-        month = '0' + month;
-    if (day.length < 2)
-        day = '0' + day;
-
-    return [year, month, day].join('-');
+export const isEqualDates = (date1: DateType, date2: DateType): boolean => {
+    if (!date1 || !date2) return false;
+    return formatDateDayJS(date1) === formatDateDayJS(date2);
 }
-
-export const getBackendAcceptedFormat = (date: Date): string => {
-    return new Date(date).toISOString().split('T')[0];
-}
-
-export const getLongerDayName = (date: Date): string => {
-    return date.toLocaleDateString('en-US', { weekday: 'long' })
-}
-
-export const getShorterDayName = (date: Date): string => {
-    return date.toString().split(" ")[0];
-}
-
-export const isEqualDates = (date1: Date, date2: Date): boolean =>
-    date1.getFullYear() === date2.getFullYear() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getDate() === date2.getDate();
 
 export const getWeekNumber = (date: DateType): number => (0 | (getWeekDay(date) / 7)) + 1;
 
@@ -66,12 +40,16 @@ export const formatDateDayJS = (date: string | DateType, format: string = DATE_B
     return dayjs(date).format(format);
 };
 
-export const parseDate = (dateStr: string, format: string = DATE_BACKEND_FORMAT): Dayjs => {
+export const getDisplayFormatDate = (date: DateType): string => {
+    return formatDateDayJS(date, DATE_DISPLAY_FORMAT);
+}
+
+export const parseDate = (dateStr: string | DateType, format: string = DATE_BACKEND_FORMAT): Dayjs => {
     return dayjs(dateStr, format);
 };
 
 export const getCurrentDate = (): Dayjs => {
-    return dayjs(DATE_BACKEND_FORMAT);
+    return dayjs();
 };
 
 export const convertToDayJS = (date: Date): DateType => {

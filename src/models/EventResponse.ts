@@ -1,3 +1,4 @@
+import { DateType } from "../common/types";
 import { Duration } from "./Duration";
 import { EventCollaboratorResponse } from "./EventCollaboratorResponse";
 import { RecurrencePattern } from "./RecurrencePattern";
@@ -9,6 +10,6 @@ export interface EventResponse {
     description: string,
     duration: Duration,
     recurrencePattern: RecurrencePattern,
-    occurrences: Date[],
+    occurrences: DateType[],
     eventCollaborators: EventCollaboratorResponse[],
 }

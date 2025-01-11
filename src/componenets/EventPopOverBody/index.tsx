@@ -4,16 +4,17 @@ import { Captions, CalendarX, Pencil, Clock3, X, Check, Maximize2 } from 'lucide
 import { useNavigate } from 'react-router-dom';
 import { convertTo12HourFormat } from '../../util/TimeUtil';
 import { showSuccessToaster, showErrorToaster } from '../../util/Toaster'
-import { getShorterDayName } from '../../util/DateUtil';
+import { getDisplayFormatDate, getShorterWeekDayName } from '../../util/DateUtil';
 import { ADD_EVENT_URL } from '../../constants/RouteConstants';
 import { EventResponse } from '../../models/EventResponse';
 import { DeleteEvent } from '../../services/EventService';
 import { EventCollaboratorRole } from '../../enums/EventCollaboratorRole';
 import { useAuth } from '../../hooks/AuthProvider';
+import { DateType } from '../../common/types';
 
 interface EventPopOverBodyProps {
   event: EventResponse,
-  eventDate: Date,
+  eventDate: DateType,
   onDelete: (id: number) => void
 }
 
@@ -70,7 +71,7 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
       </div>
       <div className={styles.timeDisplayDiv}>
         <Clock3 />
-        <span>{getShorterDayName(eventDate)} {eventDate.toLocaleDateString()} {convertTo12HourFormat(event.duration.startHour)} - {convertTo12HourFormat(event.duration.endHour)}</span>
+        <span>{getShorterWeekDayName(eventDate)} {getDisplayFormatDate(eventDate)} {convertTo12HourFormat(event.duration.startHour)} - {convertTo12HourFormat(event.duration.endHour)}</span>
       </div>
       {
         hasActionsAccessible()
