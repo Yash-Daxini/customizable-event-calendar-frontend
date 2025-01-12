@@ -229,7 +229,6 @@ const EventForm: React.FC = () => {
                 }
               />
             </div>
-
             <RecurrencePatternInput
               event={event}
               date={selectedDate}

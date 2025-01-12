@@ -26,7 +26,10 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({
         isDateDisable={isDateDisable}
         initialValue={initialDateValue}
       />
-      <HourDropdown onHourChange={onHourChange} initialValue={initialHourValue} />
+      <HourDropdown
+        onHourChange={onHourChange}
+        initialValue={initialHourValue}
+      />
     </div>
   );
 };
