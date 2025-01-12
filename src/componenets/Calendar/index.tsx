@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { decrementMonth, formatDateDayJS, getCurrentDate, getDaysInMonth, getFirstDayOfMonth, getFourDigitYear, getFullMonthName, incrementMonth, parseDate } from "../../util/DateUtil.js";
+import { decrementMonth, formatDateDayJS, getTodayDate, getDaysInMonth, getFirstDayOfMonth, getFourDigitYear, getFullMonthName, incrementMonth, parseDate } from "../../util/DateUtil.js";
 import CalendarDay from "../CalendarDay/index.js";
 import styles from "./style.module.css";
 import { CalendarContext, CalendarContextType } from "../../hooks/context.js";
@@ -75,7 +75,7 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
         <div
           className={`${styles.todayBtn}`}
           onClick={() => {
-            setCurrentDate(getCurrentDate());
+            setCurrentDate(getTodayDate());
           }}
         >
           Today

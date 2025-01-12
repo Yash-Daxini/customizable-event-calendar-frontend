@@ -1,11 +1,11 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import styles from "./style.module.css";
 import HourDropdown from "../HourDropdown";
 import DateInput from "../DateInput";
 import { DateType } from "../../common/types";
 
 interface DateTimeInputProps {
-  onDateChange: React.Dispatch<React.SetStateAction<any>>,
+  onDateChange: (event: ChangeEvent<HTMLInputElement>) => void,
   onHourChange: React.Dispatch<React.SetStateAction<any>>,
   isDateDisable: boolean,
   initialDateValue: DateType,

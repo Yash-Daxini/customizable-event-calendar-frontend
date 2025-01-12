@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./style.module.css";
 import { CalendarArrowUp } from "lucide-react";
 import { useAuth } from "../../hooks/AuthProvider";
 import {
   decrementMonth,
-  getCurrentDate,
+  getTodayDate,
   getDate,
   getFourDigitYear,
   getFullMonthName,
@@ -33,9 +33,13 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
 
   let [currentDate, setCurrentDate] = useState<DateType>(date);
 
-  useEffect(() => {
-    setCurrentDate(date);
-  }, [date]);
+  const weekDayName = useMemo(() => getShorterWeekDayName(currentDate), [currentDate]);
+
+  const monthName = useMemo(() => getFullMonthName(currentDate), [currentDate]);
+
+  const dateDisplay = useMemo(() => getDate(currentDate), [currentDate]);
+
+  const fullYear = useMemo(() => getFourDigitYear(currentDate), [currentDate]);
 
   const auth = useAuth();
 
@@ -43,7 +47,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
     GetEventsBetweenDates(currentDate, currentDate)
       .then((events) => setEventList(events))
       .catch((err) => console.warn(err));
-  }, [currentDate, date, auth!.user]);
+  }, [currentDate, auth!.user]);
 
   const hours: DropdownInput[] = [];
 
@@ -197,7 +201,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
           <div
             className={`${styles.todayBtn}`}
             onClick={() => {
-              setCurrentDate(getCurrentDate());
+              setCurrentDate(getTodayDate());
             }}
           >
             <CalendarArrowUp />
@@ -213,9 +217,9 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
         </div>
         <div
           className={`${styles.monthName}`}
-        >{`${getShorterWeekDayName(currentDate)}, 
-           ${getFullMonthName(currentDate)} ${getDate(currentDate)}, 
-           ${getFourDigitYear(currentDate)}`}</div>
+        >{`${weekDayName}, 
+           ${monthName} ${dateDisplay}, 
+           ${fullYear}`}</div>
       </div>
       <div className={`${styles.timelineBody}`}>{timelineDivContent}</div>
     </div>

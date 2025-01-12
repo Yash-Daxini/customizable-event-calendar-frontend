@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { DATE_BACKEND_FORMAT, DATE_DISPLAY_FORMAT } from "../constants/DateFormatConstants";
 import { DateType } from "../common/types";
@@ -36,19 +36,19 @@ export const getDayNumberFromDate = (date: DateType): number => {
 };
 
 // DayJs Utility functions
-export const formatDateDayJS = (date: string | DateType, format: string = DATE_BACKEND_FORMAT): string => {
+export const formatDateDayJS = (date: DateType, format: string = DATE_BACKEND_FORMAT): string => {
     return dayjs(date).format(format);
 };
 
 export const getDisplayFormatDate = (date: DateType): string => {
-    return formatDateDayJS(date, DATE_DISPLAY_FORMAT);
+    return date.format(DATE_DISPLAY_FORMAT);
 }
 
-export const parseDate = (dateStr: string | DateType, format: string = DATE_BACKEND_FORMAT): Dayjs => {
-    return dayjs(dateStr, format);
+export const parseDate = (date: string | DateType, format: string = DATE_BACKEND_FORMAT): DateType => {
+    return dayjs(date, format);
 };
 
-export const getCurrentDate = (): Dayjs => {
+export const getTodayDate = (): DateType => {
     return dayjs();
 };
 

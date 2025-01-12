@@ -2,11 +2,11 @@ import { useNavigate } from "react-router-dom";
 import styles from "./style.module.css";
 import PopoverComponent from "../PopoverComponent";
 import EventPopOverBody from "../EventPopOverBody";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { CalendarContext, CalendarContextType } from "../../hooks/context";
 import { ADD_EVENT_URL } from "../../constants/RouteConstants";
 import { EventResponse } from "../../models/EventResponse";
-import { getCurrentDate, getDate, getMonth, isEqualDates, setDay } from "../../util/DateUtil";
+import { getTodayDate, getDate, getMonth, isEqualDates, setDay } from "../../util/DateUtil";
 import { DateType } from "../../common/types";
 
 interface CalendarDayProps {
@@ -19,14 +19,6 @@ interface CalendarDayProps {
 const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, updateEventStateOnDelete }: CalendarDayProps) => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-
-    console.warn(getDate(getCurrentDate()));
-    console.warn(day);
-
-  }, [])
-
-
   const calendarContext: CalendarContextType | null = useContext(CalendarContext);
 
   if (!calendarContext)
@@ -36,18 +28,18 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
   const contextDate: DateType = calendarContext.date;
   const setCurrentDate: (date: DateType) => void = calendarContext.setCurrentDate;
 
-  const [date, setDate] = useState<DateType>(setDay(contextDate, day));
+  const currentDate: DateType = setDay(contextDate, day);
 
   const eventsByDate: EventResponse[] = events.filter((e: EventResponse) =>
-    e.occurrences.some((eventDate: DateType) => isEqualDates(eventDate, contextDate))
+    e.occurrences.some((eventDate: DateType) => isEqualDates(eventDate, currentDate))
   );
 
   const changeDay = (): void => {
-    setCurrentDate(date);
+    setCurrentDate(currentDate);
   };
 
   const handleDoubleClick = (): void => {
-    navigate(ADD_EVENT_URL, { state: { date: date } });
+    navigate(ADD_EVENT_URL, { state: { date: contextDate } });
   };
 
   const getEventsJSXForGivenDay = (): any => {
@@ -71,7 +63,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
               <EventPopOverBody
                 onDelete={updateEventStateOnDelete}
                 event={e}
-                eventDate={date} />
+                eventDate={currentDate} />
             }
           />
         );
@@ -87,20 +79,20 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
   };
 
   const isSelectedDay = (): boolean => {
-    return day === getDate(getCurrentDate()) &&
-      getMonth(date) === getMonth(getCurrentDate()) &&
-      day === getDate(date);
+    return day === getDate(getTodayDate()) &&
+      getMonth(currentDate) === getMonth(getTodayDate()) &&
+      day === getDate(currentDate);
   }
 
   const isNonSelectedDay = (day: number, currentDate: DateType): boolean => {
-    return day === getDate(getCurrentDate()) &&
-      getMonth(currentDate) === getMonth(getCurrentDate());
+    return day === getDate(getTodayDate()) &&
+      getMonth(currentDate) === getMonth(getTodayDate());
   }
 
   const getClassList = (): string => {
     if (isSelectedDay())
       return `${styles.day} ${styles.today} ${styles.selected}`;
-    else if (isNonSelectedDay(day, date))
+    else if (isNonSelectedDay(day, currentDate))
       return `${styles.day} ${styles.today}`;
     else if (day == getDate(contextDate))
       return `${styles.day} ${styles.selected}`;

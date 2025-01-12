@@ -1,16 +1,17 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import styles from './style.module.css';
 import { DateType } from '../../common/types';
+import { getDisplayFormatDate } from '../../util/DateUtil';
 
 interface DateInputProps {
-    onDateChange: React.Dispatch<React.SetStateAction<any>>,
+    onDateChange: (event: ChangeEvent<HTMLInputElement>) => void,
     isDateDisable: boolean,
     initialValue: DateType
 }
 
 const DateInput: React.FC<DateInputProps> = ({ onDateChange: onChange, isDateDisable, initialValue }: DateInputProps) => {
     return (
-        <input className={`${styles.dateInput}`} value={initialValue.toISOString().split("T")[0]} onChange={onChange} type='date' disabled={isDateDisable} />
+        <input className={`${styles.dateInput}`} value={getDisplayFormatDate((initialValue))} onChange={onChange} type='date' disabled={isDateDisable} />
     )
 }
 
