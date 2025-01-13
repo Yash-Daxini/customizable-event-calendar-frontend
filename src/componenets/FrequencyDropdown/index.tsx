@@ -6,7 +6,7 @@ import { DropdownInput } from '../../common/types'
 
 interface FrequencyDropdownProps {
     onChange: React.Dispatch<React.SetStateAction<string>>
-    initialValue: Frequency
+    initialValue: string
 }
 
 const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onChange, initialValue }: FrequencyDropdownProps) => {
@@ -21,7 +21,7 @@ const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onChange, initial
 
     console.warn(initialValue)
 
-    const [selectedFrequency, setSelectedFrequency] = useState<DropdownInput | undefined>(frequencies.find(freq => freq.value === initialValue));
+    const [selectedFrequency, setSelectedFrequency] = useState<DropdownInput | undefined>(frequencies[0]);
 
     const customStyles = {
         control: (defaultStyles: any) => ({
@@ -40,8 +40,9 @@ const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onChange, initial
     };
 
     useEffect(() => {
+        setSelectedFrequency(frequencies.find(freq => freq.value == initialValue))
         onChange(selectedFrequency!.value)
-    }, [selectedFrequency])
+    }, [initialValue])
 
     const handleChange = (selectedOption: any) => {
         setSelectedFrequency(selectedOption)
