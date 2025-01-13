@@ -10,6 +10,7 @@ import {
   getFullMonthName,
   getShorterWeekDayName,
   incrementMonth,
+  parseDate,
 } from "../../util/DateUtil";
 import {
   isHourOverlaps,
@@ -24,14 +25,14 @@ import { GetEventsBetweenDates } from "../../services/EventService";
 import { DateType, DropdownInput } from "../../common/types";
 
 interface TimelineViewProps {
-  date: DateType,
+  date: string,
   currentDuration: Duration
 }
 
 const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: TimelineViewProps) => {
   const [eventList, setEventList] = useState<EventResponse[]>([]);
 
-  let [currentDate, setCurrentDate] = useState<DateType>(date);
+  let [currentDate, setCurrentDate] = useState<DateType>(parseDate(date));
 
   const weekDayName = useMemo(() => getShorterWeekDayName(currentDate), [currentDate]);
 

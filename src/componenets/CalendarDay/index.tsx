@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { CalendarContext, CalendarContextType } from "../../hooks/context";
 import { ADD_EVENT_URL } from "../../constants/RouteConstants";
 import { EventResponse } from "../../models/EventResponse";
-import { getTodayDate, getDate, getMonth, isEqualDates, setDay } from "../../util/DateUtil";
+import { getTodayDate, getDate, getMonth, isEqualDates, setDay, formatDateDayJS } from "../../util/DateUtil";
 import { DateType } from "../../common/types";
 
 interface CalendarDayProps {
@@ -39,7 +39,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
   };
 
   const handleDoubleClick = (): void => {
-    navigate(ADD_EVENT_URL, { state: { date: contextDate } });
+    navigate(ADD_EVENT_URL, { state: { date: formatDateDayJS(contextDate) } });
   };
 
   const getEventsJSXForGivenDay = (): any => {

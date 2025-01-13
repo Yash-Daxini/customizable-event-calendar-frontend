@@ -1,3 +1,4 @@
+import { Frequency } from "../enums/Frequency";
 import { EventCollaboratorResponse } from "../models/EventCollaboratorResponse";
 import { EventRequestModel } from "../models/EventRequestModel";
 import { EventResponse } from "../models/EventResponse";
@@ -48,9 +49,10 @@ export const getEventModel = (event: EventResponse): EventRequestModel => {
     }
 }
 
-const getRecurrecePattern = (recurrencePattern:RecurrencePattern) =>{
+const getRecurrecePattern = (recurrencePattern: RecurrencePattern) => {
     return {
         ...recurrencePattern,
+        frequency: recurrencePattern.frequency as Frequency,
         startDate: parseDate(recurrencePattern.startDate),
         endDate: parseDate(recurrencePattern.endDate),
     }

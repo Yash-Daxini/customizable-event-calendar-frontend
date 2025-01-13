@@ -19,20 +19,20 @@ import InviteeDropdown from "../InviteeDropdown";
 import { getEventModel, getNonRecurringEventModel, getRecurringEventModel } from "../../util/Mapping";
 import { DateType, DropdownInput } from "../../common/types";
 import { EventRequestModel } from "../../models/EventRequestModel";
-import { getTodayDate } from "../../util/DateUtil";
+import { formatDateDayJS, parseDate } from "../../util/DateUtil";
 
 const EventForm: React.FC = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
   let eventToUpdate = location?.state?.event || null;
-  let date = location?.state?.date || null;
+  let date: DateType = location?.state?.date || null;
 
   const isUpdate = eventToUpdate !== null;
 
   let auth = useAuth();
 
-  const [selectedDate, setSelectedDate] = useState<DateType>(getTodayDate());
+  const [selectedDate, setSelectedDate] = useState<DateType>(parseDate(date));
 
   const [event, setEvent] = useState<EventRequestModel>({
     title: "",
@@ -44,8 +44,8 @@ const EventForm: React.FC = () => {
     },
     recurrencePattern: {
       frequency: Frequency.None,
-      startDate: getTodayDate(),
-      endDate: getTodayDate(),
+      startDate: selectedDate,
+      endDate: selectedDate,
     },
     eventCollaborators: [{
       userId: auth!.user.id,
@@ -55,9 +55,6 @@ const EventForm: React.FC = () => {
   } as EventRequestModel);
 
   useEffect(() => {
-    if (date)
-      setSelectedDate(date);
-
     if (isUpdate) {
       setEvent(getEventModel(eventToUpdate));
     }
@@ -246,7 +243,7 @@ const EventForm: React.FC = () => {
           </button>
         </div>
       </div>
-      <TimelineView date={selectedDate} currentDuration={event.duration} />
+      <TimelineView date={formatDateDayJS(selectedDate)} currentDuration={event.duration} />
     </div>
   );
 };

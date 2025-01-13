@@ -4,7 +4,7 @@ import { Captions, CalendarX, Pencil, Clock3, X, Check, Maximize2 } from 'lucide
 import { useNavigate } from 'react-router-dom';
 import { convertTo12HourFormat } from '../../util/TimeUtil';
 import { showSuccessToaster, showErrorToaster } from '../../util/Toaster'
-import { getDisplayFormatDate, getShorterWeekDayName } from '../../util/DateUtil';
+import { formatDateDayJS, getDisplayFormatDate, getShorterWeekDayName } from '../../util/DateUtil';
 import { ADD_EVENT_URL } from '../../constants/RouteConstants';
 import { EventResponse } from '../../models/EventResponse';
 import { DeleteEvent } from '../../services/EventService';
@@ -26,7 +26,7 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
   const navigate = useNavigate();
 
   const navigateToUpdatePage = (): void => {
-    navigate(ADD_EVENT_URL, { state: { event: event, date: eventDate } });
+    navigate(ADD_EVENT_URL, { state: { event: event, date: formatDateDayJS(eventDate) } });
   }
 
   const deleteEvent = (): void => {
