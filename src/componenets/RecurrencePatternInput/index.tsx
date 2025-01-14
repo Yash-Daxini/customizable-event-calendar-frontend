@@ -43,7 +43,7 @@ const RecurrencePatternInput: React.FC<RecurrencePatternInputProps> = ({ event: 
       case Frequency.Yearly:
         return (
           <YearlyRecurrencePatternInput
-            recurringEvent={eventObj}
+            event={eventObj}
             updateEvent={updateEvent}
             date={date}
           />

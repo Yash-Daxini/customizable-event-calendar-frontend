@@ -24,6 +24,20 @@ const MonthlyRecurrencePatternInput: React.FC<MonthlyRecurrencePatternInputProps
   const [interval, setInterval] = useState<number>(intervals[0].value);
 
   useEffect(() => {
+    if (event.recurrencePattern.interval)
+      setInterval(event.recurrencePattern.interval);
+
+    if (event.recurrencePattern.byMonthDay) {
+      setIsMonthDayPattern(true);
+      setIsWeekOrderPattern(false);
+    }
+    else {
+      setIsMonthDayPattern(false);
+      setIsWeekOrderPattern(true);
+    }
+  }, []);
+
+  useEffect(() => {
     updateEvent({
       ...event,
       recurrencePattern: {
@@ -40,7 +54,7 @@ const MonthlyRecurrencePatternInput: React.FC<MonthlyRecurrencePatternInputProps
     <div>
       <div className={`${styles.patternSelectionDiv}`}>
         <Select
-          defaultValue={intervals}
+          value={intervals.find((i) => i.value === interval)}
           onChange={(e: any) => setInterval(e.value)}
           options={intervals}
           className={`${styles.dropdown}`}

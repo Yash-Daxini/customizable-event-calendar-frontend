@@ -19,8 +19,6 @@ const FrequencyDropdown: React.FC<FrequencyDropdownProps> = ({ onChange, initial
         { value: Frequency.Yearly, label: "Yearly" }
     ];
 
-    console.warn(initialValue)
-
     const [selectedFrequency, setSelectedFrequency] = useState<DropdownInput | undefined>(frequencies[0]);
 
     const customStyles = {

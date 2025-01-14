@@ -1,4 +1,3 @@
-import { DateType } from "../common/types";
 import { Duration } from "./Duration";
 import { EventCollaboratorRequest } from "./EventCollaboratorRequest";
 
@@ -8,6 +7,6 @@ export interface NonRecurringEventRequest {
     location: string,
     description: string,
     duration: Duration,
-    eventDate: DateType,
+    eventDate: string,
     eventCollaborators: EventCollaboratorRequest[]
 }

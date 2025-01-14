@@ -1,6 +1,6 @@
 import { Duration } from "./Duration";
 import { EventCollaboratorRequest } from "./EventCollaboratorRequest";
-import { RecurrencePattern } from "./RecurrencePattern";
+import { RecurrencePatternResponse } from "./RecurrencePattern";
 
 export interface EventRequestModel {
     id: number,
@@ -8,6 +8,6 @@ export interface EventRequestModel {
     location: string,
     description: string,
     duration: Duration,
-    recurrencePattern: RecurrencePattern,
+    recurrencePattern: RecurrencePatternResponse,
     eventCollaborators: EventCollaboratorRequest[]
 }

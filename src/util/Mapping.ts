@@ -3,9 +3,10 @@ import { EventCollaboratorResponse } from "../models/EventCollaboratorResponse";
 import { EventRequestModel } from "../models/EventRequestModel";
 import { EventResponse } from "../models/EventResponse";
 import { NonRecurringEventRequest } from "../models/NonRecurringEventRequest";
-import { RecurrencePattern } from "../models/RecurrencePattern";
+import { RecurrencePatternResponse } from "../models/RecurrencePattern";
+import { RecurrencePatternRequest } from "../models/RecurrencePatternRequest";
 import { RecurringEventRequest } from "../models/RecurringEventRequest";
-import { parseDate } from "./DateUtil";
+import { formatDateDayJS } from "./DateUtil";
 
 export const getRecurringEventModel = (event: EventRequestModel): RecurringEventRequest => {
     return {
@@ -14,7 +15,7 @@ export const getRecurringEventModel = (event: EventRequestModel): RecurringEvent
         description: event.description,
         location: event.location,
         duration: event.duration,
-        recurrencePattern: event.recurrencePattern,
+        recurrencePattern: getRecurrecePatternRequest(event.recurrencePattern),
         eventCollaborators: event.eventCollaborators
     };
 }
@@ -25,7 +26,7 @@ export const getNonRecurringEventModel = (event: EventRequestModel): NonRecurrin
         title: event.title,
         description: event.description,
         location: event.location,
-        eventDate: event.recurrencePattern.startDate,
+        eventDate: formatDateDayJS(event.recurrencePattern.startDate),
         duration: event.duration,
         eventCollaborators: event.eventCollaborators
     };
@@ -49,11 +50,20 @@ export const getEventModel = (event: EventResponse): EventRequestModel => {
     }
 }
 
-const getRecurrecePattern = (recurrencePattern: RecurrencePattern) => {
+const getRecurrecePattern = (recurrencePattern: RecurrencePatternResponse): RecurrencePatternResponse => {
     return {
         ...recurrencePattern,
         frequency: recurrencePattern.frequency as Frequency,
-        startDate: parseDate(recurrencePattern.startDate),
-        endDate: parseDate(recurrencePattern.endDate),
+        startDate: recurrencePattern.startDate,
+        endDate: recurrencePattern.endDate,
+    }
+}
+
+const getRecurrecePatternRequest = (recurrencePattern: RecurrencePatternResponse): RecurrencePatternRequest => {
+    return {
+        ...recurrencePattern,
+        frequency: recurrencePattern.frequency as Frequency,
+        startDate: formatDateDayJS(recurrencePattern.startDate),
+        endDate: formatDateDayJS(recurrencePattern.endDate),
     }
 }

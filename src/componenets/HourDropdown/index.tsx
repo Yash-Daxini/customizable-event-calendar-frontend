@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Select, { SingleValue } from 'react-select';
 import styles from './style.module.css'
 import { DropdownInput } from '../../common/types';
@@ -26,17 +26,22 @@ const HourDropdown: React.FC<HourDropdownProps> = ({ onHourChange: onHourChange,
         hours.push({ value: i + 12, label: hour });
     }
 
-    const [selectedTime, setSelectedTime] = useState<DropdownInput | undefined | null>(hours.find(hour => hour.value == initialValue));
+    const [selectedTime, setSelectedTime] = useState<DropdownInput | undefined | null>();
 
     const handleChange = (selectedOption: DropdownInput | null) => {
         setSelectedTime(selectedOption);
         onHourChange(selectedOption?.value);
     }
 
+    useEffect(() => {
+        setSelectedTime(hours.find(hour => hour.value === initialValue));
+    }, [initialValue])
+    
+
     return (
         <div>
             <Select
-                defaultValue={selectedTime}
+                value={selectedTime}
                 onChange={(value: SingleValue<DropdownInput>) => handleChange(value)}
                 options={hours}
                 className={`${styles.dropdown}`}

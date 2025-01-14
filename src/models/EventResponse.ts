@@ -1,7 +1,7 @@
 import { DateType } from "../common/types";
 import { Duration } from "./Duration";
 import { EventCollaboratorResponse } from "./EventCollaboratorResponse";
-import { RecurrencePattern } from "./RecurrencePattern";
+import { RecurrencePatternResponse } from "./RecurrencePattern";
 
 export interface EventResponse {
     id: number,
@@ -9,7 +9,7 @@ export interface EventResponse {
     location: string,
     description: string,
     duration: Duration,
-    recurrencePattern: RecurrencePattern,
+    recurrencePattern: RecurrencePatternResponse,
     occurrences: DateType[],
     eventCollaborators: EventCollaboratorResponse[],
 }

@@ -22,6 +22,15 @@ const WeeklyRecurrencePatternInput: React.FC<WeeklyRecurrencePatternInputProps> 
   const [weekDay, setWeekDay] = useState<number[]>([]);
 
   useEffect(() => {
+    if (event.recurrencePattern.byWeekDay)
+      setWeekDay(event.recurrencePattern.byWeekDay);
+
+    if (event.recurrencePattern.interval)
+      setInterval(event.recurrencePattern.interval);
+  }, []);
+
+
+  useEffect(() => {
     updateEvent({
       ...event,
       recurrencePattern: {
@@ -42,7 +51,7 @@ const WeeklyRecurrencePatternInput: React.FC<WeeklyRecurrencePatternInputProps> 
       <div className={`${styles.patternSelectionDiv}`}>
         <label htmlFor="interval">Every </label>
         <Select
-          defaultValue={intervals}
+          value={intervals.find((i) => i.value === interval)}
           onChange={(e: any) => setInterval(e.value)}
           options={intervals}
           className={`${styles.dropdown}`}
@@ -55,36 +64,43 @@ const WeeklyRecurrencePatternInput: React.FC<WeeklyRecurrencePatternInputProps> 
         <LabelledCheckbox
           labelValue={WeekDayAlias.Mon.toString()}
           inputValue={"1"}
+          isChecked={weekDay.includes(1)}
           onChange={(e: ChangeEvent<HTMLInputElement>) => changeWeekDayArray(e)}
         />
         <LabelledCheckbox
           labelValue={WeekDayAlias.Tue.toString()}
           inputValue={"2"}
+          isChecked={weekDay.includes(2)}
           onChange={(e: ChangeEvent<HTMLInputElement>) => changeWeekDayArray(e)}
         />
         <LabelledCheckbox
           labelValue={WeekDayAlias.Wed.toString()}
           inputValue={"3"}
+          isChecked={weekDay.includes(3)}
           onChange={(e: ChangeEvent<HTMLInputElement>) => changeWeekDayArray(e)}
         />
         <LabelledCheckbox
           labelValue={WeekDayAlias.Thu.toString()}
           inputValue={"4"}
+          isChecked={weekDay.includes(4)}
           onChange={(e: ChangeEvent<HTMLInputElement>) => changeWeekDayArray(e)}
         />
         <LabelledCheckbox
           labelValue={WeekDayAlias.Fri.toString()}
           inputValue={"5"}
+          isChecked={weekDay.includes(5)}
           onChange={(e: ChangeEvent<HTMLInputElement>) => changeWeekDayArray(e)}
         />
         <LabelledCheckbox
           labelValue={WeekDayAlias.Sat.toString()}
           inputValue={"6"}
+          isChecked={weekDay.includes(6)}
           onChange={(e: ChangeEvent<HTMLInputElement>) => changeWeekDayArray(e)}
         />
         <LabelledCheckbox
           labelValue={WeekDayAlias.Sun.toString()}
           inputValue={"7"}
+          isChecked={weekDay.includes(7)}
           onChange={(e: ChangeEvent<HTMLInputElement>) => changeWeekDayArray(e)}
         />
       </div>
