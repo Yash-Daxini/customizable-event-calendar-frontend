@@ -1,0 +1,29 @@
+.inputDiv {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.stringInput {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.textarea {
+    width: 100%;
+    font-size: 18px;
+    border: 1px solid #ddd;
+    padding-left: 5px;
+    resize: none;
+}
+
+textarea:focus {
+    outline: none;
+}
