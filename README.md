@@ -14,6 +14,9 @@ Customizable Event Calendar Frontend
 - &#9744; Show shared calendar with proper UI in dashboard & separate page
 - &#9744; Make draggable, movable & resizable event duration selection div
 - &#9744; Add customize option to dashboard
+- &#9744; Add multiple view for event like month view, week view, work week view & day view
+- &#9744; Provide option to share calendar
+- &#9744; Add option to print calendar
 - &#9744; Test all the feature of application
 - &#9744; Test login, logout & session expiration related stuffs.
 - &#9745; Refactor event form component
@@ -26,4 +29,6 @@ Customizable Event Calendar Frontend
 - &#9744; Through exception when no occurrence of event created
 - &#9744; Sent overlap event message in format 
 - &#9744; Create API to get all dashboard data 
+- &#9744; Add email service for notification
+- &#9744; Add login option like google or other services
 - &#9745; Modify api endpoints & remove user id - Done
