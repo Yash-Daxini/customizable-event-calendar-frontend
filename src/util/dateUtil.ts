@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { DATE_BACKEND_FORMAT, DATE_DISPLAY_FORMAT } from "../constants/DateFormatConstants";
 import { DateType } from "../common/types";
@@ -121,3 +121,87 @@ export const getWeekDayName = (date: DateType): string => {
 export const getShorterWeekDayName = (date: DateType): string => {
     return date.format("ddd");
 }
+
+class DateWrapper {
+    private date: Dayjs;
+
+    constructor(date?: string | Date | Dayjs) {
+        this.date = dayjs(date);
+    }
+
+    getDateWrapper(): Dayjs {
+        return this.date;
+    }
+
+    getFourDigitYear = (): number => {
+        return parseInt(this.date.format("YYYY"));
+    }
+
+    getTwoDigitYear = (): number => {
+        return parseInt(this.date.format("YY"));
+    }
+
+    getDate = (): number => {
+        return parseInt(this.date.format("D"));
+    }
+
+    getMonth = (): number => {
+        return parseInt(this.date.format("M"));
+    }
+
+    getTwoDigitMonth = (): string => {
+        return this.date.format("MM");
+    }
+
+    getAbbreviatedMonthName = (): string => {
+        return this.date.format("MMM");
+    }
+
+    getFullMonthName = (): string => {
+        return this.date.format("MMMM");
+    }
+
+    getDayOfMonth = (): number => {
+        return parseInt(this.date.format("D"));
+    }
+
+    getWeekDay = (): number => {
+        return this.date.isoWeekday();
+    }
+
+    incrementMonth = (): DateType => {
+        let month = this.date.get("month");
+        return this.date.set("month", month + 1);
+    }
+
+    decrementMonth = (): DateType => {
+        let month = this.date.get("month");
+        return this.date.set("month", month - 1);
+    }
+
+    setDay = (day: number): DateType => {
+        return this.date.set("date", day);
+    }
+
+    getDaysInMonth = (): number => {
+        return this.date.daysInMonth();
+    }
+
+    getFirstDayOfMonth = (): number => {
+        return this.date.startOf("month").day();
+    }
+
+    getWeekDayName = (): string => {
+        return this.date.format("dddd");
+    }
+
+    getShorterWeekDayName = (): string => {
+        return this.date.format("ddd");
+    }
+
+    static now(): DateWrapper {
+        return new DateWrapper(dayjs());
+    }
+}
+
+export default DateWrapper;
