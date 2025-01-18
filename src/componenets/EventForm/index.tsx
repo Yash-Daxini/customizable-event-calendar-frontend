@@ -17,22 +17,26 @@ import { ConfirmationStatus } from "../../enums/ConfirmationStatus";
 import { Frequency } from "../../enums/Frequency";
 import InviteeDropdown from "../InviteeDropdown";
 import { getEventModel, getNonRecurringEventModel, getRecurringEventModel } from "../../util/Mapping";
-import { DateType, DropdownInput } from "../../common/types";
+import { DropdownInput } from "../../common/types";
 import { EventRequestModel } from "../../models/EventRequestModel";
-import { formatDateDayJS, parseDate } from "../../util/DateUtil";
+import DateWrapper from "../../util/DateUtil";
+import { deserializeEventResponse } from "../../models/EventResponse";
 
 const EventForm: React.FC = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
   let eventToUpdate = location?.state?.event || null;
-  let date: DateType = location?.state?.date || null;
+  let date: string = location?.state?.date || null;
+
+  if (eventToUpdate)
+    eventToUpdate = deserializeEventResponse(eventToUpdate);
 
   const isUpdate = eventToUpdate !== null;
 
   let auth = useAuth();
 
-  const [selectedDate, setSelectedDate] = useState<DateType>(parseDate(date));
+  const [selectedDate, setSelectedDate] = useState<DateWrapper>(new DateWrapper(date));
 
   const [event, setEvent] = useState<EventRequestModel>({
     title: "",
@@ -189,7 +193,7 @@ const EventForm: React.FC = () => {
                   })
                 }
                 isDateDisable={false}
-                initialDateValue={event.recurrencePattern.startDate}
+                initialDateValue={event.recurrencePattern.startDate.formatDate()}
                 initialHourValue={event.duration.startHour}
               />
             </div>
@@ -211,7 +215,7 @@ const EventForm: React.FC = () => {
                   })
                 }
                 isDateDisable={event.recurrencePattern.frequency === Frequency.None}
-                initialDateValue={event.recurrencePattern.endDate}
+                initialDateValue={event.recurrencePattern.endDate.formatDate()}
                 initialHourValue={event.duration.endHour}
               />
               <FrequencyDropdown
@@ -229,7 +233,7 @@ const EventForm: React.FC = () => {
             </div>
             <RecurrencePatternInput
               event={event}
-              date={selectedDate}
+              date={selectedDate.formatDate()}
               updateEvent={setEvent}
             />
           </div>
@@ -244,7 +248,7 @@ const EventForm: React.FC = () => {
           </button>
         </div>
       </div>
-      <TimelineView date={formatDateDayJS(selectedDate)} currentDuration={event.duration} />
+      <TimelineView date={selectedDate.formatDate()} currentDuration={event.duration} />
     </div>
   );
 };

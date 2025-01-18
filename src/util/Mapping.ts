@@ -3,10 +3,9 @@ import { EventCollaboratorResponse } from "../models/EventCollaboratorResponse";
 import { EventRequestModel } from "../models/EventRequestModel";
 import { EventResponse } from "../models/EventResponse";
 import { NonRecurringEventRequest } from "../models/NonRecurringEventRequest";
-import { RecurrencePatternResponse } from "../models/RecurrencePattern";
+import { RecurrencePatternResponse } from "../models/RecurrencePatternResponse";
 import { RecurrencePatternRequest } from "../models/RecurrencePatternRequest";
 import { RecurringEventRequest } from "../models/RecurringEventRequest";
-import { formatDateDayJS } from "./DateUtil";
 
 export const getRecurringEventModel = (event: EventRequestModel): RecurringEventRequest => {
     return {
@@ -26,7 +25,7 @@ export const getNonRecurringEventModel = (event: EventRequestModel): NonRecurrin
         title: event.title,
         description: event.description,
         location: event.location,
-        eventDate: formatDateDayJS(event.recurrencePattern.startDate),
+        eventDate: event.recurrencePattern.startDate.formatDate(),
         duration: event.duration,
         eventCollaborators: event.eventCollaborators
     };
@@ -63,7 +62,7 @@ const getRecurrecePatternRequest = (recurrencePattern: RecurrencePatternResponse
     return {
         ...recurrencePattern,
         frequency: recurrencePattern.frequency as Frequency,
-        startDate: formatDateDayJS(recurrencePattern.startDate),
-        endDate: formatDateDayJS(recurrencePattern.endDate),
+        startDate: recurrencePattern.startDate.formatDate(),
+        endDate: recurrencePattern.endDate.formatDate(),
     }
 }

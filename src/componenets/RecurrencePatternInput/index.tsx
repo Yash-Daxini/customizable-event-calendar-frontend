@@ -6,11 +6,9 @@ import MonthlyRecurrencePatternInput from '../MonthlyRecurrencePatternInput'
 import YearlyRecurrencePatternInput from '../YearlyRecurrencePatternInput';
 import { Frequency } from '../../enums/Frequency';
 import { EventRequestModel } from '../../models/EventRequestModel';
-import { DateType } from '../../common/types';
-
 interface RecurrencePatternInputProps {
   event: EventRequestModel,
-  date: DateType,
+  date: string,
   updateEvent: React.Dispatch<React.SetStateAction<EventRequestModel>>
 }
 

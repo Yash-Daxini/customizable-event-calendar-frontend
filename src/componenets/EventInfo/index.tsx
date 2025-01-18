@@ -1,16 +1,18 @@
 import React from 'react'
 import styles from './style.module.css';
-import { getDate, getFullMonthName, getWeekDayName } from '../../util/DateUtil';
+import DateWrapper from '../../util/DateUtil';
 import { convertTo12HourFormat } from '../../util/TimeUtil';
 import { EventResponse } from '../../models/EventResponse';
-import { DateType } from '../../common/types';
 
 interface EventInfoProps {
     events: EventResponse[],
-    date: DateType
+    date: string
 }
 
 const EventInfo: React.FC<EventInfoProps> = ({ events, date }: EventInfoProps) => {
+
+    const dateWrapper = new DateWrapper(date);
+
     let eventsJSXForGivenDay: any = events.map((e: EventResponse) => {
         return <div key={e.id} className={`${styles.eventBar}`}>
             <div>
@@ -23,8 +25,8 @@ const EventInfo: React.FC<EventInfoProps> = ({ events, date }: EventInfoProps) =
     return (
         <>
             <div className={`${styles.dateInfo}`} >
-                <span>{getWeekDayName(date)},
-                    &nbsp;{getFullMonthName(date)} {getDate(date)}</span>
+                <span>{dateWrapper.getWeekDayName()},
+                    &nbsp;{dateWrapper.getFullMonthName()} {dateWrapper.getDate()}</span>
             </div>
             <hr />
             <div className={`${styles.eventInfo}`}>

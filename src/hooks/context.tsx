@@ -1,10 +1,10 @@
 import { createContext } from "react";
 import { EventResponse } from "../models/EventResponse";
-import { DateType } from "../common/types";
+import DateWrapper from "../util/DateUtil";
 
 export interface CalendarContextType {
-    date: DateType,
-    setCurrentDate: React.Dispatch<React.SetStateAction<DateType>>,
+    date: DateWrapper,
+    setCurrentDate: React.Dispatch<React.SetStateAction<DateWrapper>>,
     events: EventResponse[],
     setEvents: React.Dispatch<React.SetStateAction<EventResponse[]>>,
 };

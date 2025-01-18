@@ -4,17 +4,16 @@ import { Captions, CalendarX, Pencil, Clock3, X, Check, Maximize2 } from 'lucide
 import { useNavigate } from 'react-router-dom';
 import { convertTo12HourFormat } from '../../util/TimeUtil';
 import { showSuccessToaster, showErrorToaster } from '../../util/Toaster'
-import { formatDateDayJS, getDisplayFormatDate, getShorterWeekDayName } from '../../util/DateUtil';
 import { ADD_EVENT_URL } from '../../constants/RouteConstants';
-import { EventResponse } from '../../models/EventResponse';
+import { EventResponse, serializeEventResponse } from '../../models/EventResponse';
 import { DeleteEvent } from '../../services/EventService';
 import { EventCollaboratorRole } from '../../enums/EventCollaboratorRole';
 import { useAuth } from '../../hooks/AuthProvider';
-import { DateType } from '../../common/types';
+import DateWrapper from '../../util/DateUtil';
 
 interface EventPopOverBodyProps {
   event: EventResponse,
-  eventDate: DateType,
+  eventDate: string,
   onDelete: (id: number) => void
 }
 
@@ -24,9 +23,11 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
   const auth = useAuth();
 
   const navigate = useNavigate();
+  const date = new DateWrapper(eventDate);
 
   const navigateToUpdatePage = (): void => {
-    navigate(ADD_EVENT_URL, { state: { event: event, date: formatDateDayJS(eventDate) } });
+    const state:any = { event: serializeEventResponse(event), date: eventDate }
+    navigate(ADD_EVENT_URL, { state: state });
   }
 
   const deleteEvent = (): void => {
@@ -71,7 +72,7 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
       </div>
       <div className={styles.timeDisplayDiv}>
         <Clock3 />
-        <span>{getShorterWeekDayName(eventDate)} {getDisplayFormatDate(eventDate)} {convertTo12HourFormat(event.duration.startHour)} - {convertTo12HourFormat(event.duration.endHour)}</span>
+        <span>{date.getShorterWeekDayName()} {date.getDisplayFormat()} {convertTo12HourFormat(event.duration.startHour)} - {convertTo12HourFormat(event.duration.endHour)}</span>
       </div>
       {
         hasActionsAccessible()

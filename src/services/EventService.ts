@@ -1,8 +1,7 @@
-import { DateType } from "../common/types";
-import { EventResponse } from "../models/EventResponse";
+import { EventResponse, mapToEventResponse } from "../models/EventResponse";
 import { NonRecurringEventRequest } from "../models/NonRecurringEventRequest";
 import { RecurringEventRequest } from "../models/RecurringEventRequest";
-import { formatDateDayJS } from "../util/DateUtil";
+import DateWrapper from "../util/DateUtil";
 import { replaceIdsInUrl } from "../util/UrlService";
 import { ApiResponse, APIService } from "./APIService";
 const env = import.meta.env;
@@ -10,7 +9,7 @@ const env = import.meta.env;
 export const GetAllEvents = async (): Promise<EventResponse[]> => {
     const endPoint: string = env.VITE_GET_ALL_EVENTS_URL;
     const response: ApiResponse<EventResponse[]> = await APIService.get<EventResponse[]>(endPoint);
-    return response.data;
+    return mapToEventResponse(response.data);
 }
 
 export const GetDailyEvents = async (): Promise<EventResponse[]> => {
@@ -43,9 +42,9 @@ export const GetProposedEvents = async (): Promise<EventResponse[]> => {
     return response.data;
 }
 
-export const GetEventsBetweenDates = async (startDate: DateType, endDate: DateType): Promise<EventResponse[]> => {
+export const GetEventsBetweenDates = async (startDate: DateWrapper, endDate: DateWrapper): Promise<EventResponse[]> => {
     let endPoint: string = env.VITE_GET_EVENTS_BETWEEN_DATES
-    endPoint += `?startDate=${formatDateDayJS(startDate)}&endDate=${formatDateDayJS(endDate)}`;
+    endPoint += `?startDate=${startDate.formatDate()}&endDate=${endDate.formatDate()}`;
     const response: ApiResponse<EventResponse[]> = await APIService.get<EventResponse[]>(endPoint);
     return response.data;
 }

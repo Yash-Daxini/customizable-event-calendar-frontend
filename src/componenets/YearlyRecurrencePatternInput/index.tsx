@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import Select from "react-select";
-import { getDate, getDayNumberFromDate, getDayOfMonth, getMonth, getWeekDayName, getWeekNumber, getWeekOfMonth } from "../../util/DateUtil";
-import { DateType, DropdownInput } from "../../common/types";
+import DateWrapper from "../../util/DateUtil";
+import { DropdownInput } from "../../common/types";
 import { EventRequestModel } from "../../models/EventRequestModel";
 
 interface YearlyRecurrencePatternInputProps {
-  date: DateType,
+  date: string,
   event: EventRequestModel,
   updateEvent: React.Dispatch<React.SetStateAction<EventRequestModel>>;
 }
@@ -16,6 +16,8 @@ const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> 
   const [isWeekOrderPattern, setIsWeekOrderPattern] = useState(false);
 
   const intervals: DropdownInput[] = [];
+
+  const dateWrapper = new DateWrapper(date);
 
   for (let i = 1; i <= 5; i++) {
     intervals.push({ value: i, label: i.toString() });
@@ -44,10 +46,10 @@ const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> 
       recurrencePattern: {
         ...recurringEvent.recurrencePattern,
         interval: interval,
-        byMonth: getMonth(date),
-        byMonthDay: isMonthDayPattern ? getDayOfMonth(date) : null,
-        weekOrder: isWeekOrderPattern ? getWeekNumber(date) : null,
-        byWeekDay: isWeekOrderPattern ? [getDayNumberFromDate(date)] : [],
+        byMonth: dateWrapper.getMonth(),
+        byMonthDay: isMonthDayPattern ? dateWrapper.getDayOfMonth() : null,
+        weekOrder: isWeekOrderPattern ? dateWrapper.getWeekNumber() : null,
+        byWeekDay: isWeekOrderPattern ? [dateWrapper.getDayNumberFromDate()] : [],
       },
     });
   }, [isMonthDayPattern, isWeekOrderPattern]);
@@ -77,7 +79,7 @@ const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> 
               setIsWeekOrderPattern(false);
             }}
           />
-          <label htmlFor="interval">On day {getDate(date)}</label>
+          <label htmlFor="interval">On day {dateWrapper.getDate()}</label>
         </div>
         <div>
           <input
@@ -92,8 +94,8 @@ const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> 
             }}
           />
           <label htmlFor="weekday">
-            On the {getWeekOfMonth(date)}{" "}
-            {getWeekDayName(date)}
+            On the {dateWrapper.getWeekOfMonth()}{" "}
+            {dateWrapper.getWeekDayName()}
           </label>
         </div>
       </div>

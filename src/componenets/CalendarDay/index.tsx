@@ -6,8 +6,7 @@ import { useContext } from "react";
 import { CalendarContext, CalendarContextType } from "../../hooks/context";
 import { ADD_EVENT_URL } from "../../constants/RouteConstants";
 import { EventResponse } from "../../models/EventResponse";
-import { getTodayDate, getDate, getMonth, isEqualDates, setDay, formatDateDayJS } from "../../util/DateUtil";
-import { DateType } from "../../common/types";
+import DateWrapper from "../../util/DateUtil";
 
 interface CalendarDayProps {
   isEmptyDay: boolean,
@@ -25,13 +24,13 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
     return;
 
   const events: EventResponse[] = calendarContext.events;
-  const contextDate: DateType = calendarContext.date;
-  const setCurrentDate: (date: DateType) => void = calendarContext.setCurrentDate;
+  const contextDate: DateWrapper = calendarContext.date;
+  const setCurrentDate: (date: DateWrapper) => void = calendarContext.setCurrentDate;
 
-  const currentDate: DateType = setDay(contextDate, day);
+  const currentDate: DateWrapper = contextDate.setDay(day);
 
   const eventsByDate: EventResponse[] = events.filter((e: EventResponse) =>
-    e.occurrences.some((eventDate: DateType) => isEqualDates(eventDate, currentDate))
+    e.occurrences.some((eventDate: DateWrapper) => eventDate.isEqualDates(currentDate))
   );
 
   const changeDay = (): void => {
@@ -39,7 +38,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
   };
 
   const handleDoubleClick = (): void => {
-    navigate(ADD_EVENT_URL, { state: { date: formatDateDayJS(contextDate) } });
+    navigate(ADD_EVENT_URL, { state: { date: contextDate.formatDate() } });
   };
 
   const getEventsJSXForGivenDay = (): any => {
@@ -63,7 +62,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
               <EventPopOverBody
                 onDelete={updateEventStateOnDelete}
                 event={e}
-                eventDate={currentDate} />
+                eventDate={currentDate.formatDate()} />
             }
           />
         );
@@ -79,14 +78,14 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
   };
 
   const isSelectedDay = (): boolean => {
-    return day === getDate(getTodayDate()) &&
-      getMonth(currentDate) === getMonth(getTodayDate()) &&
-      day === getDate(currentDate);
+    return day === DateWrapper.now().getDate() &&
+      currentDate.getMonth() === DateWrapper.now().getMonth() &&
+      day === currentDate.getDate();
   }
 
-  const isNonSelectedDay = (day: number, currentDate: DateType): boolean => {
-    return day === getDate(getTodayDate()) &&
-      getMonth(currentDate) === getMonth(getTodayDate());
+  const isNonSelectedDay = (day: number, currentDate: DateWrapper): boolean => {
+    return day === DateWrapper.now().getDate() &&
+      currentDate.getMonth() === DateWrapper.now().getMonth();
   }
 
   const getClassList = (): string => {
@@ -94,7 +93,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
       return `${styles.day} ${styles.today} ${styles.selected}`;
     else if (isNonSelectedDay(day, currentDate))
       return `${styles.day} ${styles.today}`;
-    else if (day == getDate(contextDate))
+    else if (day == contextDate.getDate())
       return `${styles.day} ${styles.selected}`;
     else
       return `${styles.day}`;
