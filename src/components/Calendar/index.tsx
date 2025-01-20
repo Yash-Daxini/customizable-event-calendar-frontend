@@ -22,8 +22,6 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
   const setCurrentDate: (date: DateWrapper) => void = calendarContext.setCurrentDate;
   const setEvents: (event: EventResponse[]) => void = calendarContext.setEvents;
 
-  // const date: DateWrapper = date;
-
   const updateEventStateOnDelete = (eventId: number): void => {
     setEvents(events.filter((eventObj: EventResponse) => eventObj.id !== eventId));
   };
