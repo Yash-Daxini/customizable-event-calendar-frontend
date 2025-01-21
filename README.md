@@ -2,7 +2,7 @@ Customizable Event Calendar Frontend
 
 > Frontend To-Do tasks :
 
-- &#9744; Create day js wrapper & use it every where
+- &#9745; Create day js wrapper & use it every where
 - &#9744; Refactor all the components after complete day js related work.
 - &#9744; Show actions in event info component
 - &#9744; Use loader while data not arrived from API
@@ -10,6 +10,7 @@ Customizable Event Calendar Frontend
 - &#9744; Make layout generic & easy customized
 - &#9744; Handle accept & reject response of invitee
 - &#9744; Add event detail page
+- &#9744; Fix time line div bug while edit event
 - &#9744; Show overlap event message in better format & readable way
 - &#9744; Show shared calendar with proper UI in dashboard & separate page
 - &#9744; Make draggable, movable & resizable event duration selection div

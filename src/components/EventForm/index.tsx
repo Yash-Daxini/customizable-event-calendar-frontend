@@ -67,7 +67,6 @@ const EventForm: React.FC = () => {
   const insertEvent = () => {
     if (isRecurringEvent()) {
       const recurringEvent = getRecurringEventModel(event);
-      console.warn(recurringEvent);
       AddRecurringEvent(recurringEvent)
         .then(() => {
           navigate(GET_EVENTS_URL)

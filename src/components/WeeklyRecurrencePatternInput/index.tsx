@@ -42,7 +42,7 @@ const WeeklyRecurrencePatternInput: React.FC<WeeklyRecurrencePatternInputProps> 
   }, [weekDay, interval]);
 
   const changeWeekDayArray = (e: any) => {
-    if (e.target.checked) setWeekDay([...weekDay, e.target.value]);
+    if (e.target.checked) setWeekDay([...weekDay, parseInt(e.target.value)]);
     else setWeekDay(weekDay.filter((x) => x != e.target.value));
   };
 

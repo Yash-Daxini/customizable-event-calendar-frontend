@@ -33,7 +33,7 @@ const DailyRecurrencePatternInput: React.FC<DailyRecurrencePatternInputProps> = 
     if (event.recurrencePattern.interval)
       setInterval(event.recurrencePattern.interval);
 
-    if (event.recurrencePattern.byWeekDay.length > 0) {
+    if (event.recurrencePattern.byWeekDay?.length > 0) {
       setIsWeekDayPattern(true);
       setIsIntervalPattern(false);
     }
