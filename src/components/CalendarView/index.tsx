@@ -5,28 +5,27 @@ import Calendar from "../Calendar/index.js";
 import { CalendarContext, CalendarContextType } from "../../hooks/context.js";
 import { EventResponse } from "../../models/EventResponse.js";
 import { GetAllEvents } from "../../services/EventService.js";
-import { getTodayDate, isEqualDates } from "../../util/DateUtil.js";
-import { DateType } from "../../common/types.js";
+import DateWrapper from "../../util/DateUtil.js";
 
 const CalendarView = () => {
   const [eventList, setEventList] = useState<EventResponse[]>([]);
-  const [currentDate, setCurrentDate] = useState<DateType>(getTodayDate());
+  const [currentDate, setCurrentDate] = useState<DateWrapper>(new DateWrapper());
 
   const [isFullSizeCalendar, setIsFullSizeCalendar] = useState<boolean>(false);
 
-  
+
   useEffect(() => {
     GetAllEvents()
       .then((events) => setEventList(events))
       .catch();
-    }, []);
-    
-  const getEventForGivenDate = (date: DateType): EventResponse[] => {
+  }, []);
+
+  const getEventForGivenDate = (date: DateWrapper): EventResponse[] => {
     return eventList.filter((e: EventResponse) =>
-      e.occurrences.some((eventDate: DateType) => isEqualDates(eventDate, date))
+      e.occurrences.some((eventDate: DateWrapper) => eventDate.isEqualDates(date))
     );
   };
-  
+
   const valueOfContext: CalendarContextType = {
     date: currentDate,
     setCurrentDate: setCurrentDate,
@@ -46,7 +45,7 @@ const CalendarView = () => {
         >
           <EventInfo
             events={getEventForGivenDate(currentDate)}
-            date={currentDate}
+            date={currentDate.formatDate()}
           />
         </div>
       </CalendarContext.Provider>

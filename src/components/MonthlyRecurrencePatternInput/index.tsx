@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import Select from "react-select";
-import { getDate, getDayNumberFromDate, getDayOfMonth, getMonth, getWeekDayName, getWeekNumber, getWeekOfMonth } from "../../util/DateUtil";
-import { DateType, DropdownInput } from "../../common/types";
+import DateWrapper from "../../util/DateUtil";
+import { DropdownInput } from "../../common/types";
 import { EventRequestModel } from "../../models/EventRequestModel";
 
-interface YearlyRecurrencePatternInputProps {
-  date: DateType,
+interface MonthlyRecurrencePatternInputProps {
   event: EventRequestModel,
-  updateEvent: React.Dispatch<React.SetStateAction<EventRequestModel>>;
+  updateEvent: React.Dispatch<React.SetStateAction<EventRequestModel>>,
+  date: string
 }
 
-const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> = ({ date, event: recurringEvent, updateEvent }: YearlyRecurrencePatternInputProps) => {
-  const [isMonthDayPattern, setIsMonthDayPattern] = useState(true);
-  const [isWeekOrderPattern, setIsWeekOrderPattern] = useState(false);
+const MonthlyRecurrencePatternInput: React.FC<MonthlyRecurrencePatternInputProps> = ({ event, updateEvent, date }: MonthlyRecurrencePatternInputProps) => {
+  const [isMonthDayPattern, setIsMonthDayPattern] = useState<boolean>(true);
+  const [isWeekOrderPattern, setIsWeekOrderPattern] = useState<boolean>(false);
+
+  const dateWrapper = new DateWrapper(date); 
 
   const intervals: DropdownInput[] = [];
 
@@ -24,10 +26,10 @@ const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> 
   const [interval, setInterval] = useState<number>(intervals[0].value);
 
   useEffect(() => {
-    if (recurringEvent.recurrencePattern.interval)
-      setInterval(recurringEvent.recurrencePattern.interval);
+    if (event.recurrencePattern.interval)
+      setInterval(event.recurrencePattern.interval);
 
-    if (recurringEvent.recurrencePattern.byMonthDay) {
+    if (event.recurrencePattern.byMonthDay) {
       setIsMonthDayPattern(true);
       setIsWeekOrderPattern(false);
     }
@@ -37,20 +39,18 @@ const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> 
     }
   }, []);
 
-
   useEffect(() => {
     updateEvent({
-      ...recurringEvent,
+      ...event,
       recurrencePattern: {
-        ...recurringEvent.recurrencePattern,
+        ...event.recurrencePattern,
         interval: interval,
-        byMonth: getMonth(date),
-        byMonthDay: isMonthDayPattern ? getDayOfMonth(date) : null,
-        weekOrder: isWeekOrderPattern ? getWeekNumber(date) : null,
-        byWeekDay: isWeekOrderPattern ? [getDayNumberFromDate(date)] : [],
+        byMonthDay: isMonthDayPattern ? dateWrapper.getDate() : null,
+        weekOrder: isWeekOrderPattern ? dateWrapper.getWeekNumber() : null,
+        byWeekDay: isWeekOrderPattern ? [dateWrapper.getDayNumberFromDate()] : [],
       },
     });
-  }, [isMonthDayPattern, isWeekOrderPattern]);
+  }, [isMonthDayPattern, isWeekOrderPattern, interval]);
 
   return (
     <div>
@@ -61,7 +61,7 @@ const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> 
           options={intervals}
           className={`${styles.dropdown}`}
         />
-        Year(s)
+        Month(s)
       </div>
 
       <div className={`${styles.patternSelectionDiv}`}>
@@ -71,20 +71,19 @@ const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> 
             type="radio"
             name="patternType"
             value={``}
-            checked={isMonthDayPattern}
+            checked
             onChange={() => {
               setIsMonthDayPattern(true);
               setIsWeekOrderPattern(false);
             }}
           />
-          <label htmlFor="interval">On day {getDate(date)}</label>
+          <label htmlFor="interval">On day {dateWrapper.getDate()}</label>
         </div>
         <div>
           <input
             className={`${styles.radioBtn}`}
             type="radio"
             name="patternType"
-            checked={isWeekOrderPattern}
             value={``}
             onChange={() => {
               setIsMonthDayPattern(false);
@@ -92,8 +91,8 @@ const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> 
             }}
           />
           <label htmlFor="weekday">
-            On the {getWeekOfMonth(date)}{" "}
-            {getWeekDayName(date)}
+            On the {dateWrapper.getWeekOfMonth()}{" "}
+            {dateWrapper.getDisplayFormat()}
           </label>
         </div>
       </div>
@@ -101,4 +100,4 @@ const YearlyRecurrencePatternInput: React.FC<YearlyRecurrencePatternInputProps> 
   );
 };
 
-export default YearlyRecurrencePatternInput;
+export default MonthlyRecurrencePatternInput;

@@ -1,18 +1,16 @@
 import React, { ChangeEvent } from 'react'
 import styles from './style.module.css';
-import { DateType } from '../../common/types';
-import { formatDateDayJS } from '../../util/DateUtil';
 
 interface DateInputProps {
     onDateChange: (event: ChangeEvent<HTMLInputElement>) => void,
     isDateDisable: boolean,
-    initialValue: DateType
+    initialValue: string
 }
 
 const DateInput: React.FC<DateInputProps> = ({ onDateChange: onChange, isDateDisable, initialValue }: DateInputProps) => {
     return (
         <input className={`${styles.dateInput}`}
-            value={formatDateDayJS(initialValue)}
+            value={initialValue}
             onChange={onChange}
             type='date'
             disabled={isDateDisable}

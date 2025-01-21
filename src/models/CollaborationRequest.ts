@@ -1,8 +1,8 @@
-import { DateType } from "../common/types";
+import DateWrapper from "../util/DateUtil";
 
 export interface CollaborationRequest {
     id: number,
     eventId: number,
     userId: number,
-    eventDate: DateType
+    eventDate: DateWrapper
 }

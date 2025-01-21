@@ -2,16 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import styles from "./style.module.css";
 import { CalendarArrowUp } from "lucide-react";
 import { useAuth } from "../../hooks/AuthProvider";
-import {
-  decrementMonth,
-  getTodayDate,
-  getDate,
-  getFourDigitYear,
-  getFullMonthName,
-  getShorterWeekDayName,
-  incrementMonth,
-  parseDate,
-} from "../../util/DateUtil";
+import DateWrapper from "../../util/DateUtil";
 import {
   isHourOverlaps,
   convertTo12HourFormat,
@@ -22,7 +13,7 @@ import { EventResponse } from "../../models/EventResponse";
 import { Duration } from "../../models/Duration";
 import { TIMELINE_HOUR_DIV_HEIGHT } from "../../constants/timelineDivConstants";
 import { GetEventsBetweenDates } from "../../services/EventService";
-import { DateType, DropdownInput } from "../../common/types";
+import { DropdownInput } from "../../common/types";
 
 interface TimelineViewProps {
   date: string,
@@ -32,15 +23,15 @@ interface TimelineViewProps {
 const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: TimelineViewProps) => {
   const [eventList, setEventList] = useState<EventResponse[]>([]);
 
-  let [currentDate, setCurrentDate] = useState<DateType>(parseDate(date));
+  let [currentDate, setCurrentDate] = useState<DateWrapper>(new DateWrapper(date));
 
-  const weekDayName = useMemo(() => getShorterWeekDayName(currentDate), [currentDate]);
+  const weekDayName = useMemo(() => currentDate.getShorterWeekDayName(), [currentDate]);
 
-  const monthName = useMemo(() => getFullMonthName(currentDate), [currentDate]);
+  const monthName = useMemo(() => currentDate.getFullMonthName(), [currentDate]);
 
-  const dateDisplay = useMemo(() => getDate(currentDate), [currentDate]);
+  const dateDisplay = useMemo(() => currentDate.getDate(), [currentDate]);
 
-  const fullYear = useMemo(() => getFourDigitYear(currentDate), [currentDate]);
+  const fullYear = useMemo(() => currentDate.getFourDigitYear(), [currentDate]);
 
   const auth = useAuth();
 
@@ -194,7 +185,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
           <div
             className={`${styles.prev}`}
             onClick={() => {
-              setCurrentDate(decrementMonth(currentDate));
+              setCurrentDate(currentDate.decrementMonth());
             }}
           >
             &#10094;
@@ -202,7 +193,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
           <div
             className={`${styles.todayBtn}`}
             onClick={() => {
-              setCurrentDate(getTodayDate());
+              setCurrentDate(DateWrapper.now());
             }}
           >
             <CalendarArrowUp />
@@ -210,7 +201,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
           <div
             className={`${styles.next}`}
             onClick={() => {
-              setCurrentDate(incrementMonth(currentDate));
+              setCurrentDate(currentDate.incrementMonth());
             }}
           >
             &#10095;

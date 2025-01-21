@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
-import { decrementMonth, formatDateDayJS, getTodayDate, getDaysInMonth, getFirstDayOfMonth, getFourDigitYear, getFullMonthName, incrementMonth, parseDate } from "../../util/DateUtil.js";
+import DateWrapper from "../../util/DateUtil.js";
 import CalendarDay from "../CalendarDay/index.js";
 import styles from "./style.module.css";
 import { CalendarContext, CalendarContextType } from "../../hooks/context.js";
 import { Expand, Shrink } from 'lucide-react';
 import { EventResponse } from "../../models/EventResponse.js";
-import { DateType } from "../../common/types.js";
 
 interface CalendarProps {
   isFullSizeCalendar: boolean,
@@ -19,20 +18,18 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
     return;
 
   const events: EventResponse[] = calendarContext.events;
-  const date: DateType = calendarContext.date;
-  const setCurrentDate: (date: DateType) => void = calendarContext.setCurrentDate;
+  const date: DateWrapper = calendarContext.date;
+  const setCurrentDate: (date: DateWrapper) => void = calendarContext.setCurrentDate;
   const setEvents: (event: EventResponse[]) => void = calendarContext.setEvents;
-
-  const currentDate: DateType = date;
 
   const updateEventStateOnDelete = (eventId: number): void => {
     setEvents(events.filter((eventObj: EventResponse) => eventObj.id !== eventId));
   };
 
   const renderCalendar = (): any => {
-    const firstDay = getFirstDayOfMonth(currentDate);
+    const firstDay = date.getFirstDayOfMonth();
 
-    const daysInMonth = getDaysInMonth(currentDate);
+    const daysInMonth = date.getDaysInMonth();
 
     const days: any = [];
 
@@ -60,11 +57,11 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
   };
 
   const prevMonth = (): void => {
-    setCurrentDate(decrementMonth(currentDate));
+    setCurrentDate(date.decrementMonth());
   };
 
   const nextMonth = (): void => {
-    setCurrentDate(incrementMonth(currentDate));
+    setCurrentDate(date.incrementMonth());
   };
 
   return (
@@ -75,7 +72,7 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
         <div
           className={`${styles.todayBtn}`}
           onClick={() => {
-            setCurrentDate(getTodayDate());
+            setCurrentDate(DateWrapper.now());
           }}
         >
           Today
@@ -87,13 +84,13 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
           &#10095;
         </div>
         <div
-        >{`${getFullMonthName(currentDate)} ${getFourDigitYear(currentDate)}`}</div>
+        >{`${date.getFullMonthName()} ${date.getFourDigitYear()}`}</div>
         <input
           type="date"
           id={`${styles.date}`}
-          value={formatDateDayJS(currentDate)}
+          value={date.formatDate()}
           required
-          onChange={(e) => setCurrentDate(parseDate(e.target.value))}
+          onChange={(e) => setCurrentDate(new DateWrapper(e.target.value))}
         />
       </div>
       <div className={`${styles.weekdays}`}>

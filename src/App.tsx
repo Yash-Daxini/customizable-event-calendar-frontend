@@ -1,12 +1,12 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Login from './componenets/LoginForm'
-import SignUp from './componenets/SignupForm'
+import Login from './components/LoginForm'
+import SignUp from './components/SignupForm'
 import AuthProvider from './hooks/AuthProvider'
 import PrivateRoute from './hooks/PrivateRoute'
-import Layout from './componenets/Layout'
-import Dashboard from './componenets/Dashboard'
-import CalendarView from './componenets/CalendarView'
-import EventForm from './componenets/EventForm'
+import Layout from './components/Layout'
+import Dashboard from './components/Dashboard'
+import CalendarView from './components/CalendarView'
+import EventForm from './components/EventForm'
 import { ADD_EVENT_URL, GET_EVENTS_URL, HOME_URL, LOGIN_URL, SIGNUP_URL } from './constants/RouteConstants'
 
 function App() {
