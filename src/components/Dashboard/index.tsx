@@ -65,7 +65,7 @@ const Dashboard: React.FC = () => {
     );
   });
 
-  let monthlyEventsJSX:any = monthyEvents.map((event: EventResponse, index: number) => {
+  let monthlyEventsJSX: any = monthyEvents.map((event: EventResponse, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
@@ -78,18 +78,21 @@ const Dashboard: React.FC = () => {
     );
   });
 
-  let sharedCalendarJSX:any = sharedCalendars.map((sharedCalendar: SharedCalendar, index: number) => {
+  let sharedCalendarJSX: any = sharedCalendars.map((sharedCalendar: SharedCalendar, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
-        <br />
-        Sent By: {sharedCalendar.sender.email} <br />
-        From {sharedCalendar.fromDate.toString()}
-        To {sharedCalendar.toDate.toString()}
+        <div className="d-flex flex-column justify-content-center align-items-center">
+          <div>Sender: <strong>{sharedCalendar.sender.email}</strong><br /></div>
+          <div>
+            From {sharedCalendar.fromDate.toString()}&nbsp;
+            to {sharedCalendar.toDate.toString()}
+          </div>
+        </div>
       </div>
     );
   });
 
-  let organizedEventsJSX:any = organizedEvents.map((event: EventResponse, index: number) => {
+  let organizedEventsJSX: any = organizedEvents.map((event: EventResponse, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
@@ -102,7 +105,7 @@ const Dashboard: React.FC = () => {
     );
   });
 
-  let proposedEventsJSX:any = proposedEvents.map((event: EventResponse, index: number) => {
+  let proposedEventsJSX: any = proposedEvents.map((event: EventResponse, index: number) => {
     return (
       <div key={index} className={`${styles.notificationDivContent}`}>
         <div className={styles.eventNameDiv}>{event.title}</div>
