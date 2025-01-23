@@ -12,6 +12,12 @@ export const GetAllEvents = async (): Promise<EventResponse[]> => {
     return mapToEventResponse(response.data);
 }
 
+export const GetEventById = async (eventId: number): Promise<EventResponse> => {
+    const endPoint: string = replaceIdsInUrl(env.VITE_GET_EVENT_BY_ID_URL, [eventId]);
+    const response: ApiResponse<EventResponse> = await APIService.get<EventResponse>(endPoint);
+    return response.data;
+}
+
 export const GetDailyEvents = async (): Promise<EventResponse[]> => {
     const endPoint: string = env.VITE_GET_DAILY_EVENTS_URL;
     const response: ApiResponse<EventResponse[]> = await APIService.get<EventResponse[]>(endPoint);

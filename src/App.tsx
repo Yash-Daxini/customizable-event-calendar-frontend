@@ -7,7 +7,8 @@ import Layout from './components/Layout'
 import Dashboard from './components/Dashboard'
 import CalendarView from './components/CalendarView'
 import EventForm from './components/EventForm'
-import { ADD_EVENT_URL, GET_EVENTS_URL, HOME_URL, LOGIN_URL, SIGNUP_URL } from './constants/RouteConstants'
+import { ADD_EVENT_URL, EVENT_DETAIL_URL, GET_EVENTS_URL, HOME_URL, LOGIN_URL, SIGNUP_URL } from './constants/RouteConstants'
+import EventDetail from './components/EventDetail'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               <Route index element={<Dashboard />} />
               <Route path={GET_EVENTS_URL} element={<CalendarView />} />
               <Route path={ADD_EVENT_URL} element={<EventForm />} />
+              <Route path={EVENT_DETAIL_URL} element={<EventDetail />} />
             </Route>
           </Route>
         </Routes>
