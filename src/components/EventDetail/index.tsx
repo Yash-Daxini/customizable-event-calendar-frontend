@@ -22,11 +22,22 @@ const EventDetail: React.FC = () => {
         }
     }, [])
 
+    const occurrencesDisplayDiv = event.occurrences.map((occurrence) => {
+        return (
+            <div>
+                <div>{occurrence.getDisplayFormat()}</div>
+            </div>
+        )
+    })
+
     return (
         <div className={styles.eventDetailDiv}>
             <div className={styles.iconedEventDetailDiv}>
                 <Captions />
                 <div className={styles.title}>{event?.title}</div>
+            </div>
+            <div>
+                {occurrencesDisplayDiv}
             </div>
         </div>
     )
