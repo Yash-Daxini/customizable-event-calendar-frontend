@@ -1,15 +1,15 @@
 import { OverlayTrigger } from 'react-bootstrap';
 import Popover from 'react-bootstrap/Popover';
 import styles from './style.module.css'
-
 interface PopoverComponentProps {
     placement: any,
     displayValue: string,
     className: string
     body: any
+    icon?: any
 }
 
-const PopoverComponent: React.FC<PopoverComponentProps> = ({ placement, displayValue, className, body }: PopoverComponentProps) => {
+const PopoverComponent: React.FC<PopoverComponentProps> = ({ placement, displayValue, className, body, icon }: PopoverComponentProps) => {
 
     const PopOver = (
         <Popover id="popover-contained" className={styles.popOverDiv}>
@@ -29,7 +29,10 @@ const PopoverComponent: React.FC<PopoverComponentProps> = ({ placement, displayV
                 overlay={PopOver}
                 rootClose
             >
-                <div className={className}><span>{displayValue}</span></div>
+                <div className={className}>
+                    <div>{displayValue}</div>
+                    <span>{icon}</span>
+                </div>
             </OverlayTrigger>
         </div>
     );

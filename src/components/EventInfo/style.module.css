@@ -16,13 +16,21 @@
 
 .eventInfo .eventBar {
     color: #000;
-    height: 10%;
+    min-height: 10%;
     display: flex;
     align-items: center;
     justify-content: start;
     margin-top: 10px;
     margin-bottom: 10px;
     width: 100%;
+}
+
+.eventInfo .eventBar .eventBarBodyDiv .title {
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 40px;
 }
 
 .eventInfo .eventBar .title {
@@ -34,7 +42,7 @@
 .eventInfo .eventBar .duration {
     margin-top: 10px;
     margin-bottom: 10px;
-    font-size:0.9vw;
+    font-size: 0.9vw;
 }
 
 .eventInfo .eventBar::before {

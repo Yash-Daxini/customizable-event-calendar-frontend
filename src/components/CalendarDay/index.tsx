@@ -7,7 +7,8 @@ import { CalendarContext, CalendarContextType } from "../../hooks/context";
 import { ADD_EVENT_URL } from "../../constants/RouteConstants";
 import { EventResponse } from "../../models/EventResponse";
 import DateWrapper from "../../util/DateUtil";
-
+import { Repeat } from "lucide-react";
+import { Frequency } from "../../enums/Frequency";
 interface CalendarDayProps {
   isEmptyDay: boolean,
   day: number,
@@ -41,6 +42,10 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
     navigate(ADD_EVENT_URL, { state: { date: contextDate.formatDate() } });
   };
 
+  const isRecurringEvent = (event: EventResponse): boolean => {
+    return event.recurrencePattern.frequency !== Frequency.None
+  }
+
   const getEventsJSXForGivenDay = (): any => {
     let placement: string = column > 3 ? "left" : "right";
 
@@ -64,6 +69,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
                 event={e}
                 eventDate={currentDate.formatDate()} />
             }
+            icon={isRecurringEvent(e) && <Repeat size={12} />}
           />
         );
       else
