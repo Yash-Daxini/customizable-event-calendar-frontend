@@ -5,6 +5,7 @@ Customizable Event Calendar Frontend
 - &#9745; Create day js wrapper & use it every where
 - &#9744; Refactor all the components after complete day js related work.
 - &#9744; Show actions in event info component
+- &#9744; Display repetation message & occurrences
 - &#9744; Use loader while data not arrived from API
 - &#9744; Handle multiple errors while multiple API fails on same page
 - &#9744; Make layout generic & easy customized

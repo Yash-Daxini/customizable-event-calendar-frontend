@@ -14,7 +14,7 @@ export interface EventResponse {
   eventCollaborators: EventCollaboratorResponse[],
 }
 
-export const mapToEventResponse = (data: any[]): EventResponse[] => {
+export const mapToEventResponses = (data: any[]): EventResponse[] => {
   return data.map(item => ({
     ...item,
     recurrencePattern: {
@@ -24,6 +24,18 @@ export const mapToEventResponse = (data: any[]): EventResponse[] => {
     },
     occurrences: item.occurrences.map((occurrence: string) => new DateWrapper(occurrence)),
   }));
+};
+
+export const mapToEventResponse = (data: any): EventResponse => {
+  return {
+    ...data,
+    recurrencePattern: {
+      ...data.recurrencePattern,
+      startDate: new DateWrapper(data.recurrencePattern.startDate),
+      endDate: new DateWrapper(data.recurrencePattern.endDate)
+    },
+    occurrences: data.occurrences.map((occurrence: string) => new DateWrapper(occurrence)),
+  };
 };
 
 export const serializeEventResponse = (event: EventResponse): any => {
