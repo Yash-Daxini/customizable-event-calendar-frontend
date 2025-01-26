@@ -14,7 +14,7 @@
     overflow-y: auto;
 }
 
-.eventInfo .eventBar {
+.eventInfo .eventInfoBar {
     color: #000;
     min-height: 10%;
     display: flex;
@@ -23,9 +23,10 @@
     margin-top: 10px;
     margin-bottom: 10px;
     width: 100%;
+    cursor: pointer;
 }
 
-.eventInfo .eventBar .eventBarBodyDiv .title {
+.eventInfo .eventInfoBar .eventBarBodyDiv .title {
     width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -33,24 +34,24 @@
     margin-right: 40px;
 }
 
-.eventInfo .eventBar .title {
+.eventInfo .eventInfoBar .title {
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 1.1vw;
 }
 
-.eventInfo .eventBar .duration {
+.eventInfo .eventInfoBar .duration {
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 0.9vw;
 }
 
-.eventInfo .eventBar::before {
+.eventInfo .eventInfoBar::before {
     content: '';
     position: relative;
     display: inline-block;
     width: 8px;
-    height: 100%;
+    height: 80px;
     background-color: #1181da;
     top: 0%;
     border-top-left-radius: 5px;

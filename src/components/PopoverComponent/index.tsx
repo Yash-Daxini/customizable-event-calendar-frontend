@@ -7,9 +7,10 @@ interface PopoverComponentProps {
     className: string
     body: any
     icon?: any
+    overlayBody?: any
 }
 
-const PopoverComponent: React.FC<PopoverComponentProps> = ({ placement, displayValue, className, body, icon }: PopoverComponentProps) => {
+const PopoverComponent: React.FC<PopoverComponentProps> = ({ placement, displayValue, className, body, icon, overlayBody }: PopoverComponentProps) => {
 
     const PopOver = (
         <Popover id="popover-contained" className={styles.popOverDiv}>
@@ -29,10 +30,12 @@ const PopoverComponent: React.FC<PopoverComponentProps> = ({ placement, displayV
                 overlay={PopOver}
                 rootClose
             >
-                <div className={className}>
-                    <div>{displayValue}</div>
-                    <span>{icon}</span>
-                </div>
+                {overlayBody ??
+                    <div className={className}>
+                        <div>{displayValue}</div>
+                        <span>{icon}</span>
+                    </div>
+                }
             </OverlayTrigger>
         </div>
     );

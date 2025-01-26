@@ -20,12 +20,6 @@ const CalendarView = () => {
       .catch();
   }, []);
 
-  const getEventForGivenDate = (date: DateWrapper): EventResponse[] => {
-    return eventList.filter((e: EventResponse) =>
-      e.occurrences.some((eventDate: DateWrapper) => eventDate.isEqualDates(date))
-    );
-  };
-
   const valueOfContext: CalendarContextType = {
     date: currentDate,
     setCurrentDate: setCurrentDate,
@@ -43,10 +37,7 @@ const CalendarView = () => {
         <div
           className={`${styles.eventInfoDiv} ${isFullSizeCalendar ? styles.hideEventInfoDiv : styles.showEventInfoDiv}`}
         >
-          <EventInfo
-            events={getEventForGivenDate(currentDate)}
-            date={currentDate.formatDate()}
-          />
+          <EventInfo />
         </div>
       </CalendarContext.Provider>
     </div>
