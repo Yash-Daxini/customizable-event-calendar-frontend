@@ -54,7 +54,7 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
   }
 
   const navigateToEventDetails = (): void => {
-    const state: any = { event: serializeEventResponse(event) }
+    const state: any = { event: serializeEventResponse(event), date: eventDate }
     navigate(`/eventDetail/${event.id}`, { state: state });
   }
 
