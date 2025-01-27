@@ -9,24 +9,27 @@ import CalendarView from './components/CalendarView'
 import EventForm from './components/EventForm'
 import { ADD_EVENT_URL, EVENT_DETAIL_URL, GET_EVENTS_URL, HOME_URL, LOGIN_URL, SIGNUP_URL } from './constants/RouteConstants'
 import EventDetail from './components/EventDetail'
+import LoginProvider from './hooks/LoginProvider'
 
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route path={LOGIN_URL} element={<Login />} />
-          <Route path={SIGNUP_URL} element={<SignUp />} />
-          <Route element={<PrivateRoute />}>
-            <Route path={HOME_URL} element={<Layout />}>
-              <Route index element={<Dashboard />} />
-              <Route path={GET_EVENTS_URL} element={<CalendarView />} />
-              <Route path={ADD_EVENT_URL} element={<EventForm />} />
-              <Route path={EVENT_DETAIL_URL} element={<EventDetail />} />
+      <LoginProvider>
+        <AuthProvider>
+          <Routes>
+            <Route path={LOGIN_URL} element={<Login />} />
+            <Route path={SIGNUP_URL} element={<SignUp />} />
+            <Route element={<PrivateRoute />}>
+              <Route path={HOME_URL} element={<Layout />}>
+                <Route index element={<Dashboard />} />
+                <Route path={GET_EVENTS_URL} element={<CalendarView />} />
+                <Route path={ADD_EVENT_URL} element={<EventForm />} />
+                <Route path={EVENT_DETAIL_URL} element={<EventDetail />} />
+              </Route>
             </Route>
-          </Route>
-        </Routes>
-      </AuthProvider>
+          </Routes>
+        </AuthProvider>
+      </LoginProvider>
     </BrowserRouter>
   )
 }
