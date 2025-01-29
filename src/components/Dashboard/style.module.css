@@ -1,35 +1,39 @@
 .dashboardDiv {
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    flex-wrap: wrap;
-    height: 90vh;
-    max-width: 95%;
-    gap: 3%;
-    margin-top: 1%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-wrap: wrap;
+  height: 90vh;
+  max-width: 95%;
+  gap: 3%;
+  margin-top: 1%;
 }
 
 .notificationDivContent {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    overflow-wrap: break-word;
-    padding: 3%;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow-wrap: break-word;
+  padding: 3%;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
 .notificationDivContent .eventNameDiv {
-    font-weight: 500;
+  width: 80px;
+  font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .notificationDivContent .durationDiv {
-    font-weight: lighter;
+  font-weight: lighter;
 }
 
 @media screen and (max-width: 1000px) {
-  .dashboardDiv{
-    margin:3%
+  .dashboardDiv {
+    margin: 3%
   }
 }
