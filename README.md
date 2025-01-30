@@ -29,9 +29,9 @@ Customizable Event Calendar Frontend
 
 > Backend To-Dos :
 
-- &#9744; Through exception when no occurrence of event created
 - &#9744; Sent overlap event message in format 
-- &#9745; Create API to get all dashboard data 
 - &#9744; Add email service for notification
 - &#9744; Add login option like google or other services
+- &#9745; Through exception when no occurrence of event created
+- &#9745; Create API to get all dashboard data 
 - &#9745; Modify api endpoints & remove user id - Done

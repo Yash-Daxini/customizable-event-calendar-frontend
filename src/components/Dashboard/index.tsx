@@ -2,7 +2,6 @@ import styles from "./style.module.css";
 import DraggableDiv from "../DraggableDiv";
 import { useEffect, useState } from "react";
 import { convertTo12HourFormat } from "../../util/TimeUtil";
-import { showErrorToaster } from "../../util/Toaster";
 import { EventResponse } from "../../models/EventResponse";
 import { SharedCalendar } from "../../models/SharedCalendar";
 import { DashboardData } from "../../models/DashboardData";
@@ -19,12 +18,9 @@ const Dashboard: React.FC = () => {
     sharedCalendars: []
   });
 
-  const handleServerError = (): void => showErrorToaster("Can't connect to server!");
-
   useEffect(() => {
     GetDashboardData()
-      .then((dashboardData) => setDashboardData(dashboardData))
-      .catch(() => handleServerError());
+      .then((dashboardData) => setDashboardData(dashboardData));
   }, []);
 
   const dailyEventsJSX: any = dashboardData.dailyEvents.map((event: EventResponse, index: number) => {

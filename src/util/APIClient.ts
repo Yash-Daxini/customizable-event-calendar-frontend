@@ -29,12 +29,18 @@ axiosInstance.interceptors.response.use(
     }
     else {
       const serverErrorMessage = error.response?.data?.errorMessage;
+      const overlapErrorMessage = error.response?.data?.overlapMessage;
+      const noEventOccurrenceErrorMessage = error.response?.data?.noEventOccurrenceMessage;
+
       if (serverErrorMessage)
         showErrorToaster(serverErrorMessage);
+      else if (overlapErrorMessage)
+        return Promise.reject(overlapErrorMessage);
+      else if (noEventOccurrenceErrorMessage)
+        return Promise.reject(noEventOccurrenceErrorMessage);
       else
         showErrorToaster('Oops ! Some error occured.');
     }
-    return Promise.reject(error);
   }
 );
 

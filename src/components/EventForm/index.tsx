@@ -72,7 +72,7 @@ const EventForm: React.FC = () => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event added successfully !");
         })
-        .catch(() => showErrorToaster("Some error occurred !"));
+        .catch((error) => showErrorToaster(error));
     }
     else {
       const nonRecurringEvent = getNonRecurringEventModel(event);
@@ -81,7 +81,7 @@ const EventForm: React.FC = () => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event added successfully !");
         })
-        .catch(() => showErrorToaster("Some error occurred !"));
+        .catch((error) => showErrorToaster(error));
     }
   }
 
@@ -93,7 +93,7 @@ const EventForm: React.FC = () => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event updated successfully !");
         })
-        .catch(() => showErrorToaster("Some error occurred !"));
+        .catch((error) => showErrorToaster(error));
     }
     else {
       const nonRecurringEvent = getNonRecurringEventModel(event);
@@ -102,7 +102,7 @@ const EventForm: React.FC = () => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event updated successfully !");
         })
-        .catch(() => showErrorToaster("Some error occurred !"));
+        .catch((error) => showErrorToaster(error));
     }
   }
 
