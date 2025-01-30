@@ -7,7 +7,7 @@ import { Captions, MapPin, NotebookTabs, Clock3 } from "lucide-react";
 import TimelineView from "../TimelineView";
 import RecurrencePatternInput from "../RecurrencePatternInput";
 import { useLocation, useNavigate } from "react-router-dom";
-import { showErrorToaster, showSuccessToaster } from "../../util/Toaster";
+import { showSuccessToaster } from "../../util/Toaster";
 import { GET_EVENTS_URL } from "../../constants/RouteConstants";
 import { AddEvent, AddRecurringEvent, UpdateEvent, UpdateRecurringEvent } from "../../services/EventService";
 import IconedInput from "../IconedInput";
@@ -21,9 +21,11 @@ import { DropdownInput } from "../../common/types";
 import { EventRequestModel, getDefaultEvent } from "../../models/EventRequestModel";
 import DateWrapper from "../../util/DateUtil";
 import { deserializeEventResponse } from "../../models/EventResponse";
+import { useAlert } from "../../hooks/AlertProvider";
 
 const EventForm: React.FC = () => {
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   const location = useLocation();
   let eventToUpdate = location?.state?.event || null;
@@ -72,7 +74,7 @@ const EventForm: React.FC = () => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event added successfully !");
         })
-        .catch((error) => showErrorToaster(error));
+        .catch((error) => showAlert("Failed to add event", error, "danger"));
     }
     else {
       const nonRecurringEvent = getNonRecurringEventModel(event);
@@ -81,7 +83,7 @@ const EventForm: React.FC = () => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event added successfully !");
         })
-        .catch((error) => showErrorToaster(error));
+        .catch((error) => showAlert("Failed to add event", error, "danger"));
     }
   }
 
@@ -93,7 +95,7 @@ const EventForm: React.FC = () => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event updated successfully !");
         })
-        .catch((error) => showErrorToaster(error));
+        .catch((error) => showAlert("Failed to update event", error, "danger"));
     }
     else {
       const nonRecurringEvent = getNonRecurringEventModel(event);
@@ -102,7 +104,7 @@ const EventForm: React.FC = () => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event updated successfully !");
         })
-        .catch((error) => showErrorToaster(error));
+        .catch((error) => showAlert("Failed to update event", error, "danger"));
     }
   }
 
