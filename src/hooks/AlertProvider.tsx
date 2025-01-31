@@ -34,9 +34,10 @@ export const AlertProvider: React.FC<AlertProviderProps> = ({ children }: AlertP
                 <div
                     style={{
                         position: "fixed",
-                        top: "20px",
-                        right: "20px",
+                        top: "10%",
+                        left: "20%",
                         zIndex: 1000,
+                        height: "400px",
                     }}
                 >
                     <Alert variant={alert.variant} onClose={() => setAlert(null)} dismissible>
