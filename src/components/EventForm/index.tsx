@@ -22,6 +22,9 @@ import { EventRequestModel, getDefaultEvent } from "../../models/EventRequestMod
 import DateWrapper from "../../util/DateUtil";
 import { deserializeEventResponse } from "../../models/EventResponse";
 import { useAlert } from "../../hooks/AlertProvider";
+import { OverlapResponse } from "../../models/OverlapEventResponse";
+import { Table } from "react-bootstrap";
+import { convertTo12HourFormat } from "../../util/TimeUtil";
 
 const EventForm: React.FC = () => {
   const navigate = useNavigate();
@@ -74,7 +77,7 @@ const EventForm: React.FC = () => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event added successfully !");
         })
-        .catch((error) => showAlert("Failed to add event", error, "danger"));
+        .catch((error) => showAlert("Failed to add event", getAppropriateErrorMessage(error), "danger"));
     }
     else {
       const nonRecurringEvent = getNonRecurringEventModel(event);
@@ -83,7 +86,7 @@ const EventForm: React.FC = () => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event added successfully !");
         })
-        .catch((error) => showAlert("Failed to add event", error, "danger"));
+        .catch((error) => showAlert("Failed to add event", getAppropriateErrorMessage(error), "danger"));
     }
   }
 
@@ -95,7 +98,7 @@ const EventForm: React.FC = () => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event updated successfully !");
         })
-        .catch((error) => showAlert("Failed to update event", error, "danger"));
+        .catch((error) => showAlert("Failed to update event", getAppropriateErrorMessage(error), "danger"));
     }
     else {
       const nonRecurringEvent = getNonRecurringEventModel(event);
@@ -104,8 +107,46 @@ const EventForm: React.FC = () => {
           navigate(GET_EVENTS_URL)
           showSuccessToaster("Event updated successfully !");
         })
-        .catch((error) => showAlert("Failed to update event", error, "danger"));
+        .catch((error) => showAlert("Failed to update event", getAppropriateErrorMessage(error), "danger"));
     }
+  }
+
+  const getAppropriateErrorMessage = (error: any): any => {
+    if (typeof error === "object") {
+      const overlapErrorMessage = error as OverlapResponse;
+      const overlapEventsJSX = overlapErrorMessage.overlapEvents.map((overlapEvent, index) => {
+        return (
+          <tr>
+            <td>{index + 1}</td>
+            <td>{overlapEvent.title}</td>
+            <td>{overlapEvent.date}</td>
+            <td>{convertTo12HourFormat(overlapEvent.duration.startHour)}-
+              {convertTo12HourFormat(overlapEvent.duration.endHour)}</td>
+          </tr>
+        )
+      });
+
+      return (
+        <>
+          <p><strong>"{overlapErrorMessage.title}"</strong> overlaps with the following events:</p>
+          <Table variant="danger" striped bordered hover>
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Duration</th>
+              </tr>
+            </thead>
+            <tbody>
+              {overlapEventsJSX}
+            </tbody>
+          </Table>
+        </>
+      )
+    }
+
+    return error;
   }
 
   const modifyEventCollaborators = (dropdownInputList: DropdownInput[]) => {

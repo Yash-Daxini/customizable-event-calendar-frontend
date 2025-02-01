@@ -15,7 +15,7 @@ type variantType = "primary" | "secondary" | "success" | "danger" | "warning" | 
 
 interface AlertProps {
     title: string;
-    message: string;
+    body: any;
     variant?: variantType;
 }
 
@@ -23,8 +23,8 @@ export const AlertProvider: React.FC<AlertProviderProps> = ({ children }: AlertP
 
     const [alert, setAlert] = useState<AlertProps | null>(null);
 
-    const showAlert = (title: string, message: string, variant: variantType = "primary") => {
-        setAlert({ title, message, variant });
+    const showAlert = (title: string, body: any, variant: variantType = "primary") => {
+        setAlert({ title, body: body, variant });
     };
 
     return (
@@ -42,7 +42,7 @@ export const AlertProvider: React.FC<AlertProviderProps> = ({ children }: AlertP
                 >
                     <Alert variant={alert.variant} onClose={() => setAlert(null)} dismissible>
                         <strong>{alert.title}</strong>
-                        <p>{alert.message}</p>
+                        {alert.body}
                     </Alert>
                 </div>
             )}
@@ -53,7 +53,7 @@ export const AlertProvider: React.FC<AlertProviderProps> = ({ children }: AlertP
 export const useAlert = (): AlertContextType => {
     const context = useContext(AlertContext);
     if (!context) {
-      throw new Error("useAlert must be used within an AlertProvider");
+        throw new Error("useAlert must be used within an AlertProvider");
     }
     return context;
-  };
+};

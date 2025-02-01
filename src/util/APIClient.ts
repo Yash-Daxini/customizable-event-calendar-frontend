@@ -1,6 +1,7 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { LOCALSTORAGE_USER_KEY } from '../constants/authConstants';
 import { showErrorToaster } from './Toaster';
+import { OverlapResponse } from '../models/OverlapEventResponse';
 const env = import.meta.env;
 
 const axiosInstance = axios.create({
@@ -29,7 +30,7 @@ axiosInstance.interceptors.response.use(
     }
     else {
       const serverErrorMessage = error.response?.data?.errorMessage;
-      const overlapErrorMessage = error.response?.data?.overlapMessage;
+      const overlapErrorMessage: OverlapResponse = error.response?.data?.overlapMessage;
       const noEventOccurrenceErrorMessage = error.response?.data?.noEventOccurrenceMessage;
 
       if (serverErrorMessage)
