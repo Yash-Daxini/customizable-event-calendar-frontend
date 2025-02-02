@@ -41,7 +41,7 @@ const TimeLineHourDiv: React.FC<TimeLineHourDivProps> = ({
         style={styleOfFilledDiv}
         className={`${styles.colorDiv} ${classOfDiv}`}
       >
-        {divContent}
+        <div className={`${styles.title}`}>{divContent}</div>
       </div>
     </div>
   );

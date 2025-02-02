@@ -105,6 +105,13 @@
   border-bottom: 1px solid #fff;
 }
 
+.timelineDiv .timelineBody .hourDiv .filled .title {
+  padding: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .timelineDiv .timelineBody .hourDiv .overlapFilled {
   display: flex;
   justify-content: center;
