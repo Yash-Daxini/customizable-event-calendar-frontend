@@ -104,3 +104,7 @@
 .eventPopOverDiv .buttonDiv .actionBtn .icon.rejectIcon {
     color: #a4262c;
 }
+
+.eventPopOverDiv .buttonDiv .actionBtn .icon.tentativeIcon {
+    color: #007BFF;
+}

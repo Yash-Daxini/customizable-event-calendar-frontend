@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './style.module.css';
-import { Captions, CalendarX, Pencil, Clock3, X, Check, Maximize2 } from 'lucide-react';
+import { Captions, CalendarX, Pencil, Clock3, X, Check, Maximize2, CircleHelp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { convertTo12HourFormat } from '../../util/TimeUtil';
 import { showSuccessToaster, showErrorToaster } from '../../util/Toaster'
@@ -53,6 +53,10 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
     console.warn("Invitation Rejected");
   }
 
+  const sentMayBeResponse = (): void => {
+    console.warn("Attend Maybe");
+  }
+
   const navigateToEventDetails = (): void => {
     const state: any = { event: serializeEventResponse(event), date: eventDate }
     navigate(`/eventDetail/${event.id}`, { state: state });
@@ -99,6 +103,12 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
               <span className={`${styles.icon} ${styles.rejectIcon}`}><X size={20} strokeWidth={1} />
               </span>
               Reject
+            </button>
+            <button className={`${styles.actionBtn}`}
+              onClick={sentMayBeResponse}>
+              <span className={`${styles.icon} ${styles.tentativeIcon}`}><CircleHelp size={20} strokeWidth={1} />
+              </span>
+              Tentative
             </button>
           </div>
       }
