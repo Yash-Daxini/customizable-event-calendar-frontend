@@ -5,6 +5,7 @@ Customizable Event Calendar Frontend
 - &#9744; Refactor all the components after complete day js related work.
 - &#9744; Add validation in forms
 - &#9744; Add option proposed duration
+- &#9744; Rerender after sent invitation response
 - &#9744; Use loader while data not arrived from API
 - &#9744; Handle multiple errors while multiple API fails on same page
 - &#9744; Make layout generic & easy customized

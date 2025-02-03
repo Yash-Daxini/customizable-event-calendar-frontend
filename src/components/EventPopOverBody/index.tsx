@@ -10,6 +10,10 @@ import { DeleteEvent } from '../../services/EventService';
 import { EventCollaboratorRole } from '../../enums/EventCollaboratorRole';
 import { useAuth } from '../../hooks/AuthProvider';
 import DateWrapper from '../../util/DateUtil';
+import { GiveEventCollaboratorResponse } from '../../services/EventCollaboratorService';
+import { ConfirmationStatus } from '../../enums/ConfirmationStatus';
+import { Duration } from '../../models/Duration';
+import { EventCollaboratorResponse } from '../../models/EventCollaboratorResponse';
 
 interface EventPopOverBodyProps {
   event: EventResponse,
@@ -45,16 +49,47 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
     return event.eventCollaborators.find(_ => _.eventCollaboratorRole === EventCollaboratorRole.Organizer)?.user.id;
   }
 
+  const getEventCollaboratorId = (): number | undefined => {
+    return event.eventCollaborators.find(_ => _.user.id === auth?.user.id)?.id;
+  }
+
+  const getEventCollaborator = (): EventCollaboratorResponse | undefined => {
+    return event.eventCollaborators.find(_ => _.user.id === auth?.user.id);
+  }
+
+  const isPendingResponse = (): boolean => {
+    return getEventCollaborator()?.confirmationStatus === ConfirmationStatus.Pending;
+  }
+
+  const sentResponse = (confirmationStatus: ConfirmationStatus, proposedDuration: Duration | null = null): void => {
+    const eventCollaboratorId: number | undefined = getEventCollaboratorId();
+
+    if (!eventCollaboratorId)
+      return;
+
+    GiveEventCollaboratorResponse({
+      id: eventCollaboratorId,
+      eventId: event.id,
+      confirmationStatus: confirmationStatus,
+      proposedDuration: proposedDuration
+    })
+      .then(res => {
+        if (res === 200)
+          showSuccessToaster("Successfully sent response.");
+      })
+      .catch(() => showErrorToaster("Some error occurred !"));
+  }
+
   const acceptEventIvitation = (): void => {
-    console.warn("Invitation Accepted");
+    sentResponse(ConfirmationStatus.Accept);
   }
 
   const rejectEventIvitation = (): void => {
-    console.warn("Invitation Rejected");
+    sentResponse(ConfirmationStatus.Reject)
   }
 
   const sentMayBeResponse = (): void => {
-    console.warn("Attend Maybe");
+    sentResponse(ConfirmationStatus.Maybe);
   }
 
   const navigateToEventDetails = (): void => {
@@ -81,7 +116,8 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
       </div>
       {
         hasActionsAccessible()
-          ? <div className={styles.buttonDiv}>
+          ?
+          <div className={styles.buttonDiv}>
             <button className={`${styles.actionBtn}`} onClick={navigateToUpdatePage}>
               <span className={`${styles.icon} ${styles.editIcon}`}><Pencil size={15} /></span>
               Edit
@@ -93,7 +129,8 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
               Delete
             </button>
           </div>
-          : <div className={styles.buttonDiv}>
+          : isPendingResponse() &&
+          <div className={styles.buttonDiv}>
             <button className={`${styles.actionBtn}`} onClick={acceptEventIvitation}>
               <span className={`${styles.icon} ${styles.acceptIcon}`}><Check size={15} /></span>
               Accept
