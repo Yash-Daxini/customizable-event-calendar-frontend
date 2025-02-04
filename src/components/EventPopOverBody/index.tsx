@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './style.module.css';
 import { Captions, CalendarX, Pencil, Clock3, X, Check, Maximize2, CircleHelp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { convertTo12HourFormat } from '../../util/TimeUtil';
 import { showSuccessToaster, showErrorToaster } from '../../util/Toaster'
 import { ADD_EVENT_URL } from '../../constants/RouteConstants';
 import { EventResponse, serializeEventResponse } from '../../models/EventResponse';
-import { DeleteEvent } from '../../services/EventService';
+import { DeleteEvent, GetEventById } from '../../services/EventService';
 import { EventCollaboratorRole } from '../../enums/EventCollaboratorRole';
 import { useAuth } from '../../hooks/AuthProvider';
 import DateWrapper from '../../util/DateUtil';
@@ -22,9 +22,16 @@ interface EventPopOverBodyProps {
 }
 
 
-const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, onDelete }: EventPopOverBodyProps) => {
+const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event: eventResponse, eventDate, onDelete }: EventPopOverBodyProps) => {
 
   const auth = useAuth();
+
+  const [event, setEvent] = useState<EventResponse>(eventResponse);
+
+  const updateEventAfterInvitationResponse = () => {
+    GetEventById(event.id)
+      .then((res) => setEvent(res));
+  }
 
   const navigate = useNavigate();
   const date = new DateWrapper(eventDate);
@@ -74,8 +81,10 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
       proposedDuration: proposedDuration
     })
       .then(res => {
-        if (res === 200)
+        if (res === 200) {
           showSuccessToaster("Successfully sent response.");
+          updateEventAfterInvitationResponse();
+        }
       })
       .catch(() => showErrorToaster("Some error occurred !"));
   }
