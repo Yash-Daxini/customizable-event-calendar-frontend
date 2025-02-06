@@ -1,0 +1,39 @@
+.actionBtn {
+    padding: 5px 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    position: relative;
+    left: 30%;
+}
+
+.actionBtn .icon {
+    margin-right: 5px;
+}
+
+.proposedDurationInputDiv{
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.proposedDurationPopoverButtonDiv .icon.sentResponseIcon {
+    color: #007BFF;
+}
+
+#proposedDurationPopoverHeader {
+    position: relative;
+    background-color: #479ef5;
+    display: block;
+    border-bottom: none;
+    height: 10px;
+    padding: 0px;
+}
+
+.proposedDurationPopover {
+    min-width: 450px;
+    min-height: 150px;
+}

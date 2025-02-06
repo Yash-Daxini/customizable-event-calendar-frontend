@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styles from './style.module.css';
-import { Captions, CalendarX, Pencil, Clock3, X, Check, Maximize2, CircleHelp, Send } from 'lucide-react';
+import { Captions, CalendarX, Pencil, Clock3, X, Check, Maximize2, CircleHelp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { convertTo12HourFormat } from '../../util/TimeUtil';
 import { showSuccessToaster, showErrorToaster } from '../../util/Toaster'
@@ -14,8 +14,7 @@ import { GiveEventCollaboratorResponse } from '../../services/EventCollaboratorS
 import { ConfirmationStatus } from '../../enums/ConfirmationStatus';
 import { Duration } from '../../models/Duration';
 import { EventCollaboratorResponse } from '../../models/EventCollaboratorResponse';
-import { OverlayTrigger, Popover } from 'react-bootstrap';
-
+import ProposedDurationPopover from '../ProposedDurationPopover';
 interface EventPopOverBodyProps {
   event: EventResponse,
   eventDate: string,
@@ -98,8 +97,8 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event: eventRespons
     sentResponse(ConfirmationStatus.Reject)
   }
 
-  const sentMayBeResponse = (): void => {
-    sentResponse(ConfirmationStatus.Maybe);
+  const sentMayBeResponse = (proposedDuration: Duration): void => {
+    sentResponse(ConfirmationStatus.Maybe, proposedDuration);
   }
 
   const navigateToEventDetails = (): void => {
@@ -107,22 +106,16 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event: eventRespons
     navigate(`/eventDetail/${event.id}`, { state: state });
   }
 
-  const proposedDurationPopover = (
-    <Popover id="popover-basic" className={`${styles.proposedDurationPopover}`}>
-      <Popover.Header id={`${styles.proposedDurationPopoverHeader}`} as="h3"></Popover.Header>
-      <Popover.Body>
-        <strong>What to proposed time ?</strong>
-        <div className={`${styles.proposedDurationPopoverButtonDiv}`}>
-          <button className={`${styles.actionBtn}`} onClick={sentMayBeResponse}>
-            <span className={`${styles.icon} ${styles.sentResponseIcon}`}>
-              <Send size={20} strokeWidth={1} />
-            </span>
-            Sent Response
-          </button>
-        </div>
-      </Popover.Body>
-    </Popover>
-  );
+  const getTentativeButton = () => {
+    return (
+      <button className={`${styles.actionBtn}`}>
+        <span className={`${styles.icon} ${styles.tentativeIcon}`}>
+          <CircleHelp size={20} strokeWidth={1} />
+        </span>
+        Tentative
+      </button>
+    )
+  }
 
   return (
     <div key={event.id} className={styles.eventPopOverDiv}>
@@ -168,13 +161,11 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event: eventRespons
               </span>
               Reject
             </button>
-            <OverlayTrigger trigger="click" placement="right" overlay={proposedDurationPopover}>
-              <button className={`${styles.actionBtn}`}>
-                <span className={`${styles.icon} ${styles.tentativeIcon}`}><CircleHelp size={20} strokeWidth={1} />
-                </span>
-                Tentative
-              </button>
-            </OverlayTrigger>
+
+            <ProposedDurationPopover
+              sentMayBeResponse={sentMayBeResponse}
+              overlapBody={getTentativeButton()}
+            />
           </div>
       }
     </div>
