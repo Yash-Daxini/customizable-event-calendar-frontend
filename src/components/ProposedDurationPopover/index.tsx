@@ -19,9 +19,10 @@ const ProposedDurationPopover: React.FC<ProposedDurationPopoverProps> = ({ sentM
 
   const proposedDurationPopover = (
     <Popover id="popover-basic" className={`${styles.proposedDurationPopover}`}>
-      <Popover.Header id={`${styles.proposedDurationPopoverHeader}`} as="h3"></Popover.Header>
+      <Popover.Header id={`${styles.proposedDurationPopoverHeader}`} as="h3" onMouseDown={(e) => e.stopPropagation()}></Popover.Header>
       <Popover.Body>
         <strong>What to proposed time ?</strong>
+        <input type='checkbox' className={`${styles.checkbox}`} />
         <div className={`${styles.proposedDurationInputDiv}`}>
           <div>
             <FormLabel>Start Hour</FormLabel>
@@ -54,7 +55,13 @@ const ProposedDurationPopover: React.FC<ProposedDurationPopoverProps> = ({ sentM
   );
 
   return (
-    <OverlayTrigger trigger="click" placement="right" overlay={proposedDurationPopover}>
+    <OverlayTrigger
+      trigger="click"
+      placement="right"
+      rootClose={false}
+      overlay={proposedDurationPopover}
+      container={document.body}
+    >
       {overlapBody}
     </OverlayTrigger>
   )
