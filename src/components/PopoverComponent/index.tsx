@@ -28,7 +28,7 @@ const PopoverComponent: React.FC<PopoverComponentProps> = ({ placement, displayV
                 placement={placement}
                 containerPadding={20}
                 overlay={PopOver}
-                rootClose
+                rootClose={false}
             >
                 {overlayBody ??
                     <div className={className}>

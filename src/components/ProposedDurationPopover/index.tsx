@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { FormLabel, OverlayTrigger, Popover } from 'react-bootstrap';
+import { OverlayTrigger, Popover } from 'react-bootstrap';
 import styles from './style.module.css'
 import { Send } from 'lucide-react';
 import { Duration } from '../../models/Duration';
 import HourDropdown from '../HourDropdown';
 
 interface ProposedDurationPopoverProps {
-  sentMayBeResponse: (proposedDuration: Duration) => void,
+  sentMayBeResponse: (proposedDuration: Duration | null) => void,
   overlapBody: any
 }
 
@@ -17,33 +17,46 @@ const ProposedDurationPopover: React.FC<ProposedDurationPopoverProps> = ({ sentM
     endHour: 1
   })
 
+  const [isWantToProposeTime, setIsWantToProposeTime] = useState<boolean>(false)
+
   const proposedDurationPopover = (
     <Popover id="popover-basic" className={`${styles.proposedDurationPopover}`}>
       <Popover.Header id={`${styles.proposedDurationPopoverHeader}`} as="h3" onMouseDown={(e) => e.stopPropagation()}></Popover.Header>
       <Popover.Body>
-        <strong>What to proposed time ?</strong>
-        <input type='checkbox' className={`${styles.checkbox}`} />
+        <div className={`${styles.checkboxDiv}`}>
+          <strong>What to proposed time ?</strong>
+          <input type="checkbox" className={`${styles.checkbox}`} checked={isWantToProposeTime} onChange={(e) => {
+            if (e.target.checked) {
+              setIsWantToProposeTime(true);
+            }
+            else {
+              setIsWantToProposeTime(false);
+            }
+          }} />
+        </div>
         <div className={`${styles.proposedDurationInputDiv}`}>
-          <div>
-            <FormLabel>Start Hour</FormLabel>
-            <HourDropdown
-              onHourChange={(e) => setProposedDuration({ ...proposedDuration, startHour: e })}
-              initialValue={proposedDuration.startHour}
-            />
-          </div>
-          <div>
-            <FormLabel>End Hour</FormLabel>
-            <HourDropdown
-              onHourChange={(e) => setProposedDuration({ ...proposedDuration, endHour: e })}
-              initialValue={proposedDuration.endHour} />
-          </div>
+          {isWantToProposeTime &&
+            <>
+              <div>
+                <div className={`${styles.label}`}>Start Hour</div>
+                <HourDropdown
+                  onHourChange={(e) => setProposedDuration({ ...proposedDuration, startHour: e })}
+                  initialValue={proposedDuration.startHour}
+                />
+              </div>
+              <div>
+                <div className={`${styles.label}`}>End Hour</div>
+                <HourDropdown
+                  onHourChange={(e) => setProposedDuration({ ...proposedDuration, endHour: e })}
+                  initialValue={proposedDuration.endHour} />
+              </div>
+            </>
+          }
         </div>
         <div className={`${styles.proposedDurationPopoverButtonDiv}`}>
           <button className={`${styles.actionBtn}`} onClick={() => {
-            console.warn(proposedDuration)
-            // sentMayBeResponse(proposedDuration)
-          }}
-          >
+            sentMayBeResponse(isWantToProposeTime ? proposedDuration : null)
+          }}>
             <span className={`${styles.icon} ${styles.sentResponseIcon}`}>
               <Send size={20} strokeWidth={1} />
             </span>
@@ -58,9 +71,8 @@ const ProposedDurationPopover: React.FC<ProposedDurationPopoverProps> = ({ sentM
     <OverlayTrigger
       trigger="click"
       placement="right"
-      rootClose={false}
+      rootClose={true}
       overlay={proposedDurationPopover}
-      container={document.body}
     >
       {overlapBody}
     </OverlayTrigger>

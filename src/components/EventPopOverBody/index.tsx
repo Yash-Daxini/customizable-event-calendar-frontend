@@ -97,8 +97,11 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event: eventRespons
     sentResponse(ConfirmationStatus.Reject)
   }
 
-  const sentMayBeResponse = (proposedDuration: Duration): void => {
-    sentResponse(ConfirmationStatus.Maybe, proposedDuration);
+  const sentMayBeResponse = (proposedDuration: Duration | null): void => {
+    if (proposedDuration)
+      sentResponse(ConfirmationStatus.Proposed, proposedDuration);
+    else
+      sentResponse(ConfirmationStatus.Maybe);
   }
 
   const navigateToEventDetails = (): void => {

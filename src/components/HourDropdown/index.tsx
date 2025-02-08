@@ -45,10 +45,6 @@ const HourDropdown: React.FC<HourDropdownProps> = ({ onHourChange: onHourChange,
                 onChange={(value: SingleValue<DropdownInput>) => handleChange(value)}
                 options={hours}
                 className={`${styles.dropdown}`}
-                menuPortalTarget={document.body}
-                styles={{
-                    menuPortal:(base) => ({...base,zIndex:9999})
-                }}
             />
         </div>
     )
