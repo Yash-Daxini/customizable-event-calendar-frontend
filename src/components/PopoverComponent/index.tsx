@@ -1,6 +1,7 @@
 import { OverlayTrigger } from 'react-bootstrap';
 import Popover from 'react-bootstrap/Popover';
 import styles from './style.module.css'
+import { CircleX } from 'lucide-react';
 interface PopoverComponentProps {
     placement: any,
     displayValue: string,
@@ -16,6 +17,11 @@ const PopoverComponent: React.FC<PopoverComponentProps> = ({ placement, displayV
         <Popover id="popover-contained" className={styles.popOverDiv}>
             <Popover.Header as="h3" id={styles.popoverHeader}></Popover.Header>
             <Popover.Body>
+                <button className={`${styles.actionBtn}`}>
+                    <span className={`${styles.icon}`}>
+                        <CircleX />
+                    </span>
+                </button>
                 {body}
             </Popover.Body>
         </Popover>

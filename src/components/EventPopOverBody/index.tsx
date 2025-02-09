@@ -15,6 +15,7 @@ import { ConfirmationStatus } from '../../enums/ConfirmationStatus';
 import { Duration } from '../../models/Duration';
 import { EventCollaboratorResponse } from '../../models/EventCollaboratorResponse';
 import ProposedDurationPopover from '../ProposedDurationPopover';
+
 interface EventPopOverBodyProps {
   event: EventResponse,
   eventDate: string,
@@ -137,40 +138,41 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event: eventRespons
         <Clock3 />
         <span>{date.getShorterWeekDayName()} {date.getDisplayFormat()} {convertTo12HourFormat(event.duration.startHour)} - {convertTo12HourFormat(event.duration.endHour)}</span>
       </div>
-      {
-        hasActionsAccessible()
-          ?
-          <div className={styles.buttonDiv}>
-            <button className={`${styles.actionBtn}`} onClick={navigateToUpdatePage}>
-              <span className={`${styles.icon} ${styles.editIcon}`}><Pencil size={15} /></span>
-              Edit
-            </button>
-            <button className={`${styles.actionBtn}`}
-              onClick={deleteEvent}>
-              <span className={`${styles.icon} ${styles.deleteIcon}`}><CalendarX size={20} strokeWidth={1} />
-              </span>
-              Delete
-            </button>
-          </div>
-          : isPendingResponse() &&
-          <div className={styles.buttonDiv}>
-            <button className={`${styles.actionBtn}`} onClick={acceptEventIvitation}>
-              <span className={`${styles.icon} ${styles.acceptIcon}`}><Check size={15} /></span>
-              Accept
-            </button>
-            <button className={`${styles.actionBtn}`}
-              onClick={rejectEventIvitation}>
-              <span className={`${styles.icon} ${styles.rejectIcon}`}><X size={20} strokeWidth={1} />
-              </span>
-              Reject
-            </button>
-
-            <ProposedDurationPopover
-              sentMayBeResponse={sentMayBeResponse}
-              overlapBody={getTentativeButton()}
-            />
-          </div>
-      }
+      <div className={styles.buttonDiv}>
+        {
+          hasActionsAccessible()
+            ?
+            <>
+              <button className={`${styles.actionBtn}`} onClick={navigateToUpdatePage}>
+                <span className={`${styles.icon} ${styles.editIcon}`}><Pencil size={15} /></span>
+                Edit
+              </button>
+              <button className={`${styles.actionBtn}`}
+                onClick={deleteEvent}>
+                <span className={`${styles.icon} ${styles.deleteIcon}`}><CalendarX size={20} strokeWidth={1} />
+                </span>
+                Delete
+              </button>
+            </>
+            : isPendingResponse() &&
+            <>
+              <ProposedDurationPopover
+                sentMayBeResponse={sentMayBeResponse}
+                overlapBody={getTentativeButton()}
+              />
+              <button className={`${styles.actionBtn}`} onClick={acceptEventIvitation}>
+                <span className={`${styles.icon} ${styles.acceptIcon}`}><Check size={15} /></span>
+                Accept
+              </button>
+              <button className={`${styles.actionBtn}`}
+                onClick={rejectEventIvitation}>
+                <span className={`${styles.icon} ${styles.rejectIcon}`}><X size={20} strokeWidth={1} />
+                </span>
+                Reject
+              </button>
+            </>
+        }
+      </div>
     </div>
   )
 }
