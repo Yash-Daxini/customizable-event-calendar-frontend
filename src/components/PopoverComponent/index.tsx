@@ -2,12 +2,13 @@ import { OverlayTrigger } from 'react-bootstrap';
 import Popover from 'react-bootstrap/Popover';
 import styles from './style.module.css'
 import { CircleX } from 'lucide-react';
+
 interface PopoverComponentProps {
     placement: any,
     displayValue: string,
-    className: string
-    body: any
-    icon?: any
+    className: string,
+    body: any,
+    icon?: any,
     overlayBody?: any
 }
 
@@ -35,6 +36,7 @@ const PopoverComponent: React.FC<PopoverComponentProps> = ({ placement, displayV
                 containerPadding={20}
                 overlay={PopOver}
                 rootClose={false}
+                
             >
                 {overlayBody ??
                     <div className={className}>

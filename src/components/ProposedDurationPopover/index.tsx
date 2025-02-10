@@ -16,12 +16,12 @@ const ProposedDurationPopover: React.FC<ProposedDurationPopoverProps> = ({ sentM
     startHour: 0,
     endHour: 1
   })
-
+  
   const [isWantToProposeTime, setIsWantToProposeTime] = useState<boolean>(false)
 
   const proposedDurationPopover = (
     <Popover id="popover-basic" className={`${styles.proposedDurationPopover}`}>
-      <Popover.Header id={`${styles.proposedDurationPopoverHeader}`} as="h3" onMouseDown={(e) => e.stopPropagation()}></Popover.Header>
+      <Popover.Header id={`${styles.proposedDurationPopoverHeader}`} as="h3"></Popover.Header>
       <Popover.Body>
         <div className={`${styles.checkboxDiv}`}>
           <strong>What to proposed time ?</strong>
