@@ -14,7 +14,7 @@ import { GiveEventCollaboratorResponse } from '../../services/EventCollaboratorS
 import { ConfirmationStatus } from '../../enums/ConfirmationStatus';
 import { Duration } from '../../models/Duration';
 import { EventCollaboratorResponse } from '../../models/EventCollaboratorResponse';
-import ProposedDurationPopover from '../ProposedDurationPopover';
+import ProposedDurationModal from '../ProposedDurationModal';
 
 interface EventPopOverBodyProps {
   event: EventResponse,
@@ -28,6 +28,7 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event: eventRespons
   const auth = useAuth();
 
   const [event, setEvent] = useState<EventResponse>(eventResponse);
+  const [isShowModal, setIsShowModal] = useState<boolean>(false);
 
   const updateEventAfterInvitationResponse = () => {
     GetEventById(event.id)
@@ -110,17 +111,6 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event: eventRespons
     navigate(`/eventDetail/${event.id}`, { state: state });
   }
 
-  const getTentativeButton = () => {
-    return (
-      <button className={`${styles.actionBtn}`}>
-        <span className={`${styles.icon} ${styles.tentativeIcon}`}>
-          <CircleHelp size={20} strokeWidth={1} />
-        </span>
-        Tentative
-      </button>
-    )
-  }
-
   return (
     <div key={event.id} className={styles.eventPopOverDiv}>
       <div className={styles.headerDiv}>
@@ -156,10 +146,6 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event: eventRespons
             </>
             : isPendingResponse() &&
             <>
-              <ProposedDurationPopover
-                sentMayBeResponse={sentMayBeResponse}
-                overlapBody={getTentativeButton()}
-              />
               <button className={`${styles.actionBtn}`} onClick={acceptEventIvitation}>
                 <span className={`${styles.icon} ${styles.acceptIcon}`}><Check size={15} /></span>
                 Accept
@@ -169,6 +155,20 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event: eventRespons
                 <span className={`${styles.icon} ${styles.rejectIcon}`}><X size={20} strokeWidth={1} />
                 </span>
                 Reject
+              </button>
+              <ProposedDurationModal
+                sentMayBeResponse={sentMayBeResponse}
+                isShowModal={isShowModal}
+                setIsShowModal={setIsShowModal}
+              />
+              <button className={`${styles.actionBtn}`} onClick={() => {
+                setIsShowModal(true);
+                document.body.click();
+              }}>
+                <span className={`${styles.icon} ${styles.tentativeIcon}`}>
+                  <CircleHelp size={20} strokeWidth={1} />
+                </span>
+                Tentative
               </button>
             </>
         }

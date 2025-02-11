@@ -1,28 +1,39 @@
 import React, { useState } from 'react'
-import { OverlayTrigger, Popover } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import styles from './style.module.css'
 import { Send } from 'lucide-react';
 import { Duration } from '../../models/Duration';
 import HourDropdown from '../HourDropdown';
 
-interface ProposedDurationPopoverProps {
+interface ProposedDurationModalProps {
   sentMayBeResponse: (proposedDuration: Duration | null) => void,
-  overlapBody: any
+  isShowModal: boolean,
+  setIsShowModal: (isShowModal: boolean) => void
 }
 
-const ProposedDurationPopover: React.FC<ProposedDurationPopoverProps> = ({ sentMayBeResponse, overlapBody }: ProposedDurationPopoverProps) => {
+const ProposedDurationModal: React.FC<ProposedDurationModalProps> = ({ sentMayBeResponse, isShowModal, setIsShowModal }: ProposedDurationModalProps) => {
 
   const [proposedDuration, setProposedDuration] = useState<Duration>({
     startHour: 0,
     endHour: 1
   })
-  
+
   const [isWantToProposeTime, setIsWantToProposeTime] = useState<boolean>(false)
 
-  const proposedDurationPopover = (
-    <Popover id="popover-basic" className={`${styles.proposedDurationPopover}`}>
-      <Popover.Header id={`${styles.proposedDurationPopoverHeader}`} as="h3"></Popover.Header>
-      <Popover.Body>
+  return (
+    <Modal
+      show={isShowModal}
+      backdrop="static"
+      id="proposedDurationModal"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Modal heading
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
         <div className={`${styles.checkboxDiv}`}>
           <strong>What to proposed time ?</strong>
           <input type="checkbox" className={`${styles.checkbox}`} checked={isWantToProposeTime} onChange={(e) => {
@@ -63,20 +74,9 @@ const ProposedDurationPopover: React.FC<ProposedDurationPopoverProps> = ({ sentM
             Sent Response
           </button>
         </div>
-      </Popover.Body>
-    </Popover>
-  );
-
-  return (
-    <OverlayTrigger
-      trigger="click"
-      placement="right"
-      rootClose={true}
-      overlay={proposedDurationPopover}
-    >
-      {overlapBody}
-    </OverlayTrigger>
+      </Modal.Body>
+    </Modal>
   )
 }
 
-export default ProposedDurationPopover
+export default ProposedDurationModal
