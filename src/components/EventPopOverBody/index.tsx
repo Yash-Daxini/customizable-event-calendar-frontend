@@ -15,6 +15,7 @@ import { ConfirmationStatus } from '../../enums/ConfirmationStatus';
 import { Duration } from '../../models/Duration';
 import { EventCollaboratorResponse } from '../../models/EventCollaboratorResponse';
 import ProposedDurationModal from '../ProposedDurationModal';
+import { useModal } from '../../hooks/ModalProvider';
 
 interface EventPopOverBodyProps {
   event: EventResponse,
@@ -27,8 +28,9 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event: eventRespons
 
   const auth = useAuth();
 
+  const modal = useModal();
+
   const [event, setEvent] = useState<EventResponse>(eventResponse);
-  const [isShowModal, setIsShowModal] = useState<boolean>(false);
 
   const updateEventAfterInvitationResponse = () => {
     GetEventById(event.id)
@@ -156,14 +158,11 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event: eventRespons
                 </span>
                 Reject
               </button>
-              <ProposedDurationModal
-                sentMayBeResponse={sentMayBeResponse}
-                isShowModal={isShowModal}
-                setIsShowModal={setIsShowModal}
-              />
               <button className={`${styles.actionBtn}`} onClick={() => {
-                setIsShowModal(true);
-                document.body.click();
+                modal?.showModal("Propose time",
+                  <ProposedDurationModal
+                    sentMayBeResponse={sentMayBeResponse}
+                  />)
               }}>
                 <span className={`${styles.icon} ${styles.tentativeIcon}`}>
                   <CircleHelp size={20} strokeWidth={1} />
