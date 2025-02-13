@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import styles from './style.module.css';
 import { Captions, CalendarX, Pencil, Clock3, X, Check, Maximize2, CircleHelp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +16,7 @@ import { Duration } from '../../models/Duration';
 import { EventCollaboratorResponse } from '../../models/EventCollaboratorResponse';
 import ProposedDurationModal from '../ProposedDurationModal';
 import { useModal } from '../../hooks/ModalProvider';
+import { CalendarContext, CalendarContextType } from '../../hooks/context';
 
 interface EventPopOverBodyProps {
   event: EventResponse,
@@ -23,18 +24,23 @@ interface EventPopOverBodyProps {
   onDelete: (id: number) => void
 }
 
-
-const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event: eventResponse, eventDate, onDelete }: EventPopOverBodyProps) => {
+const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, onDelete }: EventPopOverBodyProps) => {
 
   const auth = useAuth();
 
   const modal = useModal();
 
-  const [event, setEvent] = useState<EventResponse>(eventResponse);
+  const calendarContext: CalendarContextType | null = useContext(CalendarContext);
+
+  if (!calendarContext)
+    return;
+
+  const events: EventResponse[] = calendarContext.events;
+  const setEvents: React.Dispatch<React.SetStateAction<EventResponse[]>> = calendarContext.setEvents;
 
   const updateEventAfterInvitationResponse = () => {
     GetEventById(event.id)
-      .then((res) => setEvent(res));
+      .then((res) => setEvents(events.map((_) => _.id === event.id ? res : _)));
   }
 
   const navigate = useNavigate();
@@ -64,13 +70,12 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event: eventRespons
     return event.eventCollaborators.find(_ => _.user.id === auth?.user.id)?.id;
   }
 
-  const getEventCollaborator = (): EventCollaboratorResponse | undefined => {
-    return event.eventCollaborators.find(_ => _.user.id === auth?.user.id);
-  }
+  const getEventCollaborator = (): EventCollaboratorResponse | undefined =>
+    event.eventCollaborators.find(_ => _.user.id === auth?.user.id);
 
-  const isPendingResponse = (): boolean => {
-    return getEventCollaborator()?.confirmationStatus === ConfirmationStatus.Pending;
-  }
+  const isPendingResponse = (): boolean =>
+    getEventCollaborator()?.confirmationStatus === ConfirmationStatus.Pending;
+
 
   const sentResponse = (confirmationStatus: ConfirmationStatus, proposedDuration: Duration | null = null): void => {
     const eventCollaboratorId: number | undefined = getEventCollaboratorId();
