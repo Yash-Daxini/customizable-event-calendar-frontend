@@ -20,11 +20,10 @@ import { CalendarContext, CalendarContextType } from '../../hooks/context';
 
 interface EventPopOverBodyProps {
   event: EventResponse,
-  eventDate: string,
-  onDelete: (id: number) => void
+  eventDate: string
 }
 
-const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, onDelete }: EventPopOverBodyProps) => {
+const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate }: EventPopOverBodyProps) => {
 
   const auth = useAuth();
 
@@ -52,9 +51,11 @@ const EventPopOverBody: React.FC<EventPopOverBodyProps> = ({ event, eventDate, o
   }
 
   const deleteEvent = (): void => {
-    onDelete(event.id);
     DeleteEvent(event.id)
-      .then(() => showSuccessToaster("Successfully Deleted Event !"))
+      .then(() => {
+        setEvents(events.filter((_: EventResponse) => _.id !== event.id));
+        showSuccessToaster("Successfully Deleted Event !")
+      })
       .catch(() => showErrorToaster("Failed to delete event !"));
   }
 

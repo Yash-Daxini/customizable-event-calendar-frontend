@@ -4,8 +4,6 @@ import CalendarDay from "../CalendarDay/index.js";
 import styles from "./style.module.css";
 import { CalendarContext, CalendarContextType } from "../../hooks/context.js";
 import { Expand, Shrink } from 'lucide-react';
-import { EventResponse } from "../../models/EventResponse.js";
-
 interface CalendarProps {
   isFullSizeCalendar: boolean,
   setIsFullSizeCalendar: React.Dispatch<React.SetStateAction<boolean>>
@@ -17,14 +15,8 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
   if (!calendarContext)
     return;
 
-  const events: EventResponse[] = calendarContext.events;
   const date: DateWrapper = calendarContext.date;
   const setCurrentDate: (date: DateWrapper) => void = calendarContext.setCurrentDate;
-  const setEvents: (event: EventResponse[]) => void = calendarContext.setEvents;
-
-  const updateEventStateOnDelete = (eventId: number): void => {
-    setEvents(events.filter((eventObj: EventResponse) => eventObj.id !== eventId));
-  };
 
   const renderCalendar = (): any => {
     const firstDay = date.getFirstDayOfMonth();
@@ -36,7 +28,12 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
     let column: number = 0;
 
     for (let i = 0; i < firstDay; i++) {
-      days.push(<CalendarDay key={`${i}empty`} isEmptyDay={true} day={0} column={0} updateEventStateOnDelete={updateEventStateOnDelete} />);
+      days.push(
+      <CalendarDay 
+        key={`${i}empty`} 
+        isEmptyDay={true} 
+        day={0} 
+        column={0}  />);
       column++;
     }
 
@@ -47,7 +44,6 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
           column={column}
           isEmptyDay={false}
           day={day}
-          updateEventStateOnDelete={updateEventStateOnDelete}
         />,
       );
       column = (column + 1) % 7;

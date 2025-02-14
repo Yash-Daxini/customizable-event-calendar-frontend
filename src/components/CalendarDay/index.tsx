@@ -12,11 +12,10 @@ import { Frequency } from "../../enums/Frequency";
 interface CalendarDayProps {
   isEmptyDay: boolean,
   day: number,
-  column: number,
-  updateEventStateOnDelete: (eventId: number) => void
+  column: number
 }
 
-const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, updateEventStateOnDelete }: CalendarDayProps) => {
+const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column }: CalendarDayProps) => {
   const navigate = useNavigate();
 
   const calendarContext: CalendarContextType | null = useContext(CalendarContext);
@@ -65,7 +64,6 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ isEmptyDay, day, column, upda
             className={`${styles.eventBar}`}
             body={
               <EventPopOverBody
-                onDelete={updateEventStateOnDelete}
                 event={e}
                 eventDate={currentDate.formatDate()} />
             }
