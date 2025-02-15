@@ -57,6 +57,9 @@
   font-size: 1.5vw;
   z-index: 5;
   border-bottom: 1px solid #fff;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .hourDiv .overlapFilled {
@@ -89,6 +92,13 @@
   position: absolute;
   left: 25%;
   width: 75%;
+}
+
+.hourDiv .filled .title {
+  padding: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 @media (max-width: 1000px) {

@@ -1,9 +1,9 @@
 ::-webkit-scrollbar {
-  width: 15px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
+  box-shadow: inset 0 0 1.5px grey;
   border-radius: 10px;
 }
 
@@ -28,7 +28,7 @@
   width: 350px;
   background-color: #fff;
   border-radius: 10px;
-  gap: 10px;
+  gap: 2px;
   padding-top: 1%;
   padding-bottom: 1%;
 }

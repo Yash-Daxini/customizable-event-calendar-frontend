@@ -139,7 +139,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({ date, currentDuration }: Ti
               style={styleOfFilledDiv}
               className={`${styles.colorDiv} ${styles.filled}`}
             >
-              {event.title}
+              <div className={`${styles.title}`}>{event.title}</div>
             </div>
           ) : (
             <></>

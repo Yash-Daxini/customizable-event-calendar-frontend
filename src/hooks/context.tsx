@@ -9,4 +9,11 @@ export interface CalendarContextType {
     setEvents: React.Dispatch<React.SetStateAction<EventResponse[]>>,
 };
 
+export interface LoadingContextType {
+    isLoading: boolean;
+    setLoading: (loading: boolean) => void;
+}
+
 export const CalendarContext = createContext<CalendarContextType | null>(null);
+
+export const LoadingContext = createContext<LoadingContextType | undefined>(undefined);

@@ -1,0 +1,107 @@
+#proposedDurationModal{
+ z-index: 15;
+}
+
+.actionBtn {
+    padding: 5px 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    position: relative;
+    left: 30%;
+}
+
+.actionBtn .icon {
+    margin-right: 5px;
+}
+
+.proposedDurationInputDiv {
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.proposedDurationPopoverButtonDiv .icon.sentResponseIcon {
+    color: #007BFF;
+}
+
+.label{
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.checkboxDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+
+.checkboxDiv .checkbox {
+    appearance: none;
+    background-color: #dfe1e4;
+    border-radius: 72px;
+    border-style: none;
+    flex-shrink: 0;
+    height: 20px;
+    margin: 0;
+    position: relative;
+    width: 30px;
+}
+
+.checkboxDiv .checkbox::before {
+    bottom: -6px;
+    content: "";
+    left: -6px;
+    position: absolute;
+    right: -6px;
+    top: -6px;
+}
+
+.checkboxDiv .checkbox,
+.checkboxDiv .checkbox::after {
+    transition: all 100ms ease-out;
+}
+
+.checkboxDiv .checkbox::after {
+    background-color: #fff;
+    border-radius: 50%;
+    content: "";
+    height: 14px;
+    left: 3px;
+    position: absolute;
+    top: 3px;
+    width: 14px;
+}
+
+.checkboxDiv input[type=checkbox] {
+    cursor: default;
+}
+
+.checkboxDiv .checkbox:hover {
+    background-color: #c9cbcd;
+    transition-duration: 0s;
+}
+
+.checkboxDiv .checkbox:checked {
+    background-color: #479ef5;
+}
+
+.checkboxDiv .checkbox:checked::after {
+    background-color: #fff;
+    left: 13px;
+}
+
+.checkboxDiv :focus:not(.focus-visible) {
+    outline: 0;
+}
+
+.checkboxDiv .checkbox:checked:hover {
+    background-color: #479ef5;
+}

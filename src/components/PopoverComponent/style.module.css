@@ -1,6 +1,7 @@
 .popOverDiv {
     min-width: 450px;
     min-height: 150px;
+    z-index: 10;
 }
 
 #popoverHeader {

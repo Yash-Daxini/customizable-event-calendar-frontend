@@ -1,4 +1,4 @@
-import { EventResponse, mapToEventResponse } from "../models/EventResponse";
+import { EventResponse, mapToEventResponse, mapToEventResponses } from "../models/EventResponse";
 import { NonRecurringEventRequest } from "../models/NonRecurringEventRequest";
 import { RecurringEventRequest } from "../models/RecurringEventRequest";
 import DateWrapper from "../util/DateUtil";
@@ -9,6 +9,12 @@ const env = import.meta.env;
 export const GetAllEvents = async (): Promise<EventResponse[]> => {
     const endPoint: string = env.VITE_GET_ALL_EVENTS_URL;
     const response: ApiResponse<EventResponse[]> = await APIService.get<EventResponse[]>(endPoint);
+    return mapToEventResponses(response.data);
+}
+
+export const GetEventById = async (eventId: number): Promise<EventResponse> => {
+    const endPoint: string = replaceIdsInUrl(env.VITE_GET_EVENT_BY_ID_URL, [eventId]);
+    const response: ApiResponse<EventResponse> = await APIService.get<EventResponse>(endPoint);
     return mapToEventResponse(response.data);
 }
 

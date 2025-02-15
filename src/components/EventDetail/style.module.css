@@ -1,0 +1,108 @@
+.eventDetailDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    padding: 2.5%;
+    margin: 2.5%;
+}
+
+.iconedEventDetailDiv {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 2%;
+    margin-bottom: 20px;
+}
+
+.iconedEventDetailDiv .title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.iconedEventDetailDiv .subTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.eventDetailDiv .eventBar {
+    color: #000;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.eventDetailDiv .eventBar .dateInfoTitleDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    width: 60px;
+    font-weight: bold;
+}
+
+.eventDetailDiv .eventBar .dateInfoDiv {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    gap: 10px;
+    width: 150px;
+}
+
+.dateDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1vw;
+    gap: 10px;
+}
+
+.weekDayDiv {
+    font-weight: bold;
+}
+
+.eventBar .duration {
+    font-size: 1vw;
+}
+
+.seeAllInstancesButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-left: 20px;
+    color: #1181da;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+.seeAllInstancesDiv:hover {
+    color: #599ee2;
+}
+
+.eventDetailDiv .eventBar::before {
+    content: '';
+    position: relative;
+    display: inline-block;
+    width: 8px;
+    height: 80px;
+    background-color: #1181da;
+    top: 0%;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    margin-right: 10px;
+}

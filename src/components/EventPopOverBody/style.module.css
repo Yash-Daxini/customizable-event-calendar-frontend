@@ -76,7 +76,7 @@
     margin: 30px;
 }
 
-.eventPopOverDiv .buttonDiv .actionBtn {
+.actionBtn {
     padding: 5px 10px;
     background-color: #fff;
     border: 1px solid #eee;
@@ -85,7 +85,7 @@
     align-items: center;
 }
 
-.eventPopOverDiv .buttonDiv .actionBtn .icon {
+.actionBtn .icon {
     margin-right: 5px;
 }
 
@@ -103,4 +103,8 @@
 
 .eventPopOverDiv .buttonDiv .actionBtn .icon.rejectIcon {
     color: #a4262c;
+}
+
+.eventPopOverDiv .buttonDiv .actionBtn .icon.tentativeIcon {
+    color: #007BFF;
 }

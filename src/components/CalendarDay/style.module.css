@@ -17,13 +17,18 @@
   margin-bottom: 5px;
   margin-top: 5px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-.day .eventBar span {
+.day .eventBar div {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.day .eventBar span {
+  margin-right: 10px;
 }
 
 .day .eventCountBar {
