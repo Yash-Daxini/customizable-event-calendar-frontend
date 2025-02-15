@@ -18,40 +18,6 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
   const date: DateWrapper = calendarContext.date;
   const setCurrentDate: (date: DateWrapper) => void = calendarContext.setCurrentDate;
 
-  const renderCalendar = (): any => {
-    const firstDay = date.getFirstDayOfMonth();
-
-    const daysInMonth = date.getDaysInMonth();
-
-    const days: any = [];
-
-    let column: number = 0;
-
-    for (let i = 0; i < firstDay; i++) {
-      days.push(
-      <CalendarDay 
-        key={`${i}empty`} 
-        isEmptyDay={true} 
-        day={0} 
-        column={0}  />);
-      column++;
-    }
-
-    for (let day = 1; day <= daysInMonth; day++) {
-      days.push(
-        <CalendarDay
-          key={day}
-          column={column}
-          isEmptyDay={false}
-          day={day}
-        />,
-      );
-      column = (column + 1) % 7;
-    }
-
-    return days;
-  };
-
   const prevMonth = (): void => {
     setCurrentDate(date.decrementMonth());
   };
@@ -98,7 +64,9 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
         <div>Fri</div>
         <div>Sat</div>
       </div>
-      <div className={`${styles.days}`}>{renderCalendar()}</div>
+      <div className={`${styles.days}`}>
+        <CalendarDays date={date} />
+      </div>
       <div
         className={`${styles.calendarFooter}`}
         onClick={() => setIsFullSizeCalendar(!isFullSizeCalendar)}
@@ -114,3 +82,41 @@ const Calendar: React.FC<CalendarProps> = ({ isFullSizeCalendar, setIsFullSizeCa
 };
 
 export default Calendar;
+
+interface CalendarDaysProps {
+  date: DateWrapper
+}
+
+const CalendarDays: React.FC<CalendarDaysProps> = ({ date }: CalendarDaysProps) => {
+  const firstDay = date.getFirstDayOfMonth();
+
+  const daysInMonth = date.getDaysInMonth();
+
+  const days: any = [];
+
+  let column: number = 0;
+
+  for (let i = 0; i < firstDay; i++) {
+    days.push(
+      <CalendarDay
+        key={`${i}empty`}
+        isEmptyDay={true}
+        day={0}
+        column={0} />);
+    column++;
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    days.push(
+      <CalendarDay
+        key={day}
+        column={column}
+        isEmptyDay={false}
+        day={day}
+      />,
+    );
+    column = (column + 1) % 7;
+  }
+
+  return days;
+}
