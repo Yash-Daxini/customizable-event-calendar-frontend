@@ -1,0 +1,59 @@
+.container {
+    box-sizing: border-box;
+    position: relative;
+    height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #68a8ec;
+    height: 70px;
+    padding: 0 2.5em;
+    background-color: #fff;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.header .headerTitle{
+    display: flex;
+    align-items: center;
+}
+
+.header .headerTitle .title{
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+.header .headerTitle .icon {
+    margin-right: 1.5em;
+}
+
+.header .actionSection {
+    margin-left: auto;
+}
+
+.header .actionSection .actionButton {
+    background-color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 1em;
+    border: none;
+}
+
+.header .actionSection .loginButton {
+    color: #111;
+}
+
+.header .actionSection .signUpButton {
+    border: 1px solid #111;
+    color: #111;
+    border-radius: 20px;
+    transition: all 0.5s;
+}
+
+.header .actionSection .signUpButton:hover {
+    color: #fff;
+    background-color: #111;
+}
