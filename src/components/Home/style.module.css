@@ -15,12 +15,13 @@
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 
-.header .headerTitle{
+.header .headerTitle {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
-.header .headerTitle .title{
+.header .headerTitle .title {
     font-size: 1.2em;
     font-weight: 500;
 }
@@ -56,4 +57,36 @@
 .header .actionSection .signUpButton:hover {
     color: #fff;
     background-color: #111;
+}
+
+.calendarSquareDiv {
+    position: relative;
+    background-color: #fdfdfd;
+    padding: 10px;
+}
+
+.calendarSquareDiv::before {
+    position: relative;
+    display: block;
+    content: "";
+    left: 0%;
+    top: 0%;
+    width: 100%;
+    height: 1px;
+    background-color: #000;
+}
+
+.calendarSquareDiv::after {
+    position: relative;
+    display: block;
+    content: "";
+    width: 100%;
+    height: 1px;
+    left: 0%;
+    top: 0%;
+    background-color: #000;
+}
+
+.body {
+    margin: 20px;
 }

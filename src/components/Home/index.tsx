@@ -17,6 +17,11 @@ const Home: React.FC = () => {
                     <button className={`${styles.actionButton} ${styles.signUpButton}`}>Get started</button>
                 </div>
             </div>
+            <div className={`${styles.body}`}>
+                <div className={`${styles.calendarSquareDiv}`}>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit saepe dolorum ipsa vitae fuga harum, magni nihil reprehenderit, repellat tenetur a magnam ratione dolore aliquam id cupiditate impedit quia. Possimus.
+                </div>
+            </div>
         </div>
     )
 }
