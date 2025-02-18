@@ -1,8 +1,13 @@
 import React from 'react'
 import styles from './style.module.css';
 import { Calendar } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { LOGIN_URL, SIGNUP_URL } from '../../constants/RouteConstants';
 
 const Home: React.FC = () => {
+
+    const navigate = useNavigate();
+
     return (
         <div className={`${styles.container}`}>
             <div className={`${styles.header}`}>
@@ -13,8 +18,9 @@ const Home: React.FC = () => {
                     <span className={`${styles.title}`}>Event Calendar</span>
                 </div>
                 <div className={`${styles.actionSection}`}>
-                    <button className={`${styles.actionButton} ${styles.loginButton}`}>Sign in</button>
-                    <button className={`${styles.actionButton} ${styles.signUpButton}`}>Get started</button>
+                    <button className={`${styles.actionButton} ${styles.loginButton}`}
+                    onClick={() => navigate(LOGIN_URL)}>Sign in</button>
+                    <button className={`${styles.actionButton} ${styles.signUpButton}`}onClick={() => navigate(SIGNUP_URL)}>Get started</button>
                 </div>
             </div>
             <div className={`${styles.body}`}>
