@@ -10,7 +10,7 @@ const Home: React.FC = () => {
 
     return (
         <div className={`${styles.container}`}>
-            <div className={`${styles.header} ${styles.calendar}`}>
+            <div className={`${styles.header}`}>
                 <div className={`${styles.headerTitle}`}>
                     <span className={`${styles.icon}`}>
                         <Calendar />

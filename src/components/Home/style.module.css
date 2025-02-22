@@ -15,32 +15,6 @@
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 
-.calendar::before {
-    position: relative;
-    content: "";
-    left: 50%;
-    top: 0%;
-    width: 30px;
-    height: 30px;
-    border: 1px solid #aaa;
-    background-color: #fff;
-    border-radius: 6px;
-    rotate: 45deg;
-}
-
-.calendar::after {
-    position: relative;
-    content: "";
-    right: calc(50% - 30px);
-    bottom: 5%;
-    width: 30px;
-    height: 1px;
-    border: 1px solid #aaa;
-    background-color: #fff;
-    border-radius: 6px;
-    rotate: 45deg;
-}
-
 .header .headerTitle {
     display: flex;
     align-items: center;
