@@ -33,6 +33,8 @@ Customizable Event Calendar Frontend
 > Backend To-Dos :
 
 - &#9744; Add email service for notification
+- &#9744; Use Identity(.Net core framework) for google auth & other services.
+- &#9744; Use cookies to store auth data.
 - &#9744; Add login option like google or other services
 - &#9745; Sent overlap event message in format 
 - &#9745; Through exception when no occurrence of event created
