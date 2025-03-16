@@ -19,13 +19,39 @@ const Home: React.FC = () => {
                 </div>
                 <div className={`${styles.actionSection}`}>
                     <button className={`${styles.actionButton} ${styles.loginButton}`}
-                    onClick={() => navigate(LOGIN_URL)}>Sign in</button>
-                    <button className={`${styles.actionButton} ${styles.signUpButton}`}onClick={() => navigate(SIGNUP_URL)}>Get started</button>
+                        onClick={() => navigate(LOGIN_URL)}>Sign in</button>
+                    <button className={`${styles.actionButton} ${styles.signUpButton}`} onClick={() => navigate(SIGNUP_URL)}>Get started</button>
                 </div>
             </div>
             <div className={`${styles.body}`}>
-                <div className={`${styles.calendarSquareDiv}`}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit saepe dolorum ipsa vitae fuga harum, magni nihil reprehenderit, repellat tenetur a magnam ratione dolore aliquam id cupiditate impedit quia. Possimus.
+                <div className={`${styles.bodyContentDiv}`}>
+                    <div className={`d-flex flex-column`}>
+                        <div className={`${styles.titleDiv}`}>
+                            The better way to schedule your events
+                        </div>
+                        <div>
+                            A fully customizable scheduling software for individuals, businesses taking calls and developers building scheduling platforms where users meet users.
+                        </div>
+                    </div>
+                    <div className={`d-flex flex-column`}>
+                        <div className={`border-1 border-dark`}></div>
+                        <div className={``}></div>
+                    </div>
+                </div>
+                <div className={`d-flex justify-content-center align-items-center gap-3`}>
+                    <div className={`${styles.bodyContentDiv} m-5`}></div>
+                    <div className={`${styles.bodyContentDiv} m-5`}></div>
+                    <div className={`${styles.bodyContentDiv} m-5`}></div>
+                </div>
+
+                <h3 className='text-center'>Features</h3>
+                <div className={`d-flex justify-content-center align-items-center gap-3 flex-wrap`}>
+                    <div className={`${styles.bodyContentDiv} m-5`}></div>
+                    <div className={`${styles.bodyContentDiv} m-5`}></div>
+                    <div className={`${styles.bodyContentDiv} m-5`}></div>
+                    <div className={`${styles.bodyContentDiv} m-5`}></div>
+                    <div className={`${styles.bodyContentDiv} m-5`}></div>
+                    <div className={`${styles.bodyContentDiv} m-5`}></div>
                 </div>
             </div>
         </div>
